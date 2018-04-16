@@ -60,6 +60,5 @@ typings/
 # next.js build output
 .next
 
-.idea/codeStyles/Project.xml
-.idea/dbnavigator.xml
+.idea/
 build/

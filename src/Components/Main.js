@@ -6,9 +6,13 @@ import About from "./About";
 import Signup from "./Signup";
 import Login from "./Login";
 
+import Settings from "./Settings";
+
 import User from "./User";
 import Games from "./Games";
 import Game from "./Game";
+import Friends from "./Friends";
+import Users from "./Users";
 
 class Main extends Component {
 	render() {
@@ -21,9 +25,18 @@ class Main extends Component {
 						<Route path={'/signup'} component={Signup}/>
 						<Route path={'/login'} component={Login}/>
 
+						<Route path={'/settings'} component={Settings}/>
+
+
+						<Route path={'/users'} component={Users}/>
+
+						<Route path={'/user/:username'} component={User}/>
+
+						<Route path={'/friends'} component={Friends}/>
+
 						<Route path={'/games'} component={Games}/>
 						<Route path={'/games/:gameName'} component={Game}/>
-						<Route path={'/user/:userId'} component={User}/>
+
 					</Switch>
 				</main>
 			</div>

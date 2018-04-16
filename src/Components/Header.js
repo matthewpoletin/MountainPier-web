@@ -3,20 +3,7 @@ import {Link} from 'react-router-dom';
 
 class Header extends Component {
 	render() {
-		const list = [
-			{
-				title: 'Game',
-				link: '/about'
-			},
-			{
-				title: 'Sign in',
-				link: '/login',
-			},
-			{
-				title: 'Sign up',
-				link: '/join'
-			},
-		];
+		this.username = "Matthewpoletin";
 		return (
 			<div className="Header">
 				<header>
@@ -34,6 +21,11 @@ class Header extends Component {
 								</li>
 								<li className={"pure-menu-item"}>
 									<Link to={'/login'} className={"pure-menu-link"}>Login</Link>
+								</li>
+								<li className={"pure-menu-item"}>
+									<Link to={`/user/${this.username}`} className={"pure-menu-link"}>
+										<img src={"/"} width={100} height={100} alt={""}/>
+									</Link>
 								</li>
 							</ul>
 						</nav>
