@@ -3,7 +3,7 @@ import {Link} from 'react-router-dom';
 
 class Header extends Component {
 	render() {
-		this.username = "Matthewpoletin";
+		this.username = "MatthewPoletin";
 		return (
 			<div className="Header">
 				<header>

@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 
-import TwitchConnect from "./TwitchConnect";
+import TwitchConnect from "../common/twitchConnect";
 
 class Signup extends Component {
 	constructor(props) {

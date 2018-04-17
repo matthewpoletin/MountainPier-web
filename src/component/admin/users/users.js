@@ -1,5 +1,5 @@
-import React, { Component } from 'react';
-import UserService from "../api/UserServiceBrowser";
+import React, {Component} from 'react';
+import UserService from "../../../service/userService";
 
 class Users extends Component {
 	constructor(props) {
@@ -12,16 +12,14 @@ class Users extends Component {
 			users: undefined,
 			loading: true,
 		});
-		setTimeout(() => {
-			this.userService.getUsers({page: 0, size: 20})
-				.then(users => {
-					this.setState({users: users, loading: false});
-				})
-				.catch(error => {
-					console.error(error);
-					this.setState({loading: false});
-				});
-		}, 2000);
+		this.userService.getUsers({page: 0, size: 20})
+			.then(users => {
+				this.setState({users: users, loading: false});
+			})
+			.catch(error => {
+				console.error(error);
+				this.setState({loading: false});
+			});
 	}
 
 	render() {
@@ -36,8 +34,8 @@ class Users extends Component {
 				if (this.state.users.content.length === 0) {
 					return <div>Not found</div>
 				} else {
-					const users = this.state.users.content.map(user =>
-						<li className="user" style={{"display": "block"}}>
+					const users = this.state.users.content.map((user, index) =>
+						<li className="user" style={{"display": "block"}} key={index}>
 							<span>{user.username}</span>
 							<img src={user.avatar} height={100} width={100} alt={""}/><br/>
 							<p>id: {user.id}</p>
