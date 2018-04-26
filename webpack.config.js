@@ -7,6 +7,7 @@ const UglifyJSPlugin = require("uglifyjs-webpack-plugin");
 const production = process.env["NODE_ENV"] === "production";
 
 const config = {
+	mode: process.env["NODE_ENV"],
 	entry: path.join(__dirname, "src", "component", "index.js"),
 	module: {
 		rules: [

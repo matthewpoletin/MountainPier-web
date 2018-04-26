@@ -1,55 +1,83 @@
-const BASE_URL = "http://localhost:8549";
-const USERNAME = "3";
-const PASSWORD = "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJNYXR0aGV3UG9sZXRpbiIsImV4cCI6MTUyMDg3ODczMn0.FFwqOM5DmLznlUXdlzQDE5An1fuStZxCahdA58ra67Um6SL5QxyYUnO0mfHydcPJAyydi0OAAjbIE1bLm4XuAQ";
+"use strict";
 
+import { get, post } from "./../util/http-utils";
+
+/** Class for request on users. */
 class UserService {
-	/**
-	 * UserService API Middleware
-	 * @param {object} [option]
-	 * @param {string} [option.url]
-	 * @param {string} [option.username]
-	 * @param {string} [option.password]
-	 * @return {UserService}
-	 * @constructor
-	 */
-	constructor(option) {
-		if (!option || typeof option === "undefined") {
-			option = {};
-		}
-		this.url = option.url || BASE_URL;
-		this.username = option.username || USERNAME;
-		this.password = option.password || PASSWORD;
-		this.authorization = "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJNYXR0aGV3UG9sZXRpbiIsImV4cCI6MTUyMzQ1NDQ1NH0.naMppZandY5Vx_dpwHlZlsjEojeFXjFM0HmxLDn8fIkAGs4AOi667vA8nL9bzWPsIo4kuorDeqeXWRA_0lFsYw";
-		this.accessToken = "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJNYXR0aGV3UG9sZXRpbiIsImV4cCI6MTUyMzk2MTAwMH0.kdHrq5ogYXe0sRSzP2sNTEijN47tYIqR0P3Yf7d_c0X3i9Mi5HvFEyQcqgfNLv3wngz8zo2K0kqU3xGlZdWKcg";
-	}
 
 	/**
-	 * Получить список пользователей
-	 * @param {object} option
-	 * @param {number} option.size - количество пользователей
-	 * @param {number} option.page - номер страницы
+	 * Get paginated list of all users
+	 * @param {object} [option] - Optional data
+	 * @param {number} [option.page] - Page to start from (e.g., 0, 1, ...)
+	 * @param {number} [option.size] - Amount of entries per page
 	 * @return {Promise<object>}
 	 */
-	getUsers(option) {
-		return new Promise((resolve, reject) => {
-			option = typeof option === "object" ? option : {page: 0, size: 20};
-
-			const headers = new Headers();
-			headers.append("Authorization", this.authorization);
-			headers.append("Access-Token", this.accessToken);
-
-			return fetch(this.url + "/users", {method: 'GET', headers: headers, mode: "cors"})
-				.then(response => {
-					if (response.status !== 200) {
-						console.error("GET request to " + this.url + " , option " + JSON.stringify(option) + " failed, status " + response.status);
-						return reject(new Error("")) // Здесь должен быть какой-нибудь понятный объект
-					}
-					return response.json();
-				})
-				.then(body => resolve(body))
-				.catch(error => reject(error));
-		});
+	static getUsers(option) {
+		option = typeof option === "object" ? option : {page: 0, size: 25};
+		return get(`/users?page=${option.page}&size${option.size}`, true);
 	}
+
+	/**
+	 * getUserById - Get user from api by id
+	 * @param {object} userId - Id of required user
+	 * @return {Promise<object>}
+	 */
+	static getUserById(userId) {
+		// TODO: Add checks for userId  existence and being a number
+		return get(`/users/${userId}`, true);
+	}
+
+	/**
+	 * getUserBy - Get user from api by username or email
+	 * @param {object} [option] - Data for request
+	 * @param {string} [option.username] - username of desired user
+	 * @param {string} [option.email] - email of desired user
+	 * @return {Promise<any>}
+	 */
+	static getUserBy(option) {
+		// TODO: Add checks for username for existence being a string
+		return get(`/users/by?username=${option.username}`, true);
+	}
+
+	/**
+	 * getFriendsOfUserById - Retrieves paginated list of friends of user with id
+	 * @param {number} userId - Id of requested user
+	 * @param {object} [option] - Optional data
+	 * @param {number} [option.page] - Page to start from (e.g., 0, 1, ...)
+	 * @param {number} [option.size] - Amount of entries per page
+	 */
+	static getFriendsOfUserById(userId, option) {
+		option = typeof option === "object" ? option : {page: 0, size: 25};
+		return get(`/users/${userId}/friends?page=${option.page}&size=${option.size}`, true);
+	}
+
+	/**
+	 * login - Authorizes user in web application
+	 * @param {object} credentials - Data of user
+	 * @param {string} credentials.username - Username of user
+	 * @param {string} credentials.password - Password of user
+	 * @return {Promise}
+	 */
+	//TODO: Move to auth specific service
+	static login(credentials) {
+		// TODO: Check if credentials set
+		return post(`/auth/login`, credentials, false)
+	}
+
+	/**
+	 * checkToken - Get user based on his accessToken
+	 * @param accessToken - Access Token of user
+	 * @return {Promise}
+	 */
+	//TODO: Move to auth specific service
+	static checkToken(accessToken) {
+		// TODO: Check access token being correct
+		const data = {
+			accessToken: accessToken
+		};
+		return post(`/auth/check`, data, true);
+	}
+
 }
 
 export default UserService;

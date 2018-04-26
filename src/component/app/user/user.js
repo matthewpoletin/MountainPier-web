@@ -1,9 +1,22 @@
-import React, { Component } from 'react';
+"use strict";
 
+import React, { Component } from 'react';
+import UserService from "./../../../service/userService";
+
+/** Class for user react component. */
 class User extends Component {
-	constructor(props) {
-		super(props);
+
+	componentWillMount() {
+		const username = this.props.match.params.username;
 		this.setState({user: undefined});
+		console.log(username);
+		UserService.getUserBy({username: username})
+			.then(user => {
+				this.setState({user: user});
+			})
+			.catch(error => {
+				console.log(error);
+			});
 	}
 
 	render() {
@@ -18,11 +31,12 @@ class User extends Component {
 			);
 		else
 			return (
-				<div className={"User"}>
+				<div className="User">
 					Not found
 				</div>
 			);
 	}
+
 }
 
 export default User;

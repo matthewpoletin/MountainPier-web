@@ -1,18 +1,18 @@
-import React, {Component} from 'react';
-import UserService from "../../../service/userService";
+"use strict";
 
+import React, {Component} from 'react';
+import UserService from "./../../../service/userService";
+import {Link} from "react-router-dom";
+
+/** Class for users react component */
 class Users extends Component {
-	constructor(props) {
-		super(props);
-		this.userService = new UserService();
-	}
 
 	componentWillMount() {
 		this.setState({
 			users: undefined,
 			loading: true,
 		});
-		this.userService.getUsers({page: 0, size: 20})
+		UserService.getUsers({page: 0, size: 20})
 			.then(users => {
 				this.setState({users: users, loading: false});
 			})
@@ -36,8 +36,10 @@ class Users extends Component {
 				} else {
 					const users = this.state.users.content.map((user, index) =>
 						<li className="user" style={{"display": "block"}} key={index}>
-							<span>{user.username}</span>
-							<img src={user.avatar} height={100} width={100} alt={""}/><br/>
+							<Link to={`/user/${user.username}`}>
+								<span>{user.username}</span>
+								<img src={user.avatar} height={100} width={100} alt={""}/><br/>
+							</Link>
 							<p>id: {user.id}</p>
 							<p>username: {user.username}</p>
 							<p>status: {user.status}</p>
@@ -56,6 +58,7 @@ class Users extends Component {
 			}
 		}
 	}
+
 }
 
 export default Users;

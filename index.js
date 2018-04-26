@@ -6,7 +6,7 @@ const cookieParser = require("cookie-parser");
 const bodyParser = require("body-parser");
 const router = require("./src/router");
 
-const PORT = process.env["NODE_PORT"] ||/* parseInt(process.argv[2], 10) ||*/ 3000;
+const PORT = process.env["NODE_PORT"] ||/* parseInt(process.argv[2], 10) ||*/ 8080;
 const app = express();
 
 app.set("views", path.join(__dirname, "src", "template"));

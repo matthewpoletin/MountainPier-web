@@ -1,0 +1,18 @@
+{
+	"dev": {
+		"appUrl": "http://localhost:8080",
+		"apiUrl": "http://localhost:8549",
+		"twitch": {
+			"clientId": "m0ickj58eteefym2amg6smdrtu2sxx",
+			"redirectUri": "http://localhost:8080"
+		}
+	},
+	"prod": {
+		"appUrl": "http://mountainpier.ru",
+		"apiUrl": "http://api.mountainpier.ru",
+		"twitch": {
+			"clientId": "gmorlpxdgnavsssk2gudj355nfx2o6",
+			"redirectUri": "http://mountainpier.ru/oauth"
+		}
+	}
+}

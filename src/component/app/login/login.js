@@ -1,36 +1,79 @@
-import React, { Component } from 'react';
+"use strict";
 
+import React, { Component } from 'react';
+import {Link} from "react-router-dom";
+import { login} from "../../../util/authentication";
+import TwitchConnect from "../common/twitchConnect";
+
+/** Class for login react component. */
 class Login extends Component {
+
 	constructor(props) {
 		super(props);
 
-		this.onChangeUsername = this.onChangeUsername.bind(this);
-		this.onChangeEmail = this.onChangeEmail.bind(this);
-		this.onChangePassword = this.onChangePassword.bind(this);
-		this.onSubmit = this.onSubmit.bind(this);
+		this.state = {
+			username: "MatthewPoletin",
+			password: "qwerty2018",
+		};
+
+		this.handleChangeUsername = this.handleChangeUsername.bind(this);
+		this.handleChangePassword = this.handleChangePassword.bind(this);
+		this.handleSubmit = this.handleSubmit.bind(this);
+	}
+
+	componentDidMount() {
+		this.setState({
+			username: this.state.username,
+			password: this.state.password,
+		});
+		console.log("username: " + this.state.username);
+		console.log("password: " + this.state.password);
+		console.log(this.validateForm());
 	}
 
 	render() {
 		return (
 			<div className="Login">
-				<form className={"pure-form pure-form-aligned"} onSubmit={this.onSubmit}>
+				<TwitchConnect />
+				<form className={"pure-form pure-form-aligned"} onSubmit={this.handleSubmit}>
 					<fieldset>
 						<div className="pure-control-group">
-							<label htmlFor={"username"}>Username or Email</label>
-							<input id={"username"} type={"text"}  placeholder={"username/email"} onChange={this.onChangeUsername} />
+							<label htmlFor={"username"}>Username</label>
+							<input id={"username"}
+							       type={"text"}
+							       placeholder={"username"}
+							       onChange={this.handleChangeUsername}
+							       defaultValue={this.state.username}
+							       autoComplete={"username"}
+							/>
 							<span className={"pure-form-message-inline"}>This is required field</span>
 						</div>
 						<div className="pure-control-group">
 							<label htmlFor={"password"}>Password</label>
-							<input id={"password"} type={"password"} placeholder={"password"} onChange={this.onChangePassword} ref={input => this.input = input}/>
+							<input id={"password"}
+							       type={"password"}
+							       placeholder={"password"}
+							       onChange={this.handleChangePassword}
+							       ref={input => this.input = input}
+							       defaultValue={this.state.password}
+							       autoComplete={"current-password"}
+							/>
 							<span className={"pure-form-message-inline"}>This is required field</span>
 						</div>
-						<a href={"/remind"}>Forgot password</a>
+						<Link className="remind" to="/remind" hidden={false}>Forgot password?</Link>
 						<div className="pure-controls">
-							<label htmlFor="cb" className="pure-checkbox">
-								<input id={"cb"} type={"checkbox"}/>Remember me
+							<label htmlFor="cb" className="pure-checkbox" hidden={true}>
+								<input id={"cb"}
+								       type={"checkbox"}
+								/>
+								Remember me
 							</label>
-							<button type={"submit"} className={"pure-button pure-button-primary"}>Submit</button>
+							<button id={"login"}
+							        type={"submit"}
+							        className={"pure-button pure-button-primary"}
+							        disabled={!this.validateForm()}>
+								Login</button>
+							<Link to={"/signup"}>Signup</Link>
 						</div>
 					</fieldset>
 				</form>
@@ -38,21 +81,50 @@ class Login extends Component {
 		);
 	}
 
-	onChangeUsername(event) {
+	handleChangeUsername(event) {
+		this.setState({
+			username: event.target.value
+		});
 		console.log('username: ' + event.target.value);
 	}
 
-	onChangeEmail(event) {
-		console.log('email: ' + event.target.value);
-	}
-
-	onChangePassword(event) {
+	handleChangePassword(event) {
+		this.setState({
+			password: event.target.value
+		});
 		console.log('password: ' + event.target.value);
 	}
 
-	onSubmit() {
-
+	handleSubmit(event) {
+		// TODO: add extra validation
+		login({username: this.state.username, password: this.state.password}, "/");
+		event.preventDefault();
 	}
+
+	/**
+	 * validUsername - Checks username for validity
+	 * @return {boolean}
+	 */
+	validUsername() {
+		return this.state.username.length > 0;
+	}
+
+	/**
+	 * validPassword - Checks password for validity
+	 * @return {boolean}
+	 */
+	validPassword() {
+		return this.state.password.length > 0;
+	}
+
+	/**
+	 * validateForm - Checks form for validity
+	 * @return {boolean}
+	 */
+	validateForm() {
+		return this.validUsername() && this.validPassword();
+	}
+
 }
 
 export default Login;
