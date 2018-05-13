@@ -3,9 +3,14 @@
 import React, {Component} from 'react';
 import UserService from "./../../../service/userService";
 import {Link} from "react-router-dom";
+import FontAwesomeIcon from '@fortawesome/react-fontawesome'
+import faWrench from '@fortawesome/fontawesome-free-solid/faWrench'
+import faBan from '@fortawesome/fontawesome-free-solid/faBan'
+import faTrash from '@fortawesome/fontawesome-free-solid/faTrash'
+import "./users.css"
 
-/** Class for users react component */
-class Users extends Component {
+/** Class for AdminUsers react component */
+class AdminUsers extends Component {
 
 	componentWillMount() {
 		this.setState({
@@ -35,14 +40,44 @@ class Users extends Component {
 					return <div>Not found</div>
 				} else {
 					const users = this.state.users.content.map((user, index) =>
-						<li className="user" style={{"display": "block"}} key={index}>
-							<Link to={`/user/${user.username}`}>
-								<span>{user.username}</span>
-								<img src={user.avatar} height={100} width={100} alt={""}/><br/>
-							</Link>
-							<p>id: {user.id}</p>
-							<p>username: {user.username}</p>
-							<p>status: {user.status}</p>
+						<li className="user" key={index}>
+							<div className={"pure-g"}>
+								<div className={"pure-u-1-5 avatar"}>
+									<img src={user.avatar} height={100} width={100} alt={""}/>
+								</div>
+								<div className={"pure-u-4-5 pure-g info"}>
+									<div className={"pure-u-1-5"}>
+										<Link to={`/user/${user.username}`}>
+											<span>{user.username}</span>
+										</Link>
+									</div>
+									<div className={"pure-u-4-5 pure-g"}>
+										<div className={"pure-u-1-5"}>
+											{user.username}
+										</div>
+										<div className={"pure-u-1-4"}>
+											{user.regEmail}
+										</div>
+										<div className={"pure-u-1-5"}>
+											{user.status}
+										</div>
+										<div className={"pure-u-1-4 pure-g controls"}>
+											<div className={"pure-u-1-3"} onClick={() => this.editUser(index, user.id)}>
+												<FontAwesomeIcon icon={faWrench} size={"2x"}/>
+											</div>
+											<div className={"pure-u-1-3"} onClick={() => this.banUser(index, user.id)}>
+												<FontAwesomeIcon icon={faBan} size={"2x"}/>
+											</div>
+											<div className={"pure-u-1-3"}>
+												<a onClick={() => this.deleteUser(index, user.id)}>
+													<FontAwesomeIcon icon={faTrash} size={"2x"}/>
+												</a>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+							<hr/>
 						</li>
 					);
 					return (
@@ -59,6 +94,30 @@ class Users extends Component {
 		}
 	}
 
+	editUser(index) {
+		console.log("edit");
+		console.log(index);
+	}
+
+	banUser(index) {
+		console.log("ban");
+		console.log(index);
+	}
+
+	deleteUser(index, userId) {
+		console.log("delete");
+		console.log(index);
+		console.log(userId);
+		UserService.deleteUser(userId)
+			.then(response => {
+				this.setState({
+					users: this.state.users.splice(index, 1),
+				});
+				console.log(response);
+			})
+			.catch(error => console.log(error));
+	}
+
 }
 
-export default Users;
+export default AdminUsers;

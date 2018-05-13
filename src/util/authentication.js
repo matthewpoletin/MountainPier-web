@@ -1,7 +1,6 @@
 "use strict";
 
 import {deleteCookie, getCookie, setCookie} from "./cookie-utils";
-import {post} from "./http-utils";
 import {getAppUrl} from "./environment-utils";
 import UserService from "./../service/userService"
 
@@ -30,22 +29,25 @@ export const login = (credentials, desiredPath) => {
 /**
  * register - Creates a new account for a user
  * @param {object} data - User's form data
- * @param {string} data.username - Username of user
  * @param {string} data.email - Email of user
+ * @param {string} data.username - Username of user
  * @param {string} data.password - Password of user
  */
-// TODO: finish implementation
-export const register = data => () => {
-	try {
-		const userResponse =  post(`/users`, data, false);
-		const authResponse =  post(`/auth/login`, data, false);
-		if (userResponse) {
-			setCookie('access-token', userResponse.accessToken, { maxAge: userResponse.tokenExpiration });
-			window.location.href = `${getAppUrl()}/dashboard`;
-		}
-	} catch (error) {
-		console.log(error);
-	}
+export const register = (data) => {
+	// TODO: check for data validity
+	UserService.createUser(data)
+		.then(response => {
+			UserService.login(data)
+				.then(response => {
+					// TODO: fix accessExpires to be correct in browsers
+					setCookie('access-token', response.accessToken, { maxAge: response.accessExpires });
+					if (typeof desiredPath !== 'undefined') {
+						window.location.href = `${getAppUrl()}${desiredPath}`;
+					} else {
+						window.location.href = `${getAppUrl()}/dashboard`;
+					}
+				});
+		});
 };
 
 /**

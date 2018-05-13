@@ -2,7 +2,7 @@
 
 import React, { Component } from 'react';
 import {Link} from "react-router-dom";
-import { login} from "../../../util/authentication";
+import {login} from "../../../util/authentication";
 import TwitchConnect from "../common/twitchConnect";
 
 /** Class for login react component. */
@@ -12,8 +12,8 @@ class Login extends Component {
 		super(props);
 
 		this.state = {
-			username: "MatthewPoletin",
-			password: "qwerty2018",
+			username: "",
+			password: "",
 		};
 
 		this.handleChangeUsername = this.handleChangeUsername.bind(this);
@@ -28,7 +28,7 @@ class Login extends Component {
 		});
 		console.log("username: " + this.state.username);
 		console.log("password: " + this.state.password);
-		console.log(this.validateForm());
+		console.log(this.validForm());
 	}
 
 	render() {
@@ -64,14 +64,14 @@ class Login extends Component {
 						<div className="pure-controls">
 							<label htmlFor="cb" className="pure-checkbox" hidden={true}>
 								<input id={"cb"}
-								       type={"checkbox"}
+									type={"checkbox"}
 								/>
 								Remember me
 							</label>
 							<button id={"login"}
 							        type={"submit"}
 							        className={"pure-button pure-button-primary"}
-							        disabled={!this.validateForm()}>
+							        disabled={!this.validForm()}>
 								Login</button>
 							<Link to={"/signup"}>Signup</Link>
 						</div>
@@ -96,9 +96,15 @@ class Login extends Component {
 	}
 
 	handleSubmit(event) {
-		// TODO: add extra validation
-		login({username: this.state.username, password: this.state.password}, "/");
 		event.preventDefault();
+		// TODO: add extra validation
+		// TODO: add desiredPath state var
+		if (this.validForm()) {
+			login({
+				username: this.state.username,
+				password: this.state.password,
+			}, "/");
+		}
 	}
 
 	/**
@@ -118,10 +124,10 @@ class Login extends Component {
 	}
 
 	/**
-	 * validateForm - Checks form for validity
+	 * validForm - Checks form for validity
 	 * @return {boolean}
 	 */
-	validateForm() {
+	validForm() {
 		return this.validUsername() && this.validPassword();
 	}
 

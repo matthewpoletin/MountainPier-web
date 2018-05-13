@@ -10,6 +10,7 @@ const mode = "dev";
 
 /** Class for twitchConnect react component. */
 class TwitchConnect extends Component {
+
 	render() {
 		const twitchBaseURL = "https://api.twitch.tv/kraken/oauth2/authorize";
 		const twitchClientId = config[mode].twitch.clientId;

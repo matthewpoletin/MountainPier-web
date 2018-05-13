@@ -21,5 +21,5 @@ app.use(express.static(path.join(__dirname, "public")));
 app.use(router);
 
 app.listen(PORT, () => {
-	console.log("App listen on port " + PORT);
+	console.log("DeveloperApp listen on port " + PORT);
 });

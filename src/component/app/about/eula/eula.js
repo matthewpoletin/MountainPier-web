@@ -9,7 +9,8 @@ class EULA extends Component {
 	render() {
 		return (
 			<div className="EULA">
-				EULA page
+				EULA<br/>
+				Work in progress
 			</div>
 		);
 	}

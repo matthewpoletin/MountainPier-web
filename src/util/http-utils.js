@@ -34,18 +34,18 @@ export const logError = (error, type) => {
 const httpUtils = (requestType = GET, path, opts = {}) => {
 	return new Promise((resolve, reject) => {
 		const headers = new Headers();
+		headers.append("Accept", "application/json");
 		if (opts.requiresAuth) {
 			const accessToken = getCookie("access-token");
 			headers.append("Access-Token", accessToken);
 		}
-		// headers.append("Accept", "application/json");
 		if (opts.data !== {}) {
 			headers.append("Content-Type", "application/json");
 		}
 		return fetch(getApiUrl() + path, {method: requestType, headers: headers, mode: "cors", body: JSON.stringify(opts.data) })
 			.then(response => {
 				if (response.status.toString(10)[0] !== "2") {
-					console.error(requestType.toUpperCase() + "request to " + getApiUrl() + " , option " + JSON.stringify(opts) + " failed, status " + response.status);
+					console.error(requestType.toUpperCase() + " request to " + getApiUrl() + " , option " + JSON.stringify(opts) + " failed, status " + response.status);
 					return reject(new Error(""));
 				}
 				return response.json();

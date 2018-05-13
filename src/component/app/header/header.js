@@ -11,7 +11,7 @@ import faUsers from "@fortawesome/fontawesome-free-solid/faUsers";
 import faSignInAlt from "@fortawesome/fontawesome-free-solid/faSignInAlt";
 import faSignOutAlt from "@fortawesome/fontawesome-free-solid/faSignOutAlt";
 import faGamepad from "@fortawesome/fontawesome-free-solid/faGamepad";
-import faServer from "@fortawesome/fontawesome-free-solid/faServer";
+import faSearch from "@fortawesome/fontawesome-free-solid/faSearch";
 
 /** Class for header react component. */
 class Header extends Component {
@@ -66,7 +66,7 @@ class Header extends Component {
 			return (
 				<div>
 					{this.gamesLink()}
-					{this.serversLink()}
+					{this.searchLink()}
 					{this.userMenu()}
 				</div>
 			);
@@ -113,11 +113,11 @@ class Header extends Component {
 		);
 	}
 
-	serversLink() {
+	searchLink() {
 		return (
 			<li className={"pure-menu-item"}>
-				<Link to={'/servers'} className={"pure-menu-link"}>
-					Servers&nbsp;<FontAwesomeIcon icon={faServer}/>
+				<Link to={'/search'} className={"pure-menu-link"}>
+					Search&nbsp;<FontAwesomeIcon icon={faSearch}/>
 				</Link>
 			</li>
 		);

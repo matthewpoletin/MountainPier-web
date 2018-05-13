@@ -1,0 +1,18 @@
+.user-list {
+    list-style-type: none;
+}
+
+.user {
+}
+
+.avatar {
+
+}
+
+.info {
+    width: 100%;
+}
+
+.controls {
+    float: right;
+}

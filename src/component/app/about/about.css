@@ -1,0 +1,23 @@
+.feature {
+}
+
+.feature-content{
+    margin-right: 15px;
+    margin-left: 15px;
+    height: 100%;
+}
+
+.feature-icon {
+    margin: 0 auto;
+    text-align: center;
+}
+
+.feature-title {
+    text-align: center;
+    font-size: 20px;
+}
+
+.feature-text {
+    text-align: justify;
+    text-justify: inter-word;
+}
