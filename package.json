@@ -4,7 +4,7 @@
 	"description": "Front end service for Mountain Pier",
 	"main": "index.js",
 	"scripts": {
-		"build": "node ./node_modules/webpack/bin/webpack",
+		"build": "NODE_ENV=production node ./node_modules/webpack/bin/webpack",
 		"start": "NODE_ENV=production node index",
 		"devel": "NODE_ENV=development node index",
 		"watch": "node ./node_modules/webpack/bin/webpack --watch"
