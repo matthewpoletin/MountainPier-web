@@ -55,8 +55,8 @@ class Search extends Component {
 		if (this.state.result !== undefined) {
 			const users = this.state.result.content.map((user, index) =>
 				<div className="user" style={{"display": "block"}} key={index}>
-					<Link to={`/users/${user.name}`}>
-						<span>{user.name}</span>
+					<Link to={`/users/${user.username}`}>
+						<span>{user.username}</span>
 						<img src={user.avatar} height={100} width={100} alt={""}/><br/>
 					</Link>
 					<p>id: {user.id}</p>

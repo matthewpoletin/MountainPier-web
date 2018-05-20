@@ -19,10 +19,10 @@ export const getEnvironment = () => {
 export const getApiUrl = () => {
 	switch (getEnvironment()) {
 		case 'production':
-			return config.prod.apiUrl;
+			return config.production.apiUrl;
 		case 'development':
 		default:
-			return config.dev.apiUrl;
+			return config.development.apiUrl;
 	}
 };
 
@@ -33,9 +33,9 @@ export const getApiUrl = () => {
 export const getAppUrl = () => {
 	switch (getEnvironment()) {
 		case 'production':
-			return config.prod.appUrl;
+			return config.production.appUrl;
 		case 'development':
 		default:
-			return config.dev.appUrl;
+			return config.development.appUrl;
 	}
 };

@@ -1,5 +1,5 @@
 {
-	"dev": {
+	"development": {
 		"appUrl": "http://localhost:8080",
 		"apiUrl": "http://localhost:8549",
 		"twitch": {
@@ -7,12 +7,12 @@
 			"redirectUri": "http://localhost:8080"
 		}
 	},
-	"prod": {
+	"production": {
 		"appUrl": "http://mountainpier.ru",
 		"apiUrl": "http://api.mountainpier.ru",
 		"twitch": {
 			"clientId": "gmorlpxdgnavsssk2gudj355nfx2o6",
-			"redirectUri": "http://mountainpier.ru/oauth"
+			"redirectUri": "https://mountainpier.ru/oauth"
 		}
 	}
 }

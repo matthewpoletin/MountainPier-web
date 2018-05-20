@@ -8,6 +8,7 @@ import faWrench from '@fortawesome/fontawesome-free-solid/faWrench'
 import faBan from '@fortawesome/fontawesome-free-solid/faBan'
 import faTrash from '@fortawesome/fontawesome-free-solid/faTrash'
 import "./users.css"
+import {getAuthenticatedUser, isAuthenticated} from "../../../util/authentication";
 
 /** Class for AdminUsers react component */
 class AdminUsers extends Component {
@@ -94,28 +95,46 @@ class AdminUsers extends Component {
 		}
 	}
 
-	editUser(index) {
-		console.log("edit");
-		console.log(index);
+	editUser(index, userId) {
+		console.log(`Editing user ${userId}`);
 	}
 
-	banUser(index) {
-		console.log("ban");
-		console.log(index);
+	banUser(index, userId) {
+		console.log(`Banning user ${userId}`);
 	}
 
 	deleteUser(index, userId) {
-		console.log("delete");
-		console.log(index);
-		console.log(userId);
-		UserService.deleteUser(userId)
-			.then(response => {
-				this.setState({
-					users: this.state.users.splice(index, 1),
-				});
-				console.log(response);
-			})
-			.catch(error => console.log(error));
+		console.log(`Deleting user ${userId}`);
+		if (isAuthenticated()) {
+			getAuthenticatedUser()
+				.then(user => {
+					if (user.id === userId) {
+						console.log("Can not delete your user. Login with another user and repeat.")
+					}
+					else {
+						UserService.deleteUser(userId)
+							.then(response => {
+								this.setState({
+									users: this.state.users.splice(index, 1),
+								});
+								console.log(response);
+							})
+							.catch(error => console.log(error));
+					}
+				}).catch(error =>
+				console.error(error)
+			);
+		}
+		else {
+			UserService.deleteUser(userId)
+				.then(response => {
+					this.setState({
+						users: this.state.users.splice(index, 1),
+					});
+					console.log(response);
+				})
+				.catch(error => console.log(error));
+		}
 	}
 
 }

@@ -1,16 +1,19 @@
 "use strict";
 
 import React, { Component } from 'react';
-import UserService from "../../../service/userService";
+import {getAuthenticatedUser} from "../../../util/authentication";
+import {Link} from "react-router-dom";
+import PersonalSettings from "./personal/personal"
+import PasswordSettings from "./password/password";
+import AccountsSettings from "./accounts/accounts";
+import DeveloperSettings from "./developer/developer";
 
 /** Class for settings react component. */
 class Settings extends Component {
 
 	componentWillMount() {
-		const username = "MatthewPoletin";
-
 		this.setState({user: undefined});
-		UserService.getUserBy({username: username})
+		getAuthenticatedUser()
 			.then(user => {
 				this.setState({user: user});
 			})
@@ -19,32 +22,44 @@ class Settings extends Component {
 			});
 	}
 
-	render() {
+	content() {
 		if (this.state.user !== undefined)
-			return (
-				<div className="Settings">
-					<form className={"pure-form pure-form-aligned"}>
-						<fieldset>
-							<div>
-								<input type="file" />
-								<img src={this.state.user.avatar} height={40} width={40} alt={""}/>
-							</div>
-							<div className={"pure-control-group"}>
-								<label htmlFor="username">Username</label>
-								<input id={"name"} type={"text"} placeholder={"Username"} defaultValue={this.state.user.username}/>
-							</div>
-							<div className={"pure-control-group"}>
-								<label htmlFor="username">Email</label>
-								<input id={"email"} type={"text"} defaultValue={this.state.user.regEmail}/>
-							</div>
-							<div className={"pure-controls"}>
-								<input type={"submit"} className={"pure-button pure-button-primary"}/>
-							</div>
-						</fieldset>
-					</form>
+		{
+			switch (this.props.page) {
+				case 'personal':
+					return <PersonalSettings user={this.state.user}/>;
+				case 'password':
+					return <PasswordSettings user={this.state.user}/>;
+				case 'accounts':
+					return <AccountsSettings user={this.state.user}/>;
+				case 'developer':
+					return <DeveloperSettings user={this.state.user}/>;
+				default:
+					return null;
+			}
+		}
+	}
+
+	render() {
+		return (
+			<div className="settings">
+				<div className="pure-g">
+					<div className="pure-u-1-4 settings-menu pure-menu custom-restricted-width">
+						<ul className="pure-menu-list">
+							<li className="pure-menu-item">
+								<Link to="/settings/personal" className="pure-menu-link">Personal info</Link>
+								<Link to="/settings/password" className="pure-menu-link">Password & Security</Link>
+								<Link to="/settings/accounts" className="pure-menu-link">Connected accounts</Link>
+								<Link to="/settings/developer" className="pure-menu-link">Authorized developer</Link>
+							</li>
+						</ul>
+					</div>
+					<div className="pure-u-3-4">
+						{this.content()}
+					</div>
 				</div>
-			);
-		else return null;
+			</div>
+		);
 	}
 
 }

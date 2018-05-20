@@ -28,30 +28,35 @@ import AdminHome from "./../admin/home/home";
 import AdminUsers from "./../admin/users/users";
 import AdminServers from "./../admin/servers/servers";
 
+import NotFound from "./notFound/notFound"
+
 /** Class for main react component */
 class Main extends Component {
 
 	render() {
 		return (
-			<div className="Main">
+			<div className="main">
 				<main>
 					<Switch>
-						<Route exact path={'/'} component={Home}/>
-						<Route exact path={'/about'} component={About}/>
-						<Route exact path={'/about/eula'} component={EULA}/>
+						<Route exact path='/' component={Home}/>
+						<Route exact path='/about' component={About}/>
+						<Route exact path='/about/eula' component={EULA}/>
 
-						<Route path={'/signup'} component={Signup}/>
-						<Route path={'/login'} component={Login}/>
-						<Route path={'/remind'} component={Remind}/>
+						<Route exact path='/signup' component={Signup}/>
+						<Route exact path='/login' component={Login}/>
+						<Route exact path='/remind' component={Remind}/>
 
-						<Route path={'/settings'} component={Settings}/>
+						<Route exact path='/settings' render={() => <Settings page='personal'/>}/>
+						<Route exact path='/settings/personal' render={() => <Settings page='personal'/>}/>
+						<Route exact path='/settings/password' render={() => <Settings page='password'/>}/>
+						<Route exact path='/settings/accounts' render={() => <Settings page='accounts'/>}/>
+						<Route exact path='/settings/developer' render={() => <Settings page='developer'/>}/>
 
-						<Route exact path={'/search'} component={Search}/>
-						<Route exact path={'/users/:username'} component={User}/>
-						<Route path={'/users/:username/friends'} component={Friends}/>
-						<Route exact path={'/games'} component={Games}/>
-						<Route path={'/games/:name'} component={Game}/>
-						{/*<Route path={'/games/:name/servers'} component={GameServers}/>*/}
+						<Route exact path='/search' component={Search}/>
+						<Route exact path='/users/:username' component={User}/>
+						<Route exact path='/users/:username/friends' component={Friends}/>
+						<Route exact path='/games' component={Games}/>
+						<Route exact path='/games/:name' component={Game}/>
 
 						<Route exact path={'/developers'} component={DeveloperHome}/>
 						<Route path={'/developers/docs'} component={DeveloperDocs}/>
@@ -66,6 +71,8 @@ class Main extends Component {
 						<Route path={'/admin/users'} component={AdminUsers}/>
 						<Route path={'/admin/servers'} component={AdminServers}/>
 						<Route path={'/admin/channels'} component={AdminServers}/>
+
+						<Route component={NotFound}/>
 					</Switch>
 				</main>
 			</div>
