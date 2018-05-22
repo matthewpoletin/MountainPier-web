@@ -9,6 +9,15 @@ import faBan from '@fortawesome/fontawesome-free-solid/faBan'
 import faTrash from '@fortawesome/fontawesome-free-solid/faTrash'
 import "./users.css"
 import {getAuthenticatedUser, isAuthenticated} from "../../../util/authentication";
+import PropTypes from "prop-types"
+
+const propTypes = {
+	isAuth: PropTypes.bool.isRequired,
+};
+
+const defaultProps = {
+	isAuth: false,
+};
 
 /** Class for AdminUsers react component */
 class AdminUsers extends Component {
@@ -20,7 +29,7 @@ class AdminUsers extends Component {
 		});
 		UserService.getUsers({page: 0, size: 20})
 			.then(users => {
-				this.setState({users: users, loading: false});
+				this.setState({users: users.content, loading: false});
 			})
 			.catch(error => {
 				console.error(error);
@@ -37,10 +46,11 @@ class AdminUsers extends Component {
 			)
 		} else {
 			if (typeof this.state.users !== 'undefined') {
-				if (this.state.users.content.length === 0) {
+				if (this.state.users.length === 0) {
 					return <div>Not found</div>
 				} else {
-					const users = this.state.users.content.map((user, index) =>
+					console.log(this.state.users);
+					const users = this.state.users.map((user, index) =>
 						<li className="user" key={index}>
 							<div className={"pure-g"}>
 								<div className={"pure-u-1-5 avatar"}>
@@ -96,7 +106,12 @@ class AdminUsers extends Component {
 	}
 
 	editUser(index, userId) {
-		console.log(`Editing user ${userId}`);
+		console.log(`Editing ${index} user ${userId}`);
+		const users = this.state.users;
+		users.splice(index, 1);
+		this.setState({
+			users: users,
+		});
 	}
 
 	banUser(index, userId) {
@@ -114,10 +129,11 @@ class AdminUsers extends Component {
 					else {
 						UserService.deleteUser(userId)
 							.then(response => {
+								const users = this.state.users;
+								users.splice(index, 1);
 								this.setState({
-									users: this.state.users.splice(index, 1),
+									users: users,
 								});
-								console.log(response);
 							})
 							.catch(error => console.log(error));
 					}
@@ -128,15 +144,19 @@ class AdminUsers extends Component {
 		else {
 			UserService.deleteUser(userId)
 				.then(response => {
+					const users = this.state.users;
+					users.splice(index, 1);
 					this.setState({
-						users: this.state.users.splice(index, 1),
+						users: users,
 					});
-					console.log(response);
 				})
 				.catch(error => console.log(error));
 		}
 	}
 
 }
+
+AdminUsers.propTypes = propTypes;
+AdminUsers.defaultProps = defaultProps;
 
 export default AdminUsers;

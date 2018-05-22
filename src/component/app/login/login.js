@@ -11,14 +11,16 @@ class Login extends Component {
 	constructor(props) {
 		super(props);
 
-		this.state = {
-			username: "",
-			password: "",
-		};
-
 		this.handleChangeUsername = this.handleChangeUsername.bind(this);
 		this.handleChangePassword = this.handleChangePassword.bind(this);
 		this.handleSubmit = this.handleSubmit.bind(this);
+	}
+
+	componentWillMount() {
+		this.setState({
+			username: "",
+			password: "",
+		});
 	}
 
 	componentDidMount() {
@@ -33,47 +35,49 @@ class Login extends Component {
 
 	render() {
 		return (
-			<div className="Login">
-				<TwitchConnect />
+			<div className="login">
+				<TwitchConnect action="Login"/>
 				<form className={"pure-form pure-form-aligned"} onSubmit={this.handleSubmit}>
 					<fieldset>
 						<div className="pure-control-group">
-							<label htmlFor={"username"}>Username</label>
-							<input id={"username"}
-							       type={"text"}
-							       placeholder={"username"}
+							<label htmlFor="username">Username</label>
+							<input id="username"
+							       type="text"
+							       placeholder="username"
 							       onChange={this.handleChangeUsername}
 							       defaultValue={this.state.username}
-							       autoComplete={"username"}
+							       autoComplete="username"
 							/>
-							<span className={"pure-form-message-inline"}>This is required field</span>
+							<span className="pure-form-message-inline">This is required field</span>
 						</div>
 						<div className="pure-control-group">
-							<label htmlFor={"password"}>Password</label>
-							<input id={"password"}
-							       type={"password"}
-							       placeholder={"password"}
+							<label htmlFor="password">Password</label>
+							<input id="password"
+							       type="password"
+							       placeholder="password"
 							       onChange={this.handleChangePassword}
 							       ref={input => this.input = input}
 							       defaultValue={this.state.password}
-							       autoComplete={"current-password"}
+							       autoComplete="current-password"
 							/>
-							<span className={"pure-form-message-inline"}>This is required field</span>
+							<span className="pure-form-message-inline">This is required field</span>
 						</div>
 						<Link className="remind" to="/remind" hidden={false}>Forgot password?</Link>
 						<div className="pure-controls">
 							<label htmlFor="cb" className="pure-checkbox" hidden={true}>
-								<input id={"cb"}
-									type={"checkbox"}
+								<input id="cb"
+									type="checkbox"
 								/>
 								Remember me
 							</label>
-							<button id={"login"}
-							        type={"submit"}
-							        className={"pure-button pure-button-primary"}
-							        disabled={!this.validForm()}>
-								Login</button>
-							<Link to={"/signup"}>Signup</Link>
+							<button id="login"
+							        type="submit"
+							        className="pure-button pure-button-primary"
+							        disabled={!this.validForm()}
+							>
+							Login
+							</button>
+							<Link to="/signup">Signup</Link>
 						</div>
 					</fieldset>
 				</form>
@@ -85,14 +89,12 @@ class Login extends Component {
 		this.setState({
 			username: event.target.value
 		});
-		console.log('username: ' + event.target.value);
 	}
 
 	handleChangePassword(event) {
 		this.setState({
 			password: event.target.value
 		});
-		console.log('password: ' + event.target.value);
 	}
 
 	handleSubmit(event) {

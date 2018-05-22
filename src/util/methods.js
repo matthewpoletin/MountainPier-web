@@ -1,8 +1,8 @@
 "use strict";
 
 // Request types
-export const GET = 'get';
-export const POST = 'post';
-export const PUT = 'put';
-export const PATCH = 'patch';
-export const DELETE = 'delete';
+export const GET = 'GET';
+export const POST = 'POST';
+export const PUT = 'PUT';
+export const PATCH = 'PATCH';
+export const DELETE = 'DELETE';

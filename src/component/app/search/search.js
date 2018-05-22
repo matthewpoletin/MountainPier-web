@@ -28,19 +28,19 @@ class Search extends Component {
 					<form className={"pure-form pure-form-aligned"} onSubmit={this.handleSubmit}>
 						<fieldset>
 							<div className="pure-control-group">
-								<label htmlFor={"search"}>Search</label>
-								<input id={"search"}
-								       type={"text"}
-								       placeholder={"search"}
+								<label htmlFor="search">Search</label>
+								<input id="search"
+								       type="text"
+								       placeholder="search"
 								       onChange={this.handleSearchChange}
 								       defaultValue={this.state.search}
-								       autoComplete={"username"}
+								       autoComplete="username"
 								/>
 							</div>
 							<div className="pure-controls">
-								<button id={"login"}
-								        type={"submit"}
-								        className={"pure-button pure-button-primary"}>
+								<button id="login"
+								        type="submit"
+								        className="pure-button pure-button-primary">
 									Search
 								</button>
 							</div>
@@ -56,14 +56,20 @@ class Search extends Component {
 			const users = this.state.result.content.map((user, index) =>
 				<div className="user" style={{"display": "block"}} key={index}>
 					<Link to={`/users/${user.username}`}>
-						<span>{user.username}</span>
-						<img src={user.avatar} height={100} width={100} alt={""}/><br/>
+						<div>
+							{user.username}
+						</div>
+						<div>
+							<img src={user.avatar} height={100} width={100} alt={""}/><br/>
+						</div>
+						<div>
+							{user.id}
+						</div>
 					</Link>
-					<p>id: {user.id}</p>
 				</div>
 			);
 			return (
-				<div className={"result"}>
+				<div className="result">
 					{users}
 				</div>
 			);

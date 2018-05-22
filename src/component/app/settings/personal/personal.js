@@ -1,6 +1,15 @@
 "use strict";
 
 import React, { Component } from 'react';
+import PropTypes from "prop-types";
+
+const propTypes = {
+	authUser: PropTypes.object,
+};
+
+const defaultProps = {
+	authUser: undefined,
+};
 
 /** Class for personal settings react component. */
 class PersonalSettings extends Component {
@@ -8,11 +17,18 @@ class PersonalSettings extends Component {
 	constructor(props) {
 		super(props);
 
+		this.handleChangeUsername = this.handleChangeUsername.bind(this);
+		this.handleChangeEmail = this.handleChangeEmail.bind(this);
 		this.handleSubmit = this.handleSubmit.bind(this);
 	}
 
 	componentWillMount() {
-		this.setState({user: this.props.user});
+		this.setState({user: this.props.authUser});
+
+		this.setState({
+			username: "",
+			email: "",
+		});
 	}
 
 	render() {
@@ -32,6 +48,7 @@ class PersonalSettings extends Component {
 									type="text"
 									placeholder="Username"
 									defaultValue={this.state.user.username}
+									onChange={this.handleChangeUsername}
 								/>
 							</div>
 							<div className="pure-control-group">
@@ -40,6 +57,7 @@ class PersonalSettings extends Component {
 									id="email"
 									type="text"
 									defaultValue={this.state.user.regEmail}
+									onChange={this.handleChangeEmail}
 								/>
 							</div>
 							<div className={"pure-controls"}>
@@ -47,6 +65,7 @@ class PersonalSettings extends Component {
 									type="submit"
 									className="pure-button pure-button-primary"
 									onClick={this.handleSubmit}
+									value="Update"
 								/>
 							</div>
 						</fieldset>
@@ -60,10 +79,27 @@ class PersonalSettings extends Component {
 		);
 	}
 
+	handleChangeUsername(event) {
+		this.setState({
+			username: event.target.value,
+		});
+	}
+
+	handleChangeEmail(event) {
+		this.setState({
+			email: event.target.value,
+		});
+	}
+
 	handleSubmit(event) {
 		event.preventDefault();
+
+
 	}
 
 }
+
+PersonalSettings.propTypes = propTypes;
+PersonalSettings.defaultProps = defaultProps;
 
 export default PersonalSettings;

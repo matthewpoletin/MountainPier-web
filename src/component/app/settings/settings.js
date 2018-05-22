@@ -7,38 +7,18 @@ import PersonalSettings from "./personal/personal"
 import PasswordSettings from "./password/password";
 import AccountsSettings from "./accounts/accounts";
 import DeveloperSettings from "./developer/developer";
+import PropTypes from "prop-types";
+
+const propTypes = {
+	authUser: PropTypes.object,
+};
+
+const defaultProps = {
+	authUser: undefined,
+};
 
 /** Class for settings react component. */
 class Settings extends Component {
-
-	componentWillMount() {
-		this.setState({user: undefined});
-		getAuthenticatedUser()
-			.then(user => {
-				this.setState({user: user});
-			})
-			.catch(error => {
-				console.log(error);
-			});
-	}
-
-	content() {
-		if (this.state.user !== undefined)
-		{
-			switch (this.props.page) {
-				case 'personal':
-					return <PersonalSettings user={this.state.user}/>;
-				case 'password':
-					return <PasswordSettings user={this.state.user}/>;
-				case 'accounts':
-					return <AccountsSettings user={this.state.user}/>;
-				case 'developer':
-					return <DeveloperSettings user={this.state.user}/>;
-				default:
-					return null;
-			}
-		}
-	}
 
 	render() {
 		return (
@@ -62,6 +42,27 @@ class Settings extends Component {
 		);
 	}
 
+	content() {
+		if (this.props.authUser !== undefined)
+		{
+			switch (this.props.page) {
+				case 'personal':
+					return <PersonalSettings authUser={this.props.authUser}/>;
+				case 'password':
+					return <PasswordSettings authUser={this.props.authUser}/>;
+				case 'accounts':
+					return <AccountsSettings authUser={this.props.authUser}/>;
+				case 'developer':
+					return <DeveloperSettings authUser={this.props.authUser}/>;
+				default:
+					return null;
+			}
+		}
+	}
+
 }
+
+Settings.propTypes =propTypes;
+Settings.defaultProps = defaultProps;
 
 export default Settings;

@@ -1,8 +1,22 @@
-.button {
+.connect-twitch .button {
     background-color: #6441A4;
     color: white;
+	border-radius: 5px;
+	padding: 8px;
+	display: table;
+	margin: 0 auto;
 }
 
-.a {
+.connect-twitch .button a {
 	text-decoration: none;
 }
+
+.connect-twitch .button .logo {
+	float: left;
+	padding-right: 5px;
+}
+
+.connect-twitch .button .text {
+	float: left;
+}
+

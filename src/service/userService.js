@@ -44,6 +44,16 @@ class UserService {
 	}
 
 	/**
+	 * createUser - Create new user with specified parameters
+	 * @param {string} code -
+	 * @return {Promise<object>} - Representation of created user
+	 */
+	static authUserByTwitch(code) {
+		// TODO: check if data correct and specified
+		return post(`/users/twitch`, {code}, false)
+	}
+
+	/**
 	 * getUserById - Get user from api by id
 	 * @param {object} userId - Id of required user
 	 * @return {Promise<object>} - Representation of user
@@ -99,30 +109,12 @@ class UserService {
 	}
 
 	/**
-	 * login - Authorizes user in web application
-	 * @param {object} credentials - Data of user
-	 * @param {string} credentials.username - Username of user
-	 * @param {string} credentials.password - Password of user
-	 * @return {Promise} - Tokens and their expiration info
+	 * addFriend - Add one user to others friends
+	 * @param userId - Id of requesting user
+	 * @param friendId - Id of target user
 	 */
-	//TODO: Move to auth specific service
-	static login(credentials) {
-		// TODO: Check if credentials set
-		return post(`/auth/login`, credentials, false)
-	}
-
-	/**
-	 * checkToken - Get user based on his accessToken
-	 * @param accessToken - Access Token of user
-	 * @return {Promise<object>} - User representation
-	 */
-	//TODO: Move to auth specific service
-	static checkToken(accessToken) {
-		// TODO: Check access token being correct
-		const data = {
-			accessToken: accessToken
-		};
-		return post(`/auth/check`, data, true);
+	static addFriend(userId, friendId) {
+		return post(`/users/${userId}/friends/${friendId}`, null, true)
 	}
 
 }

@@ -2,6 +2,8 @@
 
 import React, { Component } from 'react';
 import {Route, Switch} from "react-router-dom";
+import PropTypes from "prop-types";
+
 import Home from "./home/home";
 import About from "./about/about";
 import Signup from "./signup/signup";
@@ -28,7 +30,19 @@ import AdminHome from "./../admin/home/home";
 import AdminUsers from "./../admin/users/users";
 import AdminServers from "./../admin/servers/servers";
 
+import OAuthTwitch from "./oauth/twitch";
+
 import NotFound from "./notFound/notFound"
+
+const propTypes = {
+	isAuth: PropTypes.bool.isRequired,
+	authUser: PropTypes.object,
+};
+
+const defaultProps = {
+	isAuth: false,
+	authUser: undefined,
+};
 
 /** Class for main react component */
 class Main extends Component {
@@ -46,11 +60,11 @@ class Main extends Component {
 						<Route exact path='/login' component={Login}/>
 						<Route exact path='/remind' component={Remind}/>
 
-						<Route exact path='/settings' render={() => <Settings page='personal'/>}/>
-						<Route exact path='/settings/personal' render={() => <Settings page='personal'/>}/>
-						<Route exact path='/settings/password' render={() => <Settings page='password'/>}/>
-						<Route exact path='/settings/accounts' render={() => <Settings page='accounts'/>}/>
-						<Route exact path='/settings/developer' render={() => <Settings page='developer'/>}/>
+						<Route exact path='/settings' render={() => <Settings page='personal' authUser={this.props.authUser}/>}/>}/>
+						<Route exact path='/settings/personal' render={() => <Settings page='personal' authUser={this.props.authUser}/>}/>
+						<Route exact path='/settings/password' render={() => <Settings page='password' authUser={this.props.authUser}/>}/>
+						<Route exact path='/settings/accounts' render={() => <Settings page='accounts' authUser={this.props.authUser}/>}/>}/>
+						<Route exact path='/settings/developer' render={() => <Settings page='developer' authUser={this.props.authUser}/>}/>}/>
 
 						<Route exact path='/search' component={Search}/>
 						<Route exact path='/users/:username' component={User}/>
@@ -72,6 +86,8 @@ class Main extends Component {
 						<Route path={'/admin/servers'} component={AdminServers}/>
 						<Route path={'/admin/channels'} component={AdminServers}/>
 
+						<Route path={'/oauth/twitch'} component={OAuthTwitch}/>
+
 						<Route component={NotFound}/>
 					</Switch>
 				</main>
@@ -80,5 +96,8 @@ class Main extends Component {
 	}
 
 }
+
+Main.propTypes = propTypes;
+Main.defaultProps = defaultProps;
 
 export default Main;

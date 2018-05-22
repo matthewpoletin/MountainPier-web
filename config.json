@@ -4,7 +4,7 @@
 		"apiUrl": "http://localhost:8549",
 		"twitch": {
 			"clientId": "m0ickj58eteefym2amg6smdrtu2sxx",
-			"redirectUri": "http://localhost:8080"
+			"redirectUri": "http://localhost:8080/oauth/twitch"
 		}
 	},
 	"production": {
@@ -12,7 +12,7 @@
 		"apiUrl": "http://api.mountainpier.ru",
 		"twitch": {
 			"clientId": "gmorlpxdgnavsssk2gudj355nfx2o6",
-			"redirectUri": "https://mountainpier.ru/oauth"
+			"redirectUri": "https://mountainpier.ru/oauth/twitch"
 		}
 	}
 }

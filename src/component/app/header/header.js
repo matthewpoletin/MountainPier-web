@@ -1,6 +1,7 @@
 "use strict";
 
 import React, { Component } from 'react';
+import PropTypes from "prop-types";
 import {Link} from 'react-router-dom';
 import {getAuthenticatedUser, isAuthenticated, logoutUser} from "../../../util/authentication";
 import "./header.css"
@@ -13,37 +14,61 @@ import faSignOutAlt from "@fortawesome/fontawesome-free-solid/faSignOutAlt";
 import faGamepad from "@fortawesome/fontawesome-free-solid/faGamepad";
 import faSearch from "@fortawesome/fontawesome-free-solid/faSearch";
 
+const propTypes = {
+	isAuth: PropTypes.bool.isRequired,
+	authUser: PropTypes.object,
+};
+
+const defaultProps = {
+	isAuth: false,
+	authUser: undefined,
+};
+
 /** Class for header react component. */
 class Header extends Component {
 
+
+	// constructor(props) {
+	// 	super(props);
+	//
+	// 	this.setState({
+	// 		user: undefined,
+	// 		isAuth: undefined,
+	// 	});
+	// 	console.log(props);
+	// }
+	//
+	// componentDidMount() {
+	// 	this.setState({
+	// 		user: this.props.authUser,
+	// 		isAuth: this.state.isAuth,
+	// 	});
+	// }
+
 	componentWillMount() {
 		this.setState({
+			isAuth: false,
 			user: undefined,
 		});
 	}
 
-	componentDidMount() {
-		getAuthenticatedUser()
-			.then(user => {
-				this.setState({
-					user: user,
-				});
-			}).catch(error =>
-				console.error(error)
-			);
+	componentWillReceiveProps(props) {
+		this.setState({
+			isAuth: props.isAuth,
+			user: props.authUser,
+		});
 	}
 
 	render() {
-		const isAuth = isAuthenticated();
 		return (
-			<div className="Header">
+			<div className="header">
 				<header>
-					<div className={"pure-menu pure-menu-horizontal"}>
+					<div className="pure-menu pure-menu-horizontal">
 						<nav>
-							<Link to={"/"} className={"pure-menu-heading pure-menu-link"}>
-								<img src={"/img/icon.jpg"} height={160} width={160} alt={""}/>
+							<Link to="/" className="pure-menu-heading pure-menu-link">
+								<img src="/img/icon.jpg" height="160" width="160" alt=""/>
 							</Link>
-							<ul className={"pure-menu-list"}>
+							<ul className="pure-menu-list">
 								{this.menuLinks()}
 							</ul>
 						</nav>
@@ -158,5 +183,8 @@ class Header extends Component {
 	}
 
 }
+
+Header.propTypes = propTypes;
+Header.defaultProps = defaultProps;
 
 export default Header;
