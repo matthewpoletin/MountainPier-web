@@ -50,7 +50,7 @@ class AdminApps extends Component {
 					return <div>Not found</div>
 				} else {
 					const apps = this.state.apps.map((app, index) =>
-						<tr key={index}>
+						<tr key={index} align="center">
 							<td>
 								<Link to={`/admin/apps/${app.name}`}>
 									{app.name}
@@ -60,17 +60,17 @@ class AdminApps extends Component {
 								{app.status}
 							</td>
 							<td>
-								{app.developers[0] ? (
+								{app.developers !== undefined ? app.developers[0] !== undefined ? (
 									<a href={`/developers/${app.developers[0].id}`}>
 										{app.developers[0].name}
 									</a>
-								) : null
+								) : null : null
 								}
 							</td>
 							<td>
-								<a onClick={() => this.editApp(index, app.id,)}>
+								<Link to={`/admin/apps/${app.name}`}>
 									<FontAwesomeIcon icon={faWrench} size={"2x"}/>
-								</a>
+								</Link>
 							</td>
 							<td>
 								<a onClick={() => this.deleteApp(index, app.id)}>
@@ -83,16 +83,15 @@ class AdminApps extends Component {
 						<table className="apps-list" width="100%">
 							<thead>
 							<tr>
-								<th> </th>
 								<th>Name</th>
 								<th>Status</th>
 								<th>Developer</th>
-								<th> </th>
-								<th> </th>
+								<th>Edit</th>
+								<th>Delete</th>
 							</tr>
 							</thead>
 							<tbody>
-							{apps}
+								{apps}
 							</tbody>
 						</table>
 					);
@@ -105,21 +104,19 @@ class AdminApps extends Component {
 		}
 	}
 
-	editApp(index, appId) {
-		console.log(`Editing ${index} app ${appId}`);
-	}
-
 	deleteApp(index, appId) {
 		console.log(`Deleting ${index} app ${appId}`);
-		AppService.deleteApp(appId)
-			.then(response => {
-				const apps = this.state.games;
-				apps.splice(index, 1);
-				this.setState({
-					apps: apps,
-				});
-			})
-			.catch(error => console.log(error));
+		if (window.confirm(`Delete app ${this.state.apps[index].name}?`)) {
+			AppService.deleteApp(appId)
+				.then(response => {
+					const apps = this.state.apps;
+					apps.splice(index, 1);
+					this.setState({
+						apps: apps,
+					});
+				})
+				.catch(error => console.log(error));
+		}
 	}
 
 }

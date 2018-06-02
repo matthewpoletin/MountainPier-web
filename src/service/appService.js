@@ -19,6 +19,27 @@ class AppService {
 	}
 
 	/**
+	 * createApp - Creates app by data
+	 * @param data
+	 * @param data.userId - Id of owner
+	 * @param data.name - Name
+	 * @param data.redirectUri - Redirect URI
+	 * @return {Promise<object>}
+	 */
+	static createApp(data) {
+		return post(`/auth/oauth/apps`, data, true);
+	}
+
+	/**
+	 * getApp - Gets app by id
+	 * @param appId - Id of app
+	 * @return {Promise<object>}
+	 */
+	static getApp(appId) {
+		return get(`/auth/oauth/apps/${appId}`, true);
+	}
+
+	/**
 	 * updateApp - Update app
 	 * @param option - Optional data
 	 * @param option.appId - App id
@@ -30,7 +51,7 @@ class AppService {
 	}
 
 	/**
-	 * deleteApp - Deletes application
+	 * deleteDeveloper - Deletes application
 	 * @param appId - Id of application
 	 * @return {Promise<void>}
 	 */

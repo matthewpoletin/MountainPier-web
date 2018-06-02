@@ -13,8 +13,8 @@ const defaultProps = {
 	authUser: undefined,
 };
 
-/** Class for developer settings react component. */
-class DeveloperSettings extends Component {
+/** Class for SettingsDeveloper react component. */
+class SettingsDeveloper extends Component {
 
 	componentWillMount() {
 		this.setState({
@@ -71,7 +71,7 @@ class DeveloperSettings extends Component {
 
 }
 
-DeveloperSettings.propTypes = propTypes;
-DeveloperSettings.defaultProps = defaultProps;
+SettingsDeveloper.propTypes = propTypes;
+SettingsDeveloper.defaultProps = defaultProps;
 
-export default DeveloperSettings;
+export default SettingsDeveloper;

@@ -167,36 +167,6 @@ class UserService {
 	}
 
 	/**
-	 * createApp - Creates app by data
-	 * @param data
-	 * @param data.userId - Id of owner
-	 * @param data.name - Name
-	 * @param data.redirectUri - Redirect URI
-	 * @return {Promise<object>}
-	 */
-	static createApp(data) {
-		return post(`/auth/oauth/apps`, data, true);
-	}
-
-	/**
-	 * getAppById - Gets app by id
-	 * @param appId - Id of app
-	 * @return {Promise<object>}
-	 */
-	static getAppById(appId) {
-		return get(`/auth/oauth/apps/${appId}`, true);
-	}
-
-	/**
-	 * deleteApp - Deletes app
-	 * @param appId - Id of app
-	 * @return {Promise<void>}
-	 */
-	static deleteApp(appId) {
-		return del(`/auth/oauth/apps/${appId}`, true);
-	}
-
-	/**
 	 * getDeveloperGames - Get games of developer
 	 * @param userId - Id of user
 	 * @return {Promise} - List of developed games

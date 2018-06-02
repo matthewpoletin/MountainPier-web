@@ -2,21 +2,19 @@
 
 import React, { Component } from 'react';
 import PropTypes from "prop-types"
-import UserService from "../../../service/userService";
+import {withRouter} from "react-router-dom"
 import AppService from "../../../service/appService";
 
 const propTypes = {
 	authUser: PropTypes.object,
-	appId: PropTypes.number,
 };
 
 const defaultProps = {
 	authUser: undefined,
-	appId: undefined,
 };
 
-/** Class for DeveloperApp react component. */
-class DeveloperApp extends Component {
+/** Class for DeveloperNewApp react component. */
+class DeveloperNewApp extends Component {
 
 	constructor(props) {
 		super(props);
@@ -27,47 +25,23 @@ class DeveloperApp extends Component {
 	}
 
 	componentWillMount() {
-		const appId = this.props.appId;
-
 		this.setState({
-			authUser: undefined,
-			appId: appId,
+			authUser: this.props.authUser,
 			name: "",
 			redirectUri: "",
-		});
-
-		UserService.getAppById(appId)
-			.then(appResponse => {
-				this.setState({
-					app: appResponse,
-					name: appResponse.name,
-					redirectUri: appResponse.redirectUri,
-				});
-			})
-			.catch(error => {
-				console.log(error);
-			});
+			secret: "",
+		})
 	}
 
 	componentWillReceiveProps(props) {
-		if (props.authUser !== undefined) {
-			this.setState({
-				authUser: props.authUser,
-			});
-		}
+		this.setState({
+			authUser: props.authUser,
+		});
 	}
 
 	render() {
 		return (
-			<div className="developer-app">
-				{this.app()}
-			</div>
-		);
-	}
-
-	app() {
-		if (this.state.app !== undefined) {
-			return (
+			<div className="developer-app-new">
 				<form className={"pure-form pure-form-aligned"} onSubmit={this.handleSubmit}>
 					<fieldset>
 						<div className="pure-control-group">
@@ -77,7 +51,6 @@ class DeveloperApp extends Component {
 							    type="text"
 							    placeholder="name"
 							    onChange={this.handleChangeName}
-							    defaultValue={this.state.app.name}
 							/>
 							<span className="pure-form-message-inline">This is required field</span>
 						</div>
@@ -88,46 +61,33 @@ class DeveloperApp extends Component {
 								type="text"
 								placeholder="redirect uri"
 								onChange={this.handleChangeRedirectUri}
-								defaultValue={this.state.app.redirectUri}
 							/>
 							<span className="pure-form-message-inline">This is required field</span>
-						</div>
-						<div className="pure-control-group">
-							<label htmlFor="id">Id</label>
-							<input
-								id="id"
-								type="text"
-								placeholder="id"
-								defaultValue={this.state.app.id}
-								disabled={true}
-							/>
 						</div>
 						<div className="pure-control-group">
 							<label htmlFor="secret">Secret</label>
 							<input
 								id="secret"
 								type="text"
-								placeholder="secret"
-								defaultValue={this.state.app.secret}
 								disabled={true}
+								placeholder="secret"
+								value={this.state.secret}
 							/>
+							<span className="pure-form-message-inline">This is required field</span>
 						</div>
 						<div className="pure-controls">
-							<button
-								id="updateApp"
-						        type="submit"
-						        className="pure-button pure-button-primary"
-						        disabled={!this.validForm()}
+							<button id="login"
+							        type="submit"
+							        className="pure-button pure-button-primary"
+							        disabled={!this.validForm()}
 							>
-								Update App
+								Create App
 							</button>
 						</div>
 					</fieldset>
 				</form>
-			)
-		} else {
-			return("Loading...")
-		}
+			</div>
+		);
 	}
 
 	handleChangeName(event) {
@@ -145,34 +105,39 @@ class DeveloperApp extends Component {
 	handleSubmit(event) {
 		event.preventDefault();
 
-		if (this.validForm) {
+		if (this.validForm()) {
 			const appRequest = {
 				userId: this.state.authUser.id,
 				name: this.state.name,
 				redirectUri: this.state.redirectUri,
 			};
-			AppService.updateApp({appId: this.state.app.id, data: appRequest})
+			AppService.createApp(appRequest)
 				.then((appResponse) => {
-					console.log(appResponse);
+					this.setState({
+						secret: appResponse.secret,
+					});
+					window.location.href = `/developers/apps/${appResponse.id}`;
+				})
+				.catch((error) => {
+
 				});
 		}
 	}
 
 	validName() {
-		return this.state.name > 0;
+		return this.state.name.length > 0;
 	}
 
 	validRedirectUri() {
-		return this.state.redirectUri > 0;
+		return this.state.redirectUri.length > 0;
 	}
 
 	validForm() {
-		return this.validName && this.validRedirectUri();
+		return this.validName() && this.validRedirectUri();
 	}
-
 }
 
-DeveloperApp.propTypes = propTypes;
-DeveloperApp.defaultProps = defaultProps;
+DeveloperNewApp.propTypes = propTypes;
+DeveloperNewApp.defaultProps = defaultProps;
 
-export default DeveloperApp;
+export default DeveloperNewApp;

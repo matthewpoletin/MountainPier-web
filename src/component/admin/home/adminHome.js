@@ -1,7 +1,8 @@
 "use strict";
 
 import React, { Component } from 'react';
-import './home.css';
+import './adminHome.css';
+import AdminUsers from "../users/adminUsers";
 
 /** Class for admin home react component. */
 class AdminHome extends Component {

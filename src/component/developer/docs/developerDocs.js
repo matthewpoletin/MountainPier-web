@@ -8,8 +8,9 @@ class DeveloperDocs extends Component {
 	render() {
 		return (
 			<div className="dev-docs">
-				DeveloperDocs<br/>
-				Work in progress
+				<a href="https://documenter.getpostman.com/view/2757736/RVu5m9sb">
+					API on postman
+				</a>
 			</div>
 		);
 	}

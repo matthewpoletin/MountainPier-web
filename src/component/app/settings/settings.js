@@ -5,7 +5,7 @@ import {Link} from "react-router-dom";
 import PersonalSettings from "./personal/personal"
 import PasswordSettings from "./password/password";
 import AccountsSettings from "./accounts/accounts";
-import DeveloperSettings from "./developer/developer";
+import SettingsDeveloper from "./developer/settingsDeveloper";
 import PropTypes from "prop-types";
 
 const propTypes = {
@@ -52,7 +52,7 @@ class Settings extends Component {
 				case 'accounts':
 					return <AccountsSettings authUser={this.props.authUser}/>;
 				case 'developer':
-					return <DeveloperSettings authUser={this.props.authUser}/>;
+					return <SettingsDeveloper authUser={this.props.authUser}/>;
 				default:
 					return null;
 			}

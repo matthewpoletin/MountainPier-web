@@ -1,12 +1,14 @@
 "use strict";
 
 import React, { Component } from 'react';
+import {Link} from "react-router-dom";
 import PropTypes from "prop-types";
-import GameService from "../../../service/gameService";
+import FontAwesomeIcon from '@fortawesome/react-fontawesome'
 import faTrash from "@fortawesome/fontawesome-free-solid/faTrash";
 import faWrench from "@fortawesome/fontawesome-free-solid/faWrench";
-import {Link} from "react-router-dom";
+import GameService from "../../../service/gameService";
 import UserService from "../../../service/userService";
+import DeveloperService from "../../../service/developerService";
 
 const propTypes = {
 	authUser: PropTypes.object,
@@ -31,11 +33,14 @@ class DeveloperGames extends Component {
 			this.setState({
 				authUser: props.authUser,
 			});
-			UserService.getDeveloperGames(props.authUser.id)
-				.then((gamesResponse) => {
-					this.setState({
-						games: gamesResponse,
-					});
+			UserService.getDeveloper(props.authUser.id)
+				.then((developerResponse) => {
+					DeveloperService.getGames(developerResponse.id)
+						.then((gamesResponse) => {
+							this.setState({
+								games: gamesResponse.content,
+							});
+						});
 				});
 		}
 	}
@@ -54,9 +59,9 @@ class DeveloperGames extends Component {
 	}
 
 	games() {
-		if (this.state.games !== undefined && this.state.games.length > 0) {
-			const apps = this.state.games.map((game, index) =>
-				<tr className="user" key={index}>
+		if (this.state.games !== undefined) {
+			const games = this.state.games.map((game, index) =>
+				<tr className="user" key={index} align="center">
 					<td>
 						<Link to={`/developers/apps/${game.id}`}>
 							{game.name}
@@ -71,7 +76,7 @@ class DeveloperGames extends Component {
 						</Link>
 					</td>
 					<td>
-						<a href="" onClick={() => this.deleteApp(game.id, index)}>
+						<a href="" onClick={() => this.deleteGame(game.id, index)}>
 							<FontAwesomeIcon icon={faTrash} size={"2x"}/>
 						</a>
 					</td>
@@ -79,17 +84,17 @@ class DeveloperGames extends Component {
 			);
 
 			return(
-				<table border="1px" width="100%">
+				<table width="100%">
 					<thead>
 					<tr>
 						<th>Name</th>
 						<th>Id</th>
-						<th> </th>
-						<th> </th>
+						<th>Edit</th>
+						<th>Delete</th>
 					</tr>
 					</thead>
 					<tbody>
-					{apps}
+						{games}
 					</tbody>
 				</table>
 			)
@@ -98,10 +103,16 @@ class DeveloperGames extends Component {
 
 	deleteGame(gameId, index) {
 		console.debug(`Deleting game ${gameId} on ${index}`);
-		GameService.deleteGameById(gameId)
-			.then(() => {
-
-			});
+		if (window.confirm(`Delete game ${this.state.games[index].name}?`)) {
+			GameService.deleteGameById(gameId)
+				.then(() => {
+					const games = this.state.games;
+					games.splice(index, 1);
+					this.setState({
+						games: games,
+					});
+				});
+		}
 	}
 
 }

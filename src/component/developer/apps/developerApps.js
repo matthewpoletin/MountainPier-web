@@ -7,6 +7,7 @@ import {Link} from "react-router-dom";
 import FontAwesomeIcon from '@fortawesome/react-fontawesome'
 import faWrench from '@fortawesome/fontawesome-free-solid/faWrench'
 import faTrash from '@fortawesome/fontawesome-free-solid/faTrash'
+import AppService from "../../../service/appService";
 
 const propTypes = {
 	authUser: PropTypes.object,
@@ -19,11 +20,27 @@ const defaultProps = {
 /** Class for DeveloperApps react component. */
 class DeveloperApps extends Component {
 
-	componentWillMount() {
-		this.setState({
+	constructor(props) {
+		super(props);
+
+		this.state = {
 			apps: undefined,
 			authUser: undefined,
-		});
+		};
+	}
+
+	componentWillMount() {
+		if (this.props.authUser !== undefined) {
+			this.setState({
+				authUser: this.props.authUser,
+			});
+			UserService.getApps(this.props.authUser.id)
+				.then((appsResponse) => {
+					this.setState({
+						apps: appsResponse,
+					});
+				});
+		}
 	}
 
 	componentWillReceiveProps(props) {
@@ -56,7 +73,7 @@ class DeveloperApps extends Component {
 	apps() {
 		if (this.state.apps !== undefined && this.state.apps.length > 0) {
 			const apps = this.state.apps.map((app, index) =>
-				<tr className="user" key={index}>
+				<tr className="app" key={index} align="center">
 					<td>
 						<Link to={`/developers/apps/${app.id}`}>
 							{app.name}
@@ -82,30 +99,36 @@ class DeveloperApps extends Component {
 			);
 
 			return(
-					<table border="1px" width="100%">
-						<thead>
-							<tr>
-								<th>Name</th>
-								<th>Id</th>
-								<th>Redirect URI</th>
-								<th> </th>
-								<th> </th>
-							</tr>
-						</thead>
-						<tbody>
-							{apps}
-						</tbody>
-					</table>
+				<table className="apps-list" width="100%">
+					<thead>
+						<tr>
+							<th>Name</th>
+							<th>Id</th>
+							<th>Redirect URI</th>
+							<th>Edit</th>
+							<th>Delete</th>
+						</tr>
+					</thead>
+					<tbody>
+						{apps}
+					</tbody>
+				</table>
 			)
 		}
 	}
 
-	deleteApp(id, index) {
-		console.debug(`Deleting app ${id} on ${index}`);
-		UserService.deleteApp(id)
-			.then(() => {
-
-			});
+	deleteApp(appId, index) {
+		console.debug(`Deleting app ${appId} on ${index}`);
+		if (window.confirm(`Delete app ${this.state.apps[index].name}?`)) {
+			AppService.deleteApp(appId)
+				.then(() => {
+					const apps = this.state.apps;
+					apps.splice(index, 1);
+					this.setState({
+						apps: apps,
+					});
+				});
+		}
 	}
 
 }

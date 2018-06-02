@@ -6,10 +6,12 @@ import GameService from "../../../service/gameService";
 
 const propTypes = {
 	authUser: PropTypes.object,
+	gameId: PropTypes.string,
 };
 
 const defaultProps = {
 	authUser: undefined,
+	gameId: undefined,
 };
 
 /** Class for DeveloperGame react component. */
@@ -30,7 +32,7 @@ class DeveloperGame extends Component {
 			description: "",
 		});
 
-		const gameId = this.props.match.params.gameId;
+		const gameId = this.props.gameId;
 		GameService.getGameById(gameId)
 			.then(gameResponse => {
 				this.setState({

@@ -16,6 +16,8 @@ class DeveloperNewGame extends Component {
 
 	componentWillMount() {
 		this.setState({
+			developer: this.props.developer,
+
 			name: "",
 			description: "",
 		})
@@ -82,8 +84,11 @@ class DeveloperNewGame extends Component {
 				description: this.state.description,
 			};
 			GameService.createGame(gameRequest)
-				.then((response) => {
-
+				.then((gameResponse) => {
+					GameService.setDeveloper(gameResponse.id, this.state.developer.id)
+						.then((_gameResponse) => {
+							window.location.href = `/developers/games/${_gameResponse.id}`;
+						});
 				})
 				.catch((error) => {
 

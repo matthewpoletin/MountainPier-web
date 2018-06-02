@@ -19,11 +19,7 @@ import EULA from "./app/about/eula/eula";
 
 import Developer from "./developer/developer"
 
-import AdminHome from "./admin/home/home";
-import AdminGames from "./admin/games/games";
-import AdminUsers from "./admin/users/users";
-import AdminServers from "./admin/servers/servers";
-import AdminApps from "./admin/apps/apps";
+import Admin from "./admin/admin";
 
 import OAuthTwitch from "./app/oauth/twitch";
 
@@ -67,9 +63,10 @@ class Main extends Component {
 						<Route exact path='/games' component={Games}/>
 						<Route exact path='/games/:name' component={Game}/>
 
-						<Route exact path='/developers' render={() => <Developer page='home'/>}/>
-						<Route exact path='/developers/docs' render={() => <Developer page='docs'/>}/>
-						<Route exact path='/developers/register' render={() => <Developer page='register'/>}/>
+						<Route exact path='/developers' render={() => <Developer page='home' authUser={this.props.authUser}/>}/>
+						<Route exact path='/developers/docs' render={() => <Developer page='docs' authUser={this.props.authUser}/>}/>
+						<Route exact path='/developers/register' render={() => <Developer page='register' authUser={this.props.authUser}/>}/>
+						<Route exact path='/developers/settings' render={() => <Developer page='settings' authUser={this.props.authUser}/>}/>
 						<Route exact path='/developers/games' render={() => <Developer page='games' authUser={this.props.authUser}/>}/>
 						<Route exact path='/developers/games/new' render={() => <Developer page='game-new' authUser={this.props.authUser}/>}/>
 						<Route exact path='/developers/games/:gameId' render={(props) => <Developer page='game' authUser={this.props.authUser} {...props}/>}/>
@@ -77,12 +74,13 @@ class Main extends Component {
 						<Route exact path='/developers/apps/new' render={() => <Developer page='app-new' authUser={this.props.authUser}/>}/>
 						<Route exact path='/developers/apps/:appId' render={(props) => <Developer page='app' authUser={this.props.authUser} {...props}/>}/>
 
-						<Route exact path='/admin' component={AdminHome}/>
-						<Route exact path='/admin/games' component={AdminGames}/>
-						<Route exact path='/admin/users' component={AdminUsers}/>
-						<Route exact path='/admin/servers' component={AdminServers}/>
-						<Route exact path='/admin/channels' component={AdminServers}/>
-						<Route exact path='/admin/apps' component={AdminApps}/>
+						<Route exact path='/admin' render={() => <Admin page='home'/>}/>
+						<Route exact path='/admin/games' render={() => <Admin page='games'/>}/>
+						<Route exact path='/admin/users' render={() => <Admin page='users'/>}/>
+						<Route exact path='/admin/servers' render={() => <Admin page='servers'/>}/>
+						<Route exact path='/admin/channels' render={() => <Admin page='channels'/>}/>
+						<Route exact path='/admin/developers' render={() => <Admin page='developers'/>}/>
+						<Route exact path='/admin/apps' render={() => <Admin page='apps'/>}/>
 
 						<Route path={'/oauth/twitch'} component={OAuthTwitch}/>
 

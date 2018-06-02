@@ -7,7 +7,7 @@ import FontAwesomeIcon from '@fortawesome/react-fontawesome'
 import faWrench from '@fortawesome/fontawesome-free-solid/faWrench'
 import faBan from '@fortawesome/fontawesome-free-solid/faBan'
 import faTrash from '@fortawesome/fontawesome-free-solid/faTrash'
-import "./users.css"
+import "./adminUsers.css"
 import {getAuthenticatedUser, isAuthenticated} from "../../../util/authentication";
 import PropTypes from "prop-types"
 
@@ -125,32 +125,34 @@ class AdminUsers extends Component {
 				.then(user => {
 					if (user.id === userId) {
 						console.log("Can not delete your user. Login with another user and repeat.")
-					}
-					else {
-						UserService.deleteUser(userId)
-							.then(response => {
-								const users = this.state.users;
-								users.splice(index, 1);
-								this.setState({
-									users: users,
-								});
-							})
-							.catch(error => console.log(error));
+					} else {
+						if (window.confirm(`Delete user ${this.state.users[index].username}?`)) {
+							UserService.deleteUser(userId)
+								.then(response => {
+									const users = this.state.users;
+									users.splice(index, 1);
+									this.setState({
+										users: users,
+									});
+								})
+								.catch(error => console.log(error));
+						}
 					}
 				}).catch(error =>
 				console.error(error)
 			);
-		}
-		else {
-			UserService.deleteUser(userId)
-				.then(response => {
-					const users = this.state.users;
-					users.splice(index, 1);
-					this.setState({
-						users: users,
-					});
-				})
-				.catch(error => console.log(error));
+		} else {
+			if (window.confirm(`Delete user ${this.state.users[index].username}?`)) {
+				UserService.deleteUser(userId)
+					.then(response => {
+						const users = this.state.users;
+						users.splice(index, 1);
+						this.setState({
+							users: users,
+						});
+					})
+					.catch(error => console.log(error));
+			}
 		}
 	}
 
