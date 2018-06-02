@@ -22,10 +22,15 @@ class Game extends Component {
 	}
 
 	render() {
-		if (this.state.game) {
+		if (this.state.game !== undefined) {
 			return (
-				<div className={"Game"}>
-					TODO: Game info
+				<div className={"game"}>
+					<div>
+						{this.state.game.name}
+					</div>
+					<div>
+						<img src={this.state.game.avatar} height={40} width={40} alt=""/>
+					</div>
 				</div>
 			)
 		}

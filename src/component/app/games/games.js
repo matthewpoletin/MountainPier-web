@@ -24,13 +24,18 @@ class Games extends Component {
 	render() {
 		if (this.state.game) {
 			const games = this.state.game.content.map((game, index) =>
-				<div className="game" style={{"display": "block"}} key={index}>
-					<Link to={`/games/${game.name}`}>
-						<span>{game.name}</span>
-						<img src={game.avatar} height={100} width={100} alt={""}/><br/>
-					</Link>
-					<p>id: {game.id}</p>
-					<p>description: {game.description}</p>
+				<div className="games" style={{"display": "block"}} key={index}>
+					<div>
+						{game.name}
+					</div>
+					<div>
+						<Link to={`/games/${game.name}`}>
+							<img src={game.avatar} height={100} width={100} alt={""}/>
+						</Link>
+					</div>
+					<div>
+						{game.description}
+						</div>
 				</div>
 			);
 			return (
@@ -41,8 +46,8 @@ class Games extends Component {
 		}
 		else {
 			return (
-				<div className="Games">
-					Games live will be displayed here
+				<div className="games">
+					Loading games...
 				</div>
 			);
 		}

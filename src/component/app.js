@@ -2,10 +2,10 @@
 
 import React, { Component } from 'react';
 import 'purecss';
-import Header from "./header/header";
+import Header from "./app/header/header";
 import Main from "./main";
-import Footer from "./footer/footer";
-import {getAuthenticatedUser, isAuthenticated} from "../../util/authentication";
+import Footer from "./app/footer/footer";
+import {getAuthenticatedUser, isAuthenticated} from "../util/authentication";
 
 /** Class for app react component. */
 class App extends Component {

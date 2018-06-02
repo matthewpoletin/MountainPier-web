@@ -1,6 +1,6 @@
 "use strict";
 
-import {get} from "../util/http-utils";
+import {del, get, post} from "../util/http-utils";
 
 /** Class for request on games. */
 class GameService {
@@ -20,11 +20,12 @@ class GameService {
 	/**
 	 * createGame - Create a new game based on given data
 	 * @param {object} data - Data to create game by
+	 * @param {string} data.name - Name
+	 * @param {string} data.description - Description
 	 * @return {Promise<object>}
 	 */
-	// TODO: Implement method GameService.createGame
 	static createGame(data) {
-		throw new Error("Method is not implemented yet");
+		return post(`/games`, data, true);
 	}
 
 	/**
@@ -64,9 +65,8 @@ class GameService {
 	 * @param gameId - Id of game to delete
 	 * @return {Promise<void>}
 	 */
-	// TODO: Implement method GameService.updateGameById
 	static deleteGameById(gameId) {
-		throw new Error("Method is not implemented yet");
+		return del(`/games/${gameId}`, true);
 	}
 
 }

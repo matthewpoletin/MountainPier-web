@@ -1,6 +1,7 @@
 "use strict";
 
 import { get, post, del } from "./../util/http-utils";
+import {patch} from "../util/http-utils";
 
 /** Class for request on users. */
 class UserService {
@@ -77,12 +78,12 @@ class UserService {
 
 	/**
 	 * updateUserById - Updates user information based on the given data
+	 * @param userId - Id of user
 	 * @param option - Data to update user with
 	 * @return {Promise} - New representation of user
 	 */
-	//TODO: implement
-	static updateUserById(option) {
-		throw new Error("Method not implemented yet")
+	static updateUserById(userId, option) {
+		return patch(`/users/${userId}`, option, true);
 	}
 
 	/**
@@ -114,7 +115,94 @@ class UserService {
 	 * @param friendId - Id of target user
 	 */
 	static addFriend(userId, friendId) {
-		return post(`/users/${userId}/friends/${friendId}`, null, true)
+		return post(`/users/${userId}/friends/${friendId}`, null, true);
+	}
+
+	/**
+	 * removeFriend - Remove one user from others friends
+	 * @param userId - Id of requesting user
+	 * @param friendId - Id of target user
+	 */
+	static removeFriend(userId, friendId) {
+		return del(`/users/${userId}/friends/${friendId}`, true);
+	}
+
+	/**
+	 * getRelation - Finds relation between two users
+	 * @param userAId - Id of requesting user
+	 * @param userBId - Id of relating user
+	 * @return {Promise<object>} - Relation response
+	 */
+	static getRelation(userAId, userBId) {
+		return get(`/users/${userAId}/relation/${userBId}`, true);
+	}
+
+	/**
+	 * createDeveloper - Creates developer of user
+	 * @param userId - Id of user
+	 * @param data - Data of new developer
+	 * @param data.name - Name of new developer
+	 * @return {Promise} - Developer response
+	 */
+	static createDeveloper(userId, data) {
+		return post(`/users/${userId}/developer`, data, true);
+	}
+
+	/**
+	 * getDeveloper - Get developer of user
+	 * @param userId - Id of user
+	 * @return {Promise<object>}
+	 */
+	static getDeveloper(userId) {
+		return get(`/users/${userId}/developer`, true);
+	}
+
+	/**
+	 * getApps
+	 * @param userId
+	 * @return {Promise}
+	 */
+	static getApps(userId) {
+		return get(`/users/${userId}/apps`, true);
+	}
+
+	/**
+	 * createApp - Creates app by data
+	 * @param data
+	 * @param data.userId - Id of owner
+	 * @param data.name - Name
+	 * @param data.redirectUri - Redirect URI
+	 * @return {Promise<object>}
+	 */
+	static createApp(data) {
+		return post(`/auth/oauth/apps`, data, true);
+	}
+
+	/**
+	 * getAppById - Gets app by id
+	 * @param appId - Id of app
+	 * @return {Promise<object>}
+	 */
+	static getAppById(appId) {
+		return get(`/auth/oauth/apps/${appId}`, true);
+	}
+
+	/**
+	 * deleteApp - Deletes app
+	 * @param appId - Id of app
+	 * @return {Promise<void>}
+	 */
+	static deleteApp(appId) {
+		return del(`/auth/oauth/apps/${appId}`, true);
+	}
+
+	/**
+	 * getDeveloperGames - Get games of developer
+	 * @param userId - Id of user
+	 * @return {Promise} - List of developed games
+	 */
+	static getDeveloperGames(userId) {
+		return get(`/users/${userId}/developer/games`, true);
 	}
 
 }

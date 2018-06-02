@@ -2,12 +2,15 @@
 
 import React, { Component } from 'react';
 import UserService from "./../../../service/userService";
-import {getAuthenticatedUser, isAuthenticated} from "../../../util/authentication";
+import PropTypes from "prop-types";
+
+const propTypes = {
+	authUser: PropTypes.object,
+};
 
 const defaultProps = {
+	user: undefined,
 	authUser: undefined,
-	bOwner: false,
-	bFriend: false,
 };
 
 /** Class for user react component. */
@@ -17,17 +20,50 @@ class User extends Component {
 		super(props);
 
 		this.onAddFriendClick = this.onAddFriendClick.bind(this);
+		this.onRemoveFriendClick = this.onRemoveFriendClick.bind(this);
+	}
+
+	componentWillReceiveProps(props) {
+		this.setState({
+			authUser: props.authUser,
+		});
+
+		if (this.state.user !== undefined && props.authUser !== undefined) {
+			if (props.authUser.id !== this.state.user.id) {
+
+			UserService.getRelation(props.authUser.id, this.state.user.id)
+				.then(relation => {
+					console.log(relation);
+					if (relation.type.toLowerCase() === "friend") {
+						this.setState({
+							bFriend: true,
+						});
+					} else {
+						this.setState({
+							bFriend: false,
+						});
+					}
+				});
+			}
+		}
 	}
 
 	componentWillMount() {
-		const username = this.props.match.params.username;
 		this.setState({
-			authUser: undefined,
+			authUser: this.props.authUser,
+			bFriend: undefined,
 			user: undefined,
 		});
+
+		const username = this.props.match.params.username;
 		UserService.getUserBy({username: username})
 			.then(user => {
 				this.setState({user: user});
+				if (user.id === this.state.authUser.id) {
+					this.setState({
+						bOwner: true,
+					})
+				}
 			})
 			.catch(error => {
 				console.log(error);
@@ -37,24 +73,31 @@ class User extends Component {
 	render() {
 		if(this.state.user !== undefined)
 			return (
-				<div className="User">
-					<img src={this.state.user.avatar} height={100} width={100} alt={""}/><br/>
-					id: {this.state.user.id}<br/>
-					username: {this.state.user.username}<br/>
-					status: {this.state.user.status}<br/>
-					{this.befriend()}
+				<div className="user">
+					<div>
+						<img src={this.state.user.avatar} height={100} width={100} alt={""}/>
+					</div>
+					<div>
+						{this.state.user.username}
+					</div>
+					<div>
+						{this.state.user.status}
+					</div>
+					<div>
+						{this.friendship()}
+					</div>
 				</div>
 			);
 		else
 			return (
-				<div className="User">
-					Not found
+				<div className="user">
+					Loading user...
 				</div>
 			);
 	}
 
-	befriend() {
-		if (!this.state.bOwner) {
+	friendship() {
+		if (this.state.bFriend !== undefined) {
 			if (!this.state.bFriend) {
 				return(
 					<div className="add-friend">
@@ -77,18 +120,28 @@ class User extends Component {
 	}
 
 	onAddFriendClick() {
-		console.log(this.state.user);
-		console.log(this.state.authUser);
 		console.debug(`Adding user ${this.state.user.username} to ${this.state.authUser.username} friends`);
-		UserService.addFriend(this.state.authUser.id, this.state.user.id);
+		UserService.addFriend(this.state.authUser.id, this.state.user.id)
+			.then(() => {
+				this.setState({
+					bFriend: true,
+				});
+			});
 	}
 
 	onRemoveFriendClick() {
-		console.debug(`Adding user ${this.state.user.username} from ${this.state.authUser.username} friends`);
+		console.debug(`Removing user ${this.state.user.username} from ${this.state.authUser.username} friends`);
+		UserService.removeFriend(this.state.authUser.id, this.state.user.id)
+			.then((any) => {
+				this.setState({
+					bFriend: false,
+				});
+			});
 	}
 
 }
 
+User.propTypes = propTypes;
 User.defaultProps = defaultProps;
 
 export default User;

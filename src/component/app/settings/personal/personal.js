@@ -23,23 +23,23 @@ class PersonalSettings extends Component {
 	}
 
 	componentWillMount() {
-		this.setState({user: this.props.authUser});
-
 		this.setState({
+			authUser: this.props.authUser,
+
 			username: "",
 			email: "",
 		});
 	}
 
 	render() {
-		if (this.state.user !== undefined)
+		if (this.state.authUser !== undefined)
 			return (
 				<div className="personal-settings">
 					<form className="pure-form pure-form-aligned">
 						<fieldset>
 							<div className="pure-control-group">
 								<input type="file" />
-								<img src={this.state.user.avatar} height={40} width={40} alt={""}/>
+								<img src={this.state.authUser.avatar} height={40} width={40} alt={""}/>
 							</div>
 							<div className="pure-control-group">
 								<label htmlFor="username">Username</label>
@@ -47,7 +47,7 @@ class PersonalSettings extends Component {
 									id="username"
 									type="text"
 									placeholder="Username"
-									defaultValue={this.state.user.username}
+									defaultValue={this.state.authUser.username}
 									onChange={this.handleChangeUsername}
 								/>
 							</div>
@@ -56,7 +56,7 @@ class PersonalSettings extends Component {
 								<input
 									id="email"
 									type="text"
-									defaultValue={this.state.user.regEmail}
+									defaultValue={this.state.authUser.regEmail}
 									onChange={this.handleChangeEmail}
 								/>
 							</div>
@@ -94,7 +94,21 @@ class PersonalSettings extends Component {
 	handleSubmit(event) {
 		event.preventDefault();
 
+		if (this.validForm()) {
 
+		}
+	}
+
+	validUsername() {
+		return this.state.username.length > 0;
+	}
+
+	validEmail() {
+		return this.state.email.length > 0;
+	}
+
+	validForm() {
+		return this.validUsername() && this.validEmail();
 	}
 
 }

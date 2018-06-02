@@ -55,12 +55,14 @@ class Friends extends Component {
 		return (
 			<div className="friend" key={index}>
 					<Link to={`/users/${friend.username}`}>
-						<span>{friend.username}</span>
 						<img src={friend.avatar} height={100} width={100} alt={""}/><br/>
 					</Link>
-					<p>id: {friend.id}</p>
-					<p>username: {friend.username}</p>
-					<p>status: {friend.status}</p>
+					<div>
+						{friend.username}
+					</div>
+					<div>
+						{friend.status}
+					</div>
 			</div>
 		);
 	}

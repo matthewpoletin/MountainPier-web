@@ -1,7 +1,6 @@
 "use strict";
 
 import React, { Component } from 'react';
-import {getAuthenticatedUser} from "../../../util/authentication";
 import {Link} from "react-router-dom";
 import PersonalSettings from "./personal/personal"
 import PasswordSettings from "./password/password";

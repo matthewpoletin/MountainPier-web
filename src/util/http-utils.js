@@ -48,7 +48,11 @@ const httpUtils = (requestType = GET, path, opts = {}) => {
 					console.error(requestType.toUpperCase() + " request to " + getApiUrl() + " , option " + JSON.stringify(opts) + " failed, status " + response.status);
 					return reject(new Error(""));
 				}
-				return response.json();
+				const contentType = response.headers.get("content-type");
+				if(contentType && contentType.includes("application/json")) {
+					return response.json();
+				}
+				else return null;
 			})
 			.then(body => resolve(body))
 			.catch(error => reject(error));
