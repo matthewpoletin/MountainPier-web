@@ -1,7 +1,16 @@
 "use strict";
 
 import React, { Component } from 'react';
+import PropTypes from 'prop-types'
 import GameService from "../../../service/gameService";
+
+const propTypes = {
+	developer: PropTypes.object,
+};
+
+const defaultProps = {
+	developer: undefined,
+};
 
 /** Class for DeveloperNewGame react component. */
 class DeveloperNewGame extends Component {
@@ -15,52 +24,68 @@ class DeveloperNewGame extends Component {
 	}
 
 	componentWillMount() {
+		this.loadDeveloper(this.props);
 		this.setState({
-			developer: this.props.developer,
-
+			developer: undefined,
 			name: "",
 			description: "",
-		})
+		});
+	}
+
+	componentWillReceiveProps(props) {
+		this.loadDeveloper(props);
+	}
+
+	loadDeveloper(props) {
+		if (props.developer !== undefined) {
+			this.setState({
+				developer: this.props.developer,
+			});
+		}
 	}
 
 	render() {
-		return (
-			<div className="developer-game-new">
-				<form className="pure-form pure-form-aligned" onSubmit={this.handleSubmit}>
-					<fieldset>
-						<div className="pure-control-group">
-							<label htmlFor="name">Name</label>
-							<input
-								id="name"
-							    type="text"
-							    placeholder="name"
-							    onChange={this.handleChangeName}
-							/>
-							<span className="pure-form-message-inline">This is required field</span>
-						</div>
-						<div className="pure-control-group">
-							<label htmlFor="description">Description</label>
-							<textarea
-								id="description"
-						        placeholder="description"
-						        onChange={this.handleChangeDescription}
-							/>
-							<span className="pure-form-message-inline">This is required field</span>
-						</div>
-						<div className="pure-controls">
-							<button
-								id="login"
-							    type="submit"
-							    className="pure-button pure-button-primary"
-							    disabled={!this.validForm()}
-							>
-								Create game
-							</button>
-						</div>
-					</fieldset>
-				</form>
-			</div>
-		);
+		if (this.props.developer !== undefined) {
+			return (
+				<div className="developer-game-new">
+					<form className="pure-form pure-form-aligned" onSubmit={this.handleSubmit}>
+						<fieldset>
+							<div className="pure-control-group">
+								<label htmlFor="name">Name</label>
+								<input
+									id="name"
+								    type="text"
+								    placeholder="name"
+								    onChange={this.handleChangeName}
+								/>
+								<span className="pure-form-message-inline">This is required field</span>
+							</div>
+							<div className="pure-control-group">
+								<label htmlFor="description">Description</label>
+								<textarea
+									id="description"
+							        placeholder="description"
+							        onChange={this.handleChangeDescription}
+								/>
+								<span className="pure-form-message-inline">This is required field</span>
+							</div>
+							<div className="pure-controls">
+								<button
+									id="login"
+								    type="submit"
+								    className="pure-button pure-button-primary"
+								    disabled={!this.validForm()}
+								>
+									Create game
+								</button>
+							</div>
+						</fieldset>
+					</form>
+				</div>
+			);
+		} else {
+			return null;
+		}
 	}
 
 	handleChangeName(event) {
@@ -85,7 +110,9 @@ class DeveloperNewGame extends Component {
 			};
 			GameService.createGame(gameRequest)
 				.then((gameResponse) => {
-					GameService.setDeveloper(gameResponse.id, this.state.developer.id)
+					console.log(gameResponse);
+					console.log(this.props.developer);
+					GameService.setDeveloper(gameResponse.id, this.props.developer.id)
 						.then((_gameResponse) => {
 							window.location.href = `/developers/games/${_gameResponse.id}`;
 						});
@@ -109,5 +136,8 @@ class DeveloperNewGame extends Component {
 	}
 
 }
+
+DeveloperNewGame.propTypes = propTypes;
+DeveloperNewGame.defaultProps = defaultProps;
 
 export default DeveloperNewGame;

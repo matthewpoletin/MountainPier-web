@@ -68,7 +68,7 @@ class AdminApps extends Component {
 								}
 							</td>
 							<td>
-								<Link to={`/admin/apps/${app.name}`}>
+								<Link to={`/admin/apps/${app.id}`}>
 									<FontAwesomeIcon icon={faWrench} size={"2x"}/>
 								</Link>
 							</td>

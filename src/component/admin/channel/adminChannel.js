@@ -1,8 +1,8 @@
 "use strict";
 
 import React, { Component } from 'react';
-import PropTypes from "prop-types"
-import ChannelService from "../../service/channelService";
+import PropTypes from 'prop-types'
+import ChannelService from "../../../service/channelService";
 
 const propTypes = {
 	authUser: PropTypes.object,
@@ -14,14 +14,17 @@ const defaultProps = {
 	channelId:  undefined,
 };
 
-/** Class for DeveloperApp react component. */
-class DeveloperApp extends Component {
+/**
+ * Class for DeveloperApp react component
+ * @author Matthew Poletin
+ */
+class AdminChannel extends Component {
 
 	constructor(props) {
 		super(props);
 
-		this.handleChangeName = this.handleChangeName.bind(this);
-		this.handleChangeRedirectUri = this.handleChangeRedirectUri.bind(this);
+		this.handleChangeUsername = this.handleChangeUsername.bind(this);
+		this.handleChangePassword = this.handleChangePassword.bind(this);
 		this.handleSubmit = this.handleSubmit.bind(this);
 	}
 
@@ -30,17 +33,19 @@ class DeveloperApp extends Component {
 
 		this.setState({
 			authUser: undefined,
-			appId: appId,
-			name: "",
-			redirectUri: "",
+			channelId: channelId,
+			username: "",
+			email: "",
+			password: "",
 		});
 
-		ChannelService.getChannel(appId)
-			.then(appResponse => {
+		ChannelService.getChannel(channelId)
+			.then(channelResponse => {
 				this.setState({
-					app: appResponse,
-					name: appResponse.name,
-					redirectUri: appResponse.redirectUri,
+					channel: channelResponse,
+					username: channelResponse.username,
+					email: channelResponse.email,
+					password: channelResponse.password,
 				});
 			})
 			.catch(error => {
@@ -58,58 +63,52 @@ class DeveloperApp extends Component {
 
 	render() {
 		return (
-			<div className="developer-app">
-				{this.app()}
+			<div className="admin-channel">
+				{this.channel()}
 			</div>
 		);
 	}
 
-	app() {
-		if (this.state.app !== undefined) {
+	channel() {
+		if (this.state.channel !== undefined) {
 			return (
 				<form className={"pure-form pure-form-aligned"} onSubmit={this.handleSubmit}>
 					<fieldset>
 						<div className="pure-control-group">
-							<label htmlFor="name">Name</label>
+							<label htmlFor="username">Username</label>
 							<input
-								id="name"
+								id="username"
 								type="text"
-								placeholder="name"
-								onChange={this.handleChangeName}
-								defaultValue={this.state.app.name}
+								placeholder="username"
+								autoComplete="username"
+								onChange={this.handleChangeUsername}
+								defaultValue={this.state.channel.username}
 							/>
 							<span className="pure-form-message-inline">This is required field</span>
 						</div>
 						<div className="pure-control-group">
-							<label htmlFor="redirectUri">Redirect URI</label>
+							<label htmlFor="email">Email</label>
 							<input
-								id="redirectUri"
-								type="text"
-								placeholder="redirect uri"
-								onChange={this.handleChangeRedirectUri}
-								defaultValue={this.state.app.redirectUri}
+								id="email"
+								type="email"
+								placeholder="email"
+								autoComplete="email"
+								onChange={this.handleChangeEmail}
+								defaultValue={this.state.channel.email}
 							/>
 							<span className="pure-form-message-inline">This is required field</span>
 						</div>
 						<div className="pure-control-group">
-							<label htmlFor="id">Id</label>
+							<label htmlFor="password">Password</label>
 							<input
-								id="id"
-								type="text"
-								placeholder="id"
-								defaultValue={this.state.app.id}
-								disabled={true}
+								id="password"
+								type="password"
+								placeholder="password"
+								autoComplete="password"
+								onChange={this.handleChangePassword}
+								defaultValue={this.state.channel.password}
 							/>
-						</div>
-						<div className="pure-control-group">
-							<label htmlFor="secret">Secret</label>
-							<input
-								id="secret"
-								type="text"
-								placeholder="secret"
-								defaultValue={this.state.app.secret}
-								disabled={true}
-							/>
+							<span className="pure-form-message-inline">This is required field</span>
 						</div>
 						<div className="pure-controls">
 							<button
@@ -118,7 +117,7 @@ class DeveloperApp extends Component {
 								className="pure-button pure-button-primary"
 								disabled={!this.validForm()}
 							>
-								Update App
+								Update Channel
 							</button>
 						</div>
 					</fieldset>
@@ -129,15 +128,21 @@ class DeveloperApp extends Component {
 		}
 	}
 
-	handleChangeName(event) {
+	handleChangeUsername(event) {
 		this.setState({
-			name: event.target.value,
+			username: event.target.value,
 		});
 	}
 
-	handleChangeRedirectUri(event) {
+	handleChangeEmail(event) {
 		this.setState({
-			redirectUri: event.target.value,
+			email: event.target.value,
+		});
+	}
+
+	handleChangePassword(event) {
+		this.setState({
+			password: event.target.value,
 		});
 	}
 
@@ -145,33 +150,38 @@ class DeveloperApp extends Component {
 		event.preventDefault();
 
 		if (this.validForm) {
-			const appRequest = {
-				userId: this.state.authUser.id,
-				name: this.state.name,
-				redirectUri: this.state.redirectUri,
+			const channelRequest = {
+				creatorId: this.state.channel.creatorId,
+				username: this.state.username,
+				email: this.state.email,
+				password: this.state.password,
 			};
-			AppService.updateApp({appId: this.state.appId, data: appRequest})
-				.then((appResponse) => {
-					console.log(appResponse);
+			ChannelService.updateChannel(this.state.channel.id, channelRequest)
+				.then((channelResponse) => {
+					console.debug(channelResponse);
 				});
 		}
 	}
 
-	validName() {
-		return this.state.name > 0;
+	validUsername() {
+		return this.state.username.length > 0;
 	}
 
-	validRedirectUri() {
-		return this.state.redirectUri > 0;
+	validEmail() {
+		return this.state.email.length > 0;
+	}
+
+	validPassword() {
+		return this.state.password.length > 0;
 	}
 
 	validForm() {
-		return this.validName && this.validRedirectUri();
+		return this.validUsername && this.validEmail() && this.validPassword();
 	}
 
 }
 
-DeveloperApp.propTypes = propTypes;
-DeveloperApp.defaultProps = defaultProps;
+AdminChannel.propTypes = propTypes;
+AdminChannel.defaultProps = defaultProps;
 
-export default DeveloperApp;
+export default AdminChannel;

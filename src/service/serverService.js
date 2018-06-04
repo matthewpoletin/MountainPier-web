@@ -1,8 +1,11 @@
 "use strict";
 
-import { get, post } from "./../util/http-utils";
+import { post, get, patch, del} from "./../util/http-utils";
 
-/** Class for request on servers. */
+/**
+ * Class for request on servers
+ * @author Matthew Poletin
+ */
 class ServerService {
 
 	/**
@@ -23,7 +26,6 @@ class ServerService {
 	 * @return {Promise<object>}
 	 */
 	static createServer(data) {
-		// TODO:
 		return post(`/servers`, data, true)
 	}
 
@@ -35,6 +37,25 @@ class ServerService {
 	static getServerById(serverId) {
 		// TODO: Add checks for serverId  existence and being a number
 		return get(`/servers/${serverId}`, true);
+	}
+
+	/**
+	 * updateServer - Update server
+	 * @param serverId - Id of server
+	 * @param serverRequest - Server data
+	 * @return {Promise} - Server response
+	 */
+	static updateServer(serverId, serverRequest) {
+		return patch(`/servers/${serverId}`, serverRequest, true);
+	}
+
+	/**
+	 * deleteServer - Delete server
+	 * @param serverId
+	 * @return {Promise}
+	 */
+	static deleteServer(serverId) {
+		return del(`/servers/${serverId}`, true);
 	}
 
 	/**

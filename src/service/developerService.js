@@ -37,7 +37,7 @@ class DeveloperService {
 	}
 
 	/**
-	 * deleteDeveloper - Delete developer
+	 * deleteChannel - Delete developer
 	 * @param {number} developerId - Id of developer
 	 * @return {Promise<void>}
 	 */

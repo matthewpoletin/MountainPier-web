@@ -1,8 +1,8 @@
 "use strict";
 
 import React, { Component } from 'react';
-import {Link} from "react-router-dom";
-import PropTypes from "prop-types";
+import {Link} from 'react-router-dom';
+import PropTypes from 'prop-types';
 import UserService from "../../../../service/userService"
 
 const propTypes = {
@@ -13,7 +13,10 @@ const defaultProps = {
 	authUser: undefined,
 };
 
-/** Class for SettingsDeveloper react component. */
+/**
+ * Class for SettingsDeveloper react component
+ * @author Matthew Poletin
+ */
 class SettingsDeveloper extends Component {
 
 	componentWillMount() {
@@ -25,7 +28,6 @@ class SettingsDeveloper extends Component {
 		UserService.getDeveloper(this.props.authUser.id)
 			.then((developerResponse) => {
 				if (developerResponse !== null) {
-					console.log(developerResponse);
 					this.setState({
 						isDeveloper: true,
 					});
@@ -43,8 +45,8 @@ class SettingsDeveloper extends Component {
 				if (!this.state.isDeveloper) {
 					return (
 						<div className="developer-settings">
-							<Link to="/developers/register" className="pure-button">
-								<button className="pure-button">
+							<Link to="/developers/register">
+								<button className="pure-button pure-button-active">
 									Register developer
 								</button>
 							</Link>
@@ -53,8 +55,8 @@ class SettingsDeveloper extends Component {
 				} else {
 					return (
 						<div className="developer-settings">
-							<Link to="/developers" className="pure-button">
-								<button className="pure-button">
+							<Link to="/developers">
+								<button className="pure-button pure-button-active">
 									Developers page
 								</button>
 							</Link>

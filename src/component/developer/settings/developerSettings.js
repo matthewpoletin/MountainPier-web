@@ -65,6 +65,14 @@ class DeveloperSettings extends Component {
 					<form className="pure-form pure-form-aligned" onSubmit={this.handleSubmit}>
 						<fieldset>
 							<div className="pure-control-group">
+								<label htmlFor="avatar">Avatar</label>
+								<input
+									id="avatar"
+									type="file"
+									accept="image/*"
+								/>
+							</div>
+							<div className="pure-control-group">
 								<label htmlFor="name">Name</label>
 								<input
 									id="name"

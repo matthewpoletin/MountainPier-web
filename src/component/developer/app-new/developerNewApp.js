@@ -58,7 +58,7 @@ class DeveloperNewApp extends Component {
 							<label htmlFor="redirectUri">Redirect URI</label>
 							<input
 								id="redirectUri"
-								type="text"
+								type="url"
 								placeholder="redirect uri"
 								onChange={this.handleChangeRedirectUri}
 							/>

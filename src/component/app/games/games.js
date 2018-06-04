@@ -1,20 +1,25 @@
 "use strict";
 
 import React, { Component } from 'react';
-import GameService from './../../../service/gameService'
-import {Link} from "react-router-dom";
+import {Link} from 'react-router-dom';
+import GameService from "./../../../service/gameService"
 
-/** Class for games react component. */
+/**
+ * Class for games react component
+ * @author Matthew Poletin
+ */
 class Games extends Component {
 
 	componentWillMount() {
 		this.setState({
-			game: undefined,
+			games: undefined,
 		});
 
 		GameService.getGames({page: 0, size: 25})
 			.then(games => {
-				this.setState({game: games});
+				this.setState({
+					games: games.content
+				});
 			})
 			.catch(error => {
 				console.log(error);
@@ -22,9 +27,9 @@ class Games extends Component {
 	}
 
 	render() {
-		if (this.state.game) {
-			const games = this.state.game.content.map((game, index) =>
-				<div className="games" style={{"display": "block"}} key={index}>
+		if (this.state.games !== undefined) {
+			const games = this.state.games.map((game, index) =>
+				<div className="games" style={{display: "block"}} key={index}>
 					<div>
 						{game.name}
 					</div>

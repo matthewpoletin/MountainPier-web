@@ -51,7 +51,7 @@ class AppService {
 	}
 
 	/**
-	 * deleteDeveloper - Deletes application
+	 * deleteChannel - Deletes application
 	 * @param appId - Id of application
 	 * @return {Promise<void>}
 	 */

@@ -65,7 +65,18 @@ class Developer extends Component {
 		}
 	}
 
+
 	render() {
+		// allowed - can be opened by guest
+		this.developerPages = [
+			{link: "/developers", title: "Home", name: "home", allowed: true, shownDev: true, shownGuest: true},
+			{link: "/developers/docs", title: "Docs", name: "docs", allowed: true, shownDev: true, shownGuest: true},
+			{link: "/developers/register", title: "Register", name: "register", allowed: this.state.isDeveloper, shownDev: false, shownGuest: true},
+			{link: "/developers/settings", title: "Settings", name: "settings", allowed: true, shownDev: true, shownGuest: false},
+			{link: "/developers/games", title: "Games", name: "games", allowed: false, shownDev: true, shownGuest: true},
+			{link: "/developers/apps", title: "Apps", name: "apps", allowed: false, shownDev: true, shownGuest: true},
+		];
+		const page = _.find(this.developerPages, ["name", this.props.page]);
 		return (
 			<div>
 				{this.menu()}
@@ -78,34 +89,17 @@ class Developer extends Component {
 		return (
 			<div className="developer-menu pure-menu pure-menu-horizontal">
 				<ul className="pure-menu-list">
-					<li className="pure-menu-item dev-menu-item">
-						<Link to="/developers/docs" className="pure-menu-link">
-							Docs
-						</Link>
-					</li>
-					{ this.state.isDeveloper ? (
-						<li className="pure-menu-item dev-menu-item">
-							<Link to="/developers/settings" className="pure-menu-link">
-								Settings
+					{this.developerPages.map((page, index) => { if (this.state.isDeveloper && page.shownDev || !this.state.isDeveloper && page.shownGuest) return (
+						<li className={page.name === this.props.page ? "pure-menu-item pure-menu-selected" : "pure-menu-item"} key={index}>
+							<Link
+								to={page.link}
+								className={!(this.state.isDeveloper || page.allowed) ? "pure-menu-link pure-menu-disabled" : "pure-menu-link" }
+								style={!(this.state.isDeveloper || page.allowed) ? {pointerEvents: "none"} : null}
+							>
+								{page.title}
 							</Link>
 						</li>
-					) :(
-						<li className="pure-menu-item dev-menu-item">
-							<Link to="/developers/register" className="pure-menu-link">
-								Register
-							</Link>
-						</li>
-					) }
-					<li className={this.state.isDeveloper ? "pure-menu-item" : "pure-menu-item pure-menu-disabled"}>
-						<Link to="/developers/games" className="pure-menu-link" style={!this.state.isDeveloper ? {pointerEvents: "none"} : null}>
-							Games
-						</Link>
-					</li>
-					<li className={this.state.isDeveloper ? "pure-menu-item" : "pure-menu-item pure-menu-disabled"}>
-						<Link to="/developers/apps" className="pure-menu-link" style={!this.state.isDeveloper ? {pointerEvents: "none"} : null}>
-							Apps
-						</Link>
-					</li>
+					)})}
 				</ul>
 			</div>
 		);

@@ -17,6 +17,7 @@ const propTypes = {
 
 const defaultProps = {
 	isAuth: false,
+	authUser: undefined,
 };
 
 /** Class for AdminUsers react component */
@@ -49,110 +50,101 @@ class AdminUsers extends Component {
 				if (this.state.users.length === 0) {
 					return <div>Not found</div>
 				} else {
-					console.log(this.state.users);
 					const users = this.state.users.map((user, index) =>
-						<li className="user" key={index}>
-							<div className={"pure-g"}>
-								<div className={"pure-u-1-5 avatar"}>
-									<img src={user.avatar} height={100} width={100} alt={""}/>
-								</div>
-								<div className={"pure-u-4-5 pure-g info"}>
-									<div className={"pure-u-1-5"}>
-										<Link to={`/user/${user.username}`}>
-											<span>{user.username}</span>
-										</Link>
-									</div>
-									<div className={"pure-u-4-5 pure-g"}>
-										<div className={"pure-u-1-5"}>
-											{user.username}
-										</div>
-										<div className={"pure-u-1-4"}>
-											{user.regEmail}
-										</div>
-										<div className={"pure-u-1-5"}>
-											{user.status}
-										</div>
-										<div className={"pure-u-1-4 pure-g controls"}>
-											<div className={"pure-u-1-3"} onClick={() => this.editUser(index, user.id)}>
-												<FontAwesomeIcon icon={faWrench} size={"2x"}/>
-											</div>
-											<div className={"pure-u-1-3"} onClick={() => this.banUser(index, user.id)}>
-												<FontAwesomeIcon icon={faBan} size={"2x"}/>
-											</div>
-											<div className={"pure-u-1-3"}>
-												<a onClick={() => this.deleteUser(index, user.id)}>
-													<FontAwesomeIcon icon={faTrash} size={"2x"}/>
-												</a>
-											</div>
-										</div>
-									</div>
-								</div>
-							</div>
-							<hr/>
-						</li>
+						<tr className="user" key={index} align="center">
+							<td>
+								<img src={user.avatar} height={100} width={100} alt={""}/>
+							</td>
+							<td>
+								<Link to={`/users/${user.username}`}>
+									{user.username}
+								</Link>
+							</td>
+							<td>
+								{user.regEmail}
+							</td>
+							<td>
+								{user.role.toLowerCase()}
+							</td>
+							<td>
+								{user.status}
+							</td>
+							<td>
+								{new Date(user.regDate).toISOString().slice(0,10).replace(/-/g,"")}
+							</td>
+							<td>
+								<Link to={`/admin/users/${user.id}`}>
+									<FontAwesomeIcon icon={faWrench} size={"2x"}/>
+								</Link>
+							</td>
+							<td>
+								<a onClick={() => this.deleteUser(index, user.id)}>
+									<FontAwesomeIcon icon={faTrash} size={"2x"}/>
+								</a>
+							</td>
+						</tr>
 					);
 					return (
 						<ul className="user-list">
-							{users}
+							<table width="100%">
+								<thead>
+									<tr>
+										<th>Avatar</th>
+										<th>Username</th>
+										<th>Email</th>
+										<th>Role</th>
+										<th>Status</th>
+										<th>Reg Date</th>
+										<th>Edit</th>
+										<th>Delete</th>
+									</tr>
+								</thead>
+								<tbody>
+									{users}
+								</tbody>
+							</table>
 						</ul>
 					);
 				}
 			} else {
 				return (
-					<div className="error-block">Error in request</div>
+					<div className="error-block">
+						Error in request
+					</div>
 				);
 			}
 		}
 	}
 
-	editUser(index, userId) {
-		console.log(`Editing ${index} user ${userId}`);
-		const users = this.state.users;
-		users.splice(index, 1);
-		this.setState({
-			users: users,
-		});
-	}
-
-	banUser(index, userId) {
-		console.log(`Banning user ${userId}`);
-	}
-
 	deleteUser(index, userId) {
-		console.log(`Deleting user ${userId}`);
+		console.debug(`Deleting #${index} user ${userId}`);
 		if (isAuthenticated()) {
 			getAuthenticatedUser()
 				.then(user => {
 					if (user.id === userId) {
-						console.log("Can not delete your user. Login with another user and repeat.")
+						console.debug("Can not delete your user. Login with another user and repeat.")
 					} else {
-						if (window.confirm(`Delete user ${this.state.users[index].username}?`)) {
-							UserService.deleteUser(userId)
-								.then(response => {
-									const users = this.state.users;
-									users.splice(index, 1);
-									this.setState({
-										users: users,
-									});
-								})
-								.catch(error => console.log(error));
-						}
+						this.finishDeleteUser(index, userId)
 					}
 				}).catch(error =>
 				console.error(error)
 			);
 		} else {
-			if (window.confirm(`Delete user ${this.state.users[index].username}?`)) {
+			this.finishDeleteUser(index, userId)
+		}
+	}
+
+	finishDeleteUser(index, userId) {
+		if (window.confirm(`Delete user ${this.state.users[index].username}?`)) {
 				UserService.deleteUser(userId)
-					.then(response => {
-						const users = this.state.users;
-						users.splice(index, 1);
-						this.setState({
-							users: users,
-						});
-					})
-					.catch(error => console.log(error));
-			}
+				.then(response => {
+					const users = this.state.users;
+					users.splice(index, 1);
+					this.setState({
+						users: users,
+					});
+				})
+				.catch(error => console.log(error));
 		}
 	}
 

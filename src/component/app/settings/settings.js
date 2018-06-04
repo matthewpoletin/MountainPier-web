@@ -1,12 +1,12 @@
 "use strict";
 
 import React, { Component } from 'react';
-import {Link} from "react-router-dom";
-import PersonalSettings from "./personal/personal"
-import PasswordSettings from "./password/password";
-import AccountsSettings from "./accounts/accounts";
+import {Link} from 'react-router-dom';
+import PropTypes from 'prop-types';
+import PersonalSettings from "./personal/settingsPersonal"
+import PasswordSettings from "./password/settingsPassword";
+import AccountsSettings from "./accounts/settingsAccounts";
 import SettingsDeveloper from "./developer/settingsDeveloper";
-import PropTypes from "prop-types";
 
 const propTypes = {
 	authUser: PropTypes.object,
@@ -16,21 +16,32 @@ const defaultProps = {
 	authUser: undefined,
 };
 
-/** Class for settings react component. */
+/**
+ * Class for settings react component
+ * @author Matthew Poletin
+ * */
 class Settings extends Component {
 
 	render() {
+		const settingsPages = [
+			{link: "/settings/personal", title: "Personal info", name: 'personal'},
+			{link: "/settings/password", title: "Password & Security", name: 'password'},
+			// {link: "/settings/accounts", title: "Connected accounts", name: 'accounts'},
+			{link: "/settings/developer", title: "Authorized developer", name: 'developer'},
+		];
+
 		return (
 			<div className="settings">
 				<div className="pure-g">
 					<div className="pure-u-1-4 settings-menu pure-menu custom-restricted-width">
 						<ul className="pure-menu-list">
-							<li className="pure-menu-item">
-								<Link to="/settings/personal" className="pure-menu-link">Personal info</Link>
-								<Link to="/settings/password" className="pure-menu-link">Password & Security</Link>
-								<Link to="/settings/accounts" className="pure-menu-link">Connected accounts</Link>
-								<Link to="/settings/developer" className="pure-menu-link">Authorized developer</Link>
-							</li>
+							{settingsPages.map((page, index) => { return (
+								<li className={page.name === this.props.page ? "pure-menu-item pure-menu-selected" : "pure-menu-item"} key={index}>
+									<Link to={page.link} className="pure-menu-link">
+										{page.title}
+									</Link>
+								</li>
+							)})}
 						</ul>
 					</div>
 					<div className="pure-u-3-4">

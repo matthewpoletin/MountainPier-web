@@ -53,9 +53,6 @@ class AdminDevelopers extends Component {
 					const developers = this.state.developers.map((developer, index) =>
 						<tr key={index}>
 							<td>
-								<img src={developer.avatar} height={100} width={100} alt={""}/>
-							</td>
-							<td>
 								<Link to={`/developers/${developer.name}`}>
 									{developer.name}
 								</Link>
@@ -69,8 +66,8 @@ class AdminDevelopers extends Component {
 								{developer.website}
 							</td>
 							<td>
-								<Link to={`/admin/users/${developer.userId}`}>
-									{developer.userId}
+								<Link to={`/admin/users/${developer.user.id}`}>
+									{developer.user.username}
 								</Link>
 							</td>
 							<td align="center">
@@ -89,7 +86,6 @@ class AdminDevelopers extends Component {
 						<table className="apps-list" width="100%">
 							<thead>
 							<tr>
-								<th>Avatar</th>
 								<th>Name</th>
 								<th>Email</th>
 								<th>Website</th>

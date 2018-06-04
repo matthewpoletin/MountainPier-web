@@ -16,7 +16,10 @@ const defaultProps = {
 	isAuth: false,
 };
 
-/** Class for AdminChannels react component */
+/**
+ * Class for AdminChannels react component
+ * @author Matthew Poletin
+ */
 class AdminChannels extends Component {
 
 	componentWillMount() {
@@ -38,16 +41,33 @@ class AdminChannels extends Component {
 	}
 
 	render() {
+		return (
+			<div className="admin-channels">
+				<Link to="/admin/channels/new">
+					<button className="pure-button pure-button-active">
+						Create channel
+					</button>
+				</Link>
+				{this.channels()}
+			</div>
+		);
+	}
+
+	channels() {
 		if (this.state.loading) {
 			return (
-				<div>
+				<div className="loading">
 					Loading...
 				</div>
 			)
 		} else {
-			if (typeof this.state.channels !== 'undefined') {
+			if (this.state.channels !== undefined) {
 				if (this.state.channels.length === 0) {
-					return <div>Not found</div>
+					return (
+						<div>
+							Not found
+						</div>
+					);
 				} else {
 					const channels = this.state.channels.map((channel, index) =>
 						<tr key={index} align="center">
@@ -111,7 +131,9 @@ class AdminChannels extends Component {
 				}
 			} else {
 				return (
-					<div className="error-block">Error in request</div>
+					<div className="error-block">
+						Error in request
+					</div>
 				);
 			}
 		}

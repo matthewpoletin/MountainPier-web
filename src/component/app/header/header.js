@@ -154,9 +154,11 @@ class Header extends Component {
 			return(
 				<li className={"pure-menu-item  pure-menu-has-children pure-menu-allow-hover"} id={"user"}>
 					<Link to={`/users/${user.username}`} className={"pure-menu-link"}>
-						<img src={user.avatar} width={50} height={50} alt={""}/>
-						<div>{user.username.toUpperCase()}</div>
-						<div>{user.status}</div>
+						<div style={{display:'inline-block'}}><img src={user.avatar} width={50} height={50} alt={""}/></div>
+						<div style={{display:'inline-block'}}>
+							<div>{user.username.toUpperCase()}</div>
+							<div>{user.status}</div>
+						</div>
 					</Link>
 					<ul className="pure-menu-children">
 						<li className="pure-menu-item">

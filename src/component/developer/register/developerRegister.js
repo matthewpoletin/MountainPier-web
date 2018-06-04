@@ -1,9 +1,8 @@
 "use strict";
 
 import React, { Component } from 'react';
-import PropTypes from "prop-types";
+import PropTypes from 'prop-types';
 import UserService from "../../../service/userService";
-import {getAppUrl} from "../../../util/environment-utils";
 
 const propTypes = {
 	authUser: PropTypes.object,
@@ -13,7 +12,10 @@ const defaultProps = {
 	authUser: undefined,
 };
 
-/** Class for DeveloperRegister react component. */
+/**
+ * Class for DeveloperRegister react component
+ * @author Matthew Poletin
+ */
 class DeveloperRegister extends Component {
 
 	constructor(props) {
@@ -58,6 +60,7 @@ class DeveloperRegister extends Component {
 									id="name"
 									type="text"
 									placeholder="name"
+									autoComplete="name"
 									onChange={this.handleChangeName}
 									defaultValue={this.state.authUser.username}
 								/>
@@ -76,7 +79,7 @@ class DeveloperRegister extends Component {
 								<label htmlFor="website">Website</label>
 								<input
 									id="website"
-									type="text"
+									type="url"
 									placeholder="website"
 									onChange={this.handleChangeWebsite}
 								/>
@@ -88,6 +91,7 @@ class DeveloperRegister extends Component {
 									id="email"
 									type="email"
 									placeholder="email"
+									autoComplete="email"
 									onChange={this.handleChangeEmail}
 									defaultValue={this.state.authUser.regEmail}
 								/>
@@ -147,7 +151,8 @@ class DeveloperRegister extends Component {
 				email: this.state.email,
 			};
 			UserService.createDeveloper(this.state.authUser.id, developerRequest)
-				.then(() => {
+				.then((developerResponse) => {
+					console.log(developerResponse);
 					window.location.href = "/developers";
 				});
 		}

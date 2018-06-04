@@ -74,13 +74,20 @@ class Main extends Component {
 						<Route exact path='/developers/apps/new' render={() => <Developer page='app-new' authUser={this.props.authUser}/>}/>
 						<Route exact path='/developers/apps/:appId' render={(props) => <Developer page='app' authUser={this.props.authUser} {...props}/>}/>
 
-						<Route exact path='/admin' render={() => <Admin page='home'/>}/>
-						<Route exact path='/admin/games' render={() => <Admin page='games'/>}/>
-						<Route exact path='/admin/users' render={() => <Admin page='users'/>}/>
-						<Route exact path='/admin/servers' render={() => <Admin page='servers'/>}/>
-						<Route exact path='/admin/channels' render={() => <Admin page='channels'/>}/>
-						<Route exact path='/admin/developers' render={() => <Admin page='developers'/>}/>
-						<Route exact path='/admin/apps' render={() => <Admin page='apps'/>}/>
+						<Route exact path='/admin' render={() => <Admin page='home' authUser={this.props.authUser}/>}/>
+						<Route exact path='/admin/games' render={() => <Admin page='games' authUser={this.props.authUser}/>}/>
+						<Route exact path='/admin/games/:gameId' render={(props) => <Admin page='game' {...props} authUser={this.props.authUser}/>}/>
+						<Route exact path='/admin/users' render={() => <Admin page='users' authUser={this.props.authUser}/>}/>
+						<Route exact path='/admin/users/:userId' render={(props) => <Admin page='user' {...props} authUser={this.props.authUser}/>}/>
+						<Route exact path='/admin/servers' render={() => <Admin page='servers' authUser={this.props.authUser}/>}/>
+						<Route exact path='/admin/servers/:serverId' render={(props) => <Admin page='server' {...props} authUser={this.props.authUser}/>}/>
+						<Route exact path='/admin/channels' render={() => <Admin page='channels' authUser={this.props.authUser}/>}/>
+						<Route exact path='/admin/channels/new' render={() => <Admin page='channel-new' authUser={this.props.authUser}/>}/>
+						<Route exact path='/admin/channels/:channelId' render={(props) => <Admin page='channel' {...props} authUser={this.props.authUser}/>}/>
+						<Route exact path='/admin/developers' render={() => <Admin page='developers' authUser={this.props.authUser}/>}/>
+						<Route exact path='/admin/developers/:developerId' render={(props) => <Admin page='developer' {...props} authUser={this.props.authUser}/>}/>
+						<Route exact path='/admin/apps' render={() => <Admin page='apps' authUser={this.props.authUser}/>}/>
+						<Route exact path='/admin/apps/:appId' render={(props) => <Admin page='app' {...props} authUser={this.props.authUser}/>}/>
 
 						<Route path={'/oauth/twitch'} component={OAuthTwitch}/>
 

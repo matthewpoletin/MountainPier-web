@@ -85,14 +85,8 @@ export const getAuthenticatedUser = () => {
 		const accessToken = getCookie("access-token");
 		if (accessToken !== undefined)
 			return AuthService.checkToken(accessToken)
-				.then(user => {
-					return UserService.getUserById(user.id)
-						.then(user => {
-							resolve(user);
-						})
-						.catch(error => {
-							reject(error);
-						});
+				.then(userResponse => {
+					resolve(userResponse);
 				})
 				.catch(error => {
 					reject(error);

@@ -1,7 +1,7 @@
 "use strict";
 
 import React, { Component } from 'react';
-import PropTypes from "prop-types";
+import PropTypes from 'prop-types';
 
 const propTypes = {
 	authUser: PropTypes.object,
@@ -11,7 +11,10 @@ const defaultProps = {
 	authUser: undefined,
 };
 
-/** Class for accounts settings react component. */
+/**
+ * Class for accounts settings react component
+ * @author Matthew Poletin
+ */
 class AccountsSettings extends Component {
 
 	componentWillMount() {

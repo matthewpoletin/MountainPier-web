@@ -59,7 +59,7 @@ class DeveloperGames extends Component {
 	}
 
 	games() {
-		if (this.state.games !== undefined) {
+		if (this.state.games !== undefined && this.state.games.length > 0) {
 			const games = this.state.games.map((game, index) =>
 				<tr className="user" key={index} align="center">
 					<td>

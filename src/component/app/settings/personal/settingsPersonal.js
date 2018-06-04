@@ -1,7 +1,7 @@
 "use strict";
 
 import React, { Component } from 'react';
-import PropTypes from "prop-types";
+import PropTypes from 'prop-types';
 
 const propTypes = {
 	authUser: PropTypes.object,
@@ -11,7 +11,10 @@ const defaultProps = {
 	authUser: undefined,
 };
 
-/** Class for personal settings react component. */
+/**
+ * Class for personal settings react component
+ * @author Matthew Poletin
+ */
 class PersonalSettings extends Component {
 
 	constructor(props) {
@@ -38,7 +41,9 @@ class PersonalSettings extends Component {
 					<form className="pure-form pure-form-aligned">
 						<fieldset>
 							<div className="pure-control-group">
+								<label htmlFor="avater">Avatar</label>
 								<input
+									id="avatar"
 									type="file"
 									accept="image/*"
 								/>

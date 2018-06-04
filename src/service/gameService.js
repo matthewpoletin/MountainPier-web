@@ -76,7 +76,7 @@ class GameService {
 	 * @return {Promise}
 	 */
 	static setDeveloper(gameId, developerId) {
-		return post(`/games/${gameId}/developers/${developer}`, null, true);
+		return post(`/games/${gameId}/developers/${developerId}`, null, true);
 	}
 
 }

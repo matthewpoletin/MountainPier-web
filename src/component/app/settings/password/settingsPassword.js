@@ -1,8 +1,8 @@
 "use strict";
 
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import AuthService from "../../../../service/authService";
-import PropTypes from "prop-types";
 
 const propTypes = {
 	authUser: PropTypes.object.isRequired,
@@ -12,7 +12,10 @@ const defaultProps = {
 	authUser: undefined,
 };
 
-/** Class for password and security settings react component. */
+/**
+ * Class for password and security settings react component
+ * @author Matthew Poletin
+ */
 class PasswordSettings extends Component {
 
 	constructor(props) {
@@ -40,43 +43,54 @@ class PasswordSettings extends Component {
 				<div className="password-settings">
 					<form className="pure-form pure-form-aligned" onSubmit={this.handleSubmit}>
 						<fieldset>
+							<input
+								id="username"
+								type="text"
+								autoComplete="username"
+								defaultValue={this.state.authUser.username}
+								hidden={true}
+							/>
 							<div className="pure-control-group">
 								<label htmlFor="current-password">Current password</label>
-								<input id="current-password"
-								       type="password"
-								       placeholder="current password"
-								       onChange={this.handleChangePassword}
-								       ref={input => this.input = input}
-								       autoComplete="current-password"
+								<input
+									id="current-password"
+								    type="password"
+								    placeholder="current password"
+								    onChange={this.handleChangePassword}
+								    ref={input => this.input = input}
+								    autoComplete="current-password"
 								/>
 								<span className="pure-form-message-inline">This is required field</span>
 							</div>
 							<div className="pure-control-group">
 								<label htmlFor="new-password">New password</label>
-								<input id="new-password"
-								       type="password"
-								       placeholder="new password"
-								       onChange={this.handleChangeNewPassword}
-								       ref={input => this.input = input}
-								       autoComplete="new-password"
+								<input
+									id="new-password"
+								    type="password"
+								    placeholder="new password"
+								    onChange={this.handleChangeNewPassword}
+								    ref={input => this.input = input}
+								    autoComplete="new-password"
 								/>
 								<span className="pure-form-message-inline">This is required field</span>
 							</div>
 							<div className="pure-control-group">
 								<label htmlFor="retype-new-password">Retype new password</label>
-								<input id="retype-new-password"
-								       type="password"
-								       placeholder={"retype new password"}
-								       onChange={this.handleChangeRetypeNewPassword}
-								       ref={input => this.input = input}
-								       autoComplete="new-password"
+								<input
+									id="retype-new-password"
+								    type="password"
+								    placeholder={"retype new password"}
+								    onChange={this.handleChangeRetypeNewPassword}
+								    ref={input => this.input = input}
+								    autoComplete="new-password"
 								/>
 								<span className="pure-form-message-inline">This is required field</span>
 							</div>
 							<div className="pure-controls">
-								<button type="submit"
-								        className="pure-button pure-button-primary"
-								        disabled={!this.validForm()}
+								<button
+									type="submit"
+								    className="pure-button pure-button-primary"
+								    disabled={!this.validForm()}
 								>
 									Update
 								</button>
@@ -113,14 +127,8 @@ class PasswordSettings extends Component {
 	handleSubmit(event) {
 		event.preventDefault();
 
-
 		if (this.validForm()) {
 			// TODO: check if old password is right
-			console.log(this.state.authUser.id);
-			console.log(this.state.password);
-
-			console.log(this.state.authUser.username);
-			console.log(this.state.newPassword);
 			AuthService.updateCredentials(this.state.authUser.id, this.state.newPassword)
 				.then(response => {
 					console.log(response);

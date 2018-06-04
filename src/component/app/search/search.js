@@ -29,12 +29,13 @@ class Search extends Component {
 						<fieldset>
 							<div className="pure-control-group">
 								<label htmlFor="search">Search</label>
-								<input id="search"
-								       type="text"
-								       placeholder="search"
-								       onChange={this.handleSearchChange}
-								       defaultValue={this.state.search}
-								       autoComplete="username"
+								<input
+									id="search"
+								    type="search"
+								    placeholder="search"
+								    onChange={this.handleSearchChange}
+								    defaultValue={this.state.search}
+								    autoComplete="username"
 								/>
 							</div>
 							<div className="pure-controls">
