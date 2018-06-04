@@ -38,7 +38,10 @@ class PersonalSettings extends Component {
 					<form className="pure-form pure-form-aligned">
 						<fieldset>
 							<div className="pure-control-group">
-								<input type="file" />
+								<input
+									type="file"
+									accept="image/*"
+								/>
 								<img src={this.state.authUser.avatar} height={40} width={40} alt={""}/>
 							</div>
 							<div className="pure-control-group">
