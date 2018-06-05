@@ -49,49 +49,44 @@ class AdminApps extends Component {
 				if (this.state.apps.length === 0) {
 					return <div>Not found</div>
 				} else {
-					const apps = this.state.apps.map((app, index) =>
-						<tr key={index} align="center">
-							<td>
-								<Link to={`/admin/apps/${app.name}`}>
-									{app.name}
-								</Link>
-							</td>
-							<td>
-								{app.status}
-							</td>
-							<td>
-								{app.developers !== undefined ? app.developers[0] !== undefined ? (
-									<a href={`/developers/${app.developers[0].id}`}>
-										{app.developers[0].name}
-									</a>
-								) : null : null
-								}
-							</td>
-							<td>
-								<Link to={`/admin/apps/${app.id}`}>
-									<FontAwesomeIcon icon={faWrench} size={"2x"}/>
-								</Link>
-							</td>
-							<td>
-								<a onClick={() => this.deleteApp(index, app.id)}>
-									<FontAwesomeIcon icon={faTrash} size={"2x"}/>
-								</a>
-							</td>
-						</tr>
-					);
 					return (
 						<table className="apps-list" width="100%">
 							<thead>
-							<tr>
-								<th>Name</th>
-								<th>Status</th>
-								<th>Developer</th>
-								<th>Edit</th>
-								<th>Delete</th>
-							</tr>
+								<tr>
+									<th>Name</th>
+									<th>Developer</th>
+									<th>Edit</th>
+									<th>Delete</th>
+								</tr>
 							</thead>
 							<tbody>
-								{apps}
+								{this.state.apps.map((app, index) => { return (
+									<tr key={index} align="center">
+										<td>
+											<Link to={`/admin/apps/${app.name}`}>
+												{app.name}
+											</Link>
+										</td>
+										<td>
+											{app.developers !== undefined ? app.developers[0] !== undefined ? (
+												<a href={`/developers/${app.developers[0].id}`}>
+													{app.developers[0].name}
+												</a>
+											) : null : null
+											}
+										</td>
+										<td>
+											<Link to={`/admin/apps/${app.id}`}>
+												<FontAwesomeIcon icon={faWrench} size={"2x"}/>
+											</Link>
+										</td>
+										<td>
+											<a onClick={() => this.deleteApp(index, app.id)}>
+												<FontAwesomeIcon icon={faTrash} size={"2x"}/>
+											</a>
+										</td>
+									</tr>
+								)})}
 							</tbody>
 						</table>
 					);

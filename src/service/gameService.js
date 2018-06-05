@@ -2,7 +2,10 @@
 
 import {get, post, patch, del} from "../util/http-utils";
 
-/** Class for request on games. */
+/**
+ * Class for request on games
+ * @author Matthew Poletin
+ */
 class GameService {
 
 	/**
@@ -41,7 +44,7 @@ class GameService {
 
 	/**
 	 * getGameById - Get game by id
-	 * @param {number} gameId - Id of desired game
+	 * @param {string} gameId - Id of desired game
 	 * @return {Promise<object>}
 	 */
 	static getGameById(gameId) {
@@ -51,8 +54,8 @@ class GameService {
 
 	/**
 	 * updateGameById - Update game with specified id based on data
-	 * @param gameId - Id of game to update
-	 * @param data - Data to update game by
+	 * @param {string} gameId - Id of game to update
+	 * @param {object} data - Data to update game by
 	 * @return {Promise<object>}
 	 */
 	// TODO: Implement method GameService.updateGameById
@@ -62,7 +65,7 @@ class GameService {
 
 	/**
 	 * deleteGameById - Delete game with specified id
-	 * @param gameId - Id of game to delete
+	 * @param {string} gameId - Id of game to delete
 	 * @return {Promise<void>}
 	 */
 	static deleteGameById(gameId) {
@@ -77,6 +80,15 @@ class GameService {
 	 */
 	static setDeveloper(gameId, developerId) {
 		return post(`/games/${gameId}/developers/${developerId}`, null, true);
+	}
+
+	/**
+	 * getServersOfGame - Get servers of game
+	 * @param {string} gameId - Id of game
+	 * @return {Promise}
+	 */
+	static getServersOfGame(gameId) {
+		return get(`/games/${gameId}/servers`, true);
 	}
 
 }

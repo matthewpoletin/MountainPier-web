@@ -14,6 +14,7 @@ import User from "./app/user/user";
 import Friends from "./app/user/friends/friends";
 import Games from "./app/games/games";
 import Game from "./app/game/game";
+import Server from "./app/server/server";
 import Search from "./app/search/search";
 import EULA from "./app/about/eula/eula";
 
@@ -35,7 +36,10 @@ const defaultProps = {
 	authUser: undefined,
 };
 
-/** Class for main react component */
+/**
+ * Class for main react component
+ * @author Matthew Poletin
+ */
 class Main extends Component {
 
 	render() {
@@ -62,6 +66,7 @@ class Main extends Component {
 						<Route exact path='/users/:username/friends' component={Friends}/>
 						<Route exact path='/games' component={Games}/>
 						<Route exact path='/games/:name' component={Game}/>
+						<Route exact path='/servers/:serverId' component={Server}/>
 
 						<Route exact path='/developers' render={() => <Developer page='home' authUser={this.props.authUser}/>}/>
 						<Route exact path='/developers/docs' render={() => <Developer page='docs' authUser={this.props.authUser}/>}/>
@@ -80,6 +85,7 @@ class Main extends Component {
 						<Route exact path='/admin/users' render={() => <Admin page='users' authUser={this.props.authUser}/>}/>
 						<Route exact path='/admin/users/:userId' render={(props) => <Admin page='user' {...props} authUser={this.props.authUser}/>}/>
 						<Route exact path='/admin/servers' render={() => <Admin page='servers' authUser={this.props.authUser}/>}/>
+						<Route exact path='/admin/servers/new' render={() => <Admin page='server-new' authUser={this.props.authUser}/>}/>
 						<Route exact path='/admin/servers/:serverId' render={(props) => <Admin page='server' {...props} authUser={this.props.authUser}/>}/>
 						<Route exact path='/admin/channels' render={() => <Admin page='channels' authUser={this.props.authUser}/>}/>
 						<Route exact path='/admin/channels/new' render={() => <Admin page='channel-new' authUser={this.props.authUser}/>}/>

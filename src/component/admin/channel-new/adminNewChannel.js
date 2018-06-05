@@ -60,18 +60,18 @@ class AdminNewChannel extends Component {
 									id="username"
 									type="text"
 									placeholder="name"
-									autoComplete="name"
+									autoComplete="off"
 									onChange={this.handleChangeUsername}
 								/>
 								<span className="pure-form-message-inline">This is required field</span>
 							</div>
 							<div className="pure-control-group">
-								<label htmlFor="redirectUri">Email</label>
+								<label htmlFor="email">Email</label>
 								<input
 									id="email"
 									type="email"
 									placeholder="email"
-									autoComplete="email"
+									autoComplete="off"
 									onChange={this.handleChangeEmail}
 								/>
 								<span className="pure-form-message-inline">This is required field</span>
@@ -82,7 +82,7 @@ class AdminNewChannel extends Component {
 									id="password"
 									type="password"
 									placeholder="password"
-									autoComplete="password"
+									autoComplete="off"
 									onChange={this.handleChangePassword}
 								/>
 								<span className="pure-form-message-inline">This is required field</span>

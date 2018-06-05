@@ -6,61 +6,38 @@ import ServerService from "../../../service/serverService";
 
 const propTypes = {
 	authUser: PropTypes.object,
-	serverId: PropTypes.number,
 };
 
 const defaultProps = {
 	authUser: undefined,
-	serverId:  undefined,
 };
 
 /**
- * Class for AdminServer react component
+ * Class for creating new server
  * @author Matthew Poletin
  */
-class AdminServer extends Component {
+class AdminNewServer extends Component {
 
 	constructor(props) {
 		super(props);
 
 		this.handleChangeName = this.handleChangeName.bind(this);
+		this.handleChangeGame = this.handleChangeGame.bind(this);
 		this.handleChangeChannel = this.handleChangeChannel.bind(this);
 		this.handleSubmit = this.handleSubmit.bind(this);
 	}
 
 	componentWillMount() {
-		const serverId = this.props.serverId;
-
+		if (this.props.authUser !== undefined) {
+			this.setState({
+				authUser: this.props.authUser,
+			});
+		}
 		this.setState({
-			authUser: undefined,
-			serverId: serverId,
-			loading: true,
-
 			name: "",
 			gameId: "",
 			channelId: "",
-		});
-
-		ServerService.getServerById(serverId)
-			.then(serverResponse => {
-				this.setState({
-					server: serverResponse,
-					channel: serverResponse.channel,
-					game: serverResponse.game,
-
-					name: serverResponse.name,
-					gameId: serverResponse.game.id,
-					channelId: serverResponse.channel.id.toString(),
-
-					loading: false,
-				});
-			})
-			.catch(error => {
-				console.log(error);
-				this.setState({
-					loading: false,
-				});
-			});
+		})
 	}
 
 	componentWillReceiveProps(props) {
@@ -72,87 +49,66 @@ class AdminServer extends Component {
 	}
 
 	render() {
-		return (
-			<div className="admin-server">
-				{this.server()}
-			</div>
-		);
-	}
-
-	server() {
-		if (this.state.loading) {
+		if (this.state.authUser !== undefined) {
 			return (
-				<div className="loading">
-					Loading...
-				</div>
-			);
-		} else {
-			if (this.state.server === undefined) {
-				return (
-					<div className="error-block">
-						Error in request
-					</div>
-				);
-			} else {
-				return (
+				<div className="developer-app-new">
 					<form className={"pure-form pure-form-aligned"} onSubmit={this.handleSubmit}>
 						<fieldset>
 							<div className="pure-control-group">
-								<label htmlFor="name">Name</label>
+								<label htmlFor="username">Name</label>
 								<input
 									id="name"
 									type="text"
 									placeholder="name"
 									autoComplete="off"
 									onChange={this.handleChangeName}
-									defaultValue={this.state.server.name}
 								/>
 								<span className="pure-form-message-inline">This is required field</span>
 							</div>
 							<div className="pure-control-group">
-								<label htmlFor="game">Game</label>
+								<label htmlFor="Game">Game</label>
 								<input
 									id="game"
 									type="text"
 									placeholder="game"
 									autoComplete="off"
 									onChange={this.handleChangeGame}
-									defaultValue={this.state.server.game.id}
 								/>
 								<span className="pure-form-message-inline">This is required field</span>
 							</div>
 							<div className="pure-control-group">
-								<label htmlFor="channel">Channel</label>
+								<label htmlFor="secret">Channel</label>
 								<input
-									id="password"
+									id="channel"
 									type="text"
 									placeholder="channel"
 									autoComplete="off"
 									onChange={this.handleChangeChannel}
-									defaultValue={this.state.server.channel.id}
 								/>
 								<span className="pure-form-message-inline">This is required field</span>
 							</div>
 							<div className="pure-controls">
 								<button
-									id="updateApp"
+									id="login"
 									type="submit"
 									className="pure-button pure-button-primary"
 									disabled={!this.validForm()}
 								>
-									Update Server
+									Create Server
 								</button>
 							</div>
 						</fieldset>
 					</form>
-				)
-			}
+				</div>
+			);
+		} else {
+			return null;
 		}
 	}
 
 	handleChangeName(event) {
 		this.setState({
-			name: event.target.value,
+			username: event.target.value,
 		});
 	}
 
@@ -171,21 +127,18 @@ class AdminServer extends Component {
 	handleSubmit(event) {
 		event.preventDefault();
 
-		if (this.validForm) {
-			const serverRequest = {
+		if (this.validForm()) {
+			const gameRequest = {
 				name: this.state.name,
 				gameId: this.state.gameId,
 				channelId: this.state.channelId,
 			};
-			ServerService.updateServer(this.state.server.id, serverRequest)
+			ServerService.createServer(gameRequest)
 				.then((serverResponse) => {
-					console.debug(serverResponse);
-					this.setState({
-						server: serverResponse,
-						name: serverResponse.name,
-						gameId: serverResponse.game.id,
-						channelId: serverResponse.channel.id,
-					});
+					window.location.href = `/admin/servers/${serverResponse.id}`;
+				})
+				.catch((error) => {
+					console.error(error);
 				});
 		}
 	}
@@ -208,7 +161,7 @@ class AdminServer extends Component {
 
 }
 
-AdminServer.propTypes = propTypes;
-AdminServer.defaultProps = defaultProps;
+AdminNewServer.propTypes = propTypes;
+AdminNewServer.defaultProps = defaultProps;
 
-export default AdminServer;
+export default AdminNewServer;

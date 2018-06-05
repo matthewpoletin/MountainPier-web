@@ -132,9 +132,9 @@ class AdminUser extends Component {
 	}
 
 	deleteUser(userId) {
-		console.info(`Attempting to delete user ${userId}`);
+		console.debug(`Attempting to delete user ${userId}`);
 		if (window.confirm(`Delete user ${this.state.user.username}?`)) {
-			console.info(`Deleting user ${userId}`);
+			console.debug(`Deleting user ${userId}`);
 			UserService.deleteUser(userId)
 				.then(() => {
 					window.location = '/admin/users';

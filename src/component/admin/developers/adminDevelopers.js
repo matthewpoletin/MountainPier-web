@@ -46,73 +46,78 @@ class AdminDevelopers extends Component {
 				</div>
 			)
 		} else {
-			if (typeof this.state.developers !== 'undefined') {
+			if (this.state.developers === undefined) {
+				return (
+					<div className="error-block">
+						Error in request
+					</div>
+				);
+			} else {
 				if (this.state.developers.length === 0) {
-					return <div>Not found</div>
-				} else {
-					const developers = this.state.developers.map((developer, index) =>
-						<tr key={index}>
-							<td>
-								<Link to={`/developers/${developer.name}`}>
-									{developer.name}
-								</Link>
-							</td>
-							<td>
-								<a href={`mailto:${developer.email}`}>
-									{developer.email}
-								</a>
-							</td>
-							<td>
-								{developer.website}
-							</td>
-							<td>
-								<Link to={`/admin/users/${developer.user.id}`}>
-									{developer.user.username}
-								</Link>
-							</td>
-							<td align="center">
-								<Link to={`/admin/developers/${developer.id}`}>
-									<FontAwesomeIcon icon={faWrench} size={"2x"}/>
-								</Link>
-							</td>
-							<td align="center">
-								<a onClick={() => this.deleteDeveloper(index, developer.id)}>
-									<FontAwesomeIcon icon={faTrash} size={"2x"}/>
-								</a>
-							</td>
-						</tr>
-					);
 					return (
-						<table className="apps-list" width="100%">
+						<div>
+							Not found
+						</div>
+					);
+				} else {
+					return (
+						<table className="developers-list" width="100%">
 							<thead>
-							<tr>
-								<th>Name</th>
-								<th>Email</th>
-								<th>Website</th>
-								<th>Users</th>
-								<th>Edit</th>
-								<th>Delete</th>
-							</tr>
+								<tr>
+									<th>Name</th>
+									<th>Email</th>
+									<th>Website</th>
+									<th>Users</th>
+									<th>Edit</th>
+									<th>Delete</th>
+								</tr>
 							</thead>
 							<tbody>
-								{developers}
+								{this.state.developers.map((developer, index) => { return (
+									<tr key={index}>
+										<td>
+											<Link to={`/developers/${developer.name}`}>
+												{developer.name}
+											</Link>
+										</td>
+										<td>
+											<a href={`mailto:${developer.email}`}>
+												{developer.email}
+											</a>
+										</td>
+										<td>
+											{developer.website}
+										</td>
+										<td>
+											<Link to={`/admin/users/${developer.user.id}`}>
+												{developer.user.username}
+											</Link>
+										</td>
+										<td align="center">
+											<Link to={`/admin/developers/${developer.id}`}>
+												<FontAwesomeIcon icon={faWrench} size={"2x"}/>
+											</Link>
+										</td>
+										<td align="center">
+											<a onClick={() => this.deleteDeveloper(index, developer.id)}>
+												<FontAwesomeIcon icon={faTrash} size={"2x"}/>
+											</a>
+										</td>
+									</tr>
+								)})}
 							</tbody>
 						</table>
 					);
 				}
-			} else {
-				return (
-					<div className="error-block">Error in request</div>
-				);
 			}
 		}
 	}
 
 	deleteDeveloper(index, developerId) {
-		console.log(`Deleting #${index} developer ${developerId}`);
+		console.debug(`Attempting to delete #${index} developer ${developerId}`);
 		if (window.confirm(`Delete developer ${this.state.developers[index].name}?`)) {
 			DeveloperService.deleteDeveloper(developerId)
-				.then(response => {
+				.then(() => {
 					const developers = this.state.developers;
 					developers.splice(index, 1);
 					this.setState({

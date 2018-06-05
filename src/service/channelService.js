@@ -2,7 +2,7 @@
 
 import { get, post, patch, del } from "./../util/http-utils";
 
-/** Class for request on channel. */
+/** Class for request on game. */
 class ChannelService {
 
 	/**
@@ -23,8 +23,8 @@ class ChannelService {
 	}
 
 	/**
-	 * updateChannel - Update channel
-	 * @param {number} channelId - Id of channel
+	 * updateChannel - Update game
+	 * @param {number} channelId - Id of game
 	 * @param {object} channelRequest - Data to update
 	 * @return {Promise<object>}
 	 */
@@ -33,8 +33,8 @@ class ChannelService {
 	}
 
 	/**
-	 * getChannel - Get channel
-	 * @param channelId - Id of channel
+	 * getChannel - Get game
+	 * @param channelId - Id of game
 	 * @return {Promise<object>} - Channel response
 	 */
 	static getChannel(channelId) {
@@ -42,8 +42,8 @@ class ChannelService {
 	}
 
 	/**
-	 * deleteChannel - Delete channel
-	 * @param {number} channelId - Id of channel
+	 * deleteChannel - Delete game
+	 * @param {number} channelId - Id of game
 	 * @return {Promise<void>}
 	 */
 	static deleteChannel(channelId) {

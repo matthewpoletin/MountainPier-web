@@ -59,7 +59,7 @@ class ServerService {
 	}
 
 	/**
-	 * getChannelOfServerById - Retrieves a channel of required by id server
+	 * getChannelOfServerById - Retrieves a game of required by id server
 	 * @param serverId - Id of required server
 	 * @return {Promise}
 	 */

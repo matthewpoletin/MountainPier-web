@@ -15,7 +15,7 @@ const defaultProps = {
 };
 
 /**
- * Class for DeveloperApp react component
+ * Class for AdminChannel react component
  * @author Matthew Poletin
  */
 class AdminChannel extends Component {

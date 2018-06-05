@@ -71,8 +71,8 @@ class Developer extends Component {
 		this.developerPages = [
 			{link: "/developers", title: "Home", name: "home", allowed: true, shownDev: true, shownGuest: true},
 			{link: "/developers/docs", title: "Docs", name: "docs", allowed: true, shownDev: true, shownGuest: true},
-			{link: "/developers/register", title: "Register", name: "register", allowed: this.state.isDeveloper, shownDev: false, shownGuest: true},
-			{link: "/developers/settings", title: "Settings", name: "settings", allowed: true, shownDev: true, shownGuest: false},
+			{link: "/developers/register", title: "Register", name: "register", allowed: true, shownDev: false, shownGuest: true},
+			{link: "/developers/settings", title: "Settings", name: "settings", allowed: this.state.isDeveloper, shownDev: true, shownGuest: false},
 			{link: "/developers/games", title: "Games", name: "games", allowed: false, shownDev: true, shownGuest: true},
 			{link: "/developers/apps", title: "Apps", name: "apps", allowed: false, shownDev: true, shownGuest: true},
 		];

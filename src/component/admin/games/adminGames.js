@@ -52,7 +52,7 @@ class AdminGames extends Component {
 					return <div>Not found</div>
 				} else {
 					const games = this.state.games.map((game, index) =>
-						<tr key={index}>
+						<tr align="center" key={index}>
 							<td>
 								<Link to={`/admin/games/${game.name}`}>
 									<img src={game.avatar} height={100} width={100} alt={""}/>
@@ -62,9 +62,6 @@ class AdminGames extends Component {
 								<Link to={`/admin/games/${game.name}`}>
 									{game.name}
 								</Link>
-							</td>
-							<td>
-								{game.status}
 							</td>
 							<td>
 								{game.developers[0] ? (
@@ -90,12 +87,11 @@ class AdminGames extends Component {
 						<table className="games-list" width="100%">
 							<thead>
 								<tr>
-									<th> </th>
+									<th>Avatar</th>
 									<th>Name</th>
-									<th>Status</th>
 									<th>Developer</th>
-									<th> </th>
-									<th> </th>
+									<th>Edit</th>
+									<th>Delete</th>
 								</tr>
 							</thead>
 							<tbody>
@@ -112,22 +108,19 @@ class AdminGames extends Component {
 		}
 	}
 
-	editGame(index, gameId) {
-		console.log(`Editing ${index} game ${gameId}`);
-
-	}
-
 	deleteGame(index, gameId) {
-		console.log(`Deleting ${index} game ${gameId}`);
-		GameService.deleteGameById(gameId)
-			.then(response => {
-				const games = this.state.games;
-				games.splice(index, 1);
-				this.setState({
-					games: games,
-				});
-			})
-			.catch(error => console.log(error));
+		console.debug(`Attempting to delete #${index} game ${gameId}`);
+		if (window.confirm(`Delete game ${this.state.games[index].name}?`)) {
+			GameService.deleteGameById(gameId)
+				.then(() => {
+					const games = this.state.games;
+					games.splice(index, 1);
+					this.setState({
+						games: games,
+					});
+				})
+				.catch(error => console.log(error));
+		}
 	}
 
 }

@@ -1,13 +1,16 @@
 "use strict";
 
-import React, { Component } from 'react';
-import 'purecss';
+import React, { Component } from "react";
+import "purecss";
+import {getAuthenticatedUser, isAuthenticated} from "../util/authentication";
 import Header from "./app/header/header";
 import Main from "./main";
 import Footer from "./app/footer/footer";
-import {getAuthenticatedUser, isAuthenticated} from "../util/authentication";
 
-/** Class for app react component. */
+/**
+ * Class for app react component
+ * @author Matthew Poletin
+ */
 class App extends Component {
 
 	componentWillMount() {

@@ -63,7 +63,7 @@ class DeveloperGames extends Component {
 			const games = this.state.games.map((game, index) =>
 				<tr className="user" key={index} align="center">
 					<td>
-						<Link to={`/developers/apps/${game.id}`}>
+						<Link to={`/developers/games/${game.id}`}>
 							{game.name}
 						</Link>
 					</td>
@@ -71,7 +71,7 @@ class DeveloperGames extends Component {
 						{game.id}
 					</td>
 					<td>
-						<Link to={`/developers/apps/${game.id}`}>
+						<Link to={`/developers/games/${game.id}`}>
 							<FontAwesomeIcon icon={faWrench} size={"2x"}/>
 						</Link>
 					</td>

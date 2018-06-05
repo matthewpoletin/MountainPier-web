@@ -8,6 +8,7 @@ import AdminApp from "./app/adminApp";
 import AdminDevelopers from "./developers/adminDevelopers";
 import AdminDeveloper from "./developer/adminDeveloper";
 import AdminServers from "./servers/adminServers";
+import AdminNewServer from "./server-new/adminNewServer";
 import AdminServer from "./server/adminServer";
 import AdminUsers from "./users/adminUsers";
 import AdminUser from "./user/adminUser";
@@ -90,8 +91,10 @@ class Admin extends Component {
 				return <AdminUser isAuth={this.props.isAuth} userId={this.props.match.params.userId}/>;
 			case 'servers':
 				return <AdminServers isAuth={this.props.isAuth}/>;
+			case 'server-new':
+				return <AdminNewServer isAuth={this.props.isAuth} authUser={this.props.authUser}/>;
 			case 'server':
-				return <AdminServer isAuth={this.props.isAuth} serverId={this.props.match.params.serverId}/>;
+				return <AdminServer isAuth={this.props.isAuth} serverId={parseInt(this.props.match.params.serverId, 10)}/>;
 			case 'channels':
 				return <AdminChannels isAuth={this.props.isAuth}/>;
 			case 'channel-new':

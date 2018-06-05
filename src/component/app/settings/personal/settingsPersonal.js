@@ -1,7 +1,7 @@
 "use strict";
 
-import React, { Component } from 'react';
-import PropTypes from 'prop-types';
+import React, { Component } from "react";
+import PropTypes from "prop-types";
 
 const propTypes = {
 	authUser: PropTypes.object,
@@ -35,19 +35,25 @@ class PersonalSettings extends Component {
 	}
 
 	render() {
-		if (this.state.authUser !== undefined)
+		if (this.state.authUser === undefined) {
+			return (
+				<div>
+					User is not defined
+				</div>
+			);
+		} else {
 			return (
 				<div className="personal-settings">
 					<form className="pure-form pure-form-aligned">
 						<fieldset>
 							<div className="pure-control-group">
 								<label htmlFor="avater">Avatar</label>
+								<img src={this.state.authUser.avatar} height={40} width={40} alt={""}/>
 								<input
 									id="avatar"
 									type="file"
 									accept="image/*"
 								/>
-								<img src={this.state.authUser.avatar} height={40} width={40} alt={""}/>
 							</div>
 							<div className="pure-control-group">
 								<label htmlFor="username">Username</label>
@@ -80,11 +86,7 @@ class PersonalSettings extends Component {
 					</form>
 				</div>
 			);
-		else return(
-			<div>
-				User is not defined
-			</div>
-		);
+		}
 	}
 
 	handleChangeUsername(event) {

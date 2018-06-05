@@ -61,7 +61,7 @@ class Search extends Component {
 							{user.username}
 						</div>
 						<div>
-							<img src={user.avatar} height={100} width={100} alt={""}/><br/>
+							<img src={user.avatar} height={100} width={100} alt={""}/>
 						</div>
 						<div>
 							{user.id}

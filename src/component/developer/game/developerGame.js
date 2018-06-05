@@ -14,7 +14,10 @@ const defaultProps = {
 	gameId: undefined,
 };
 
-/** Class for DeveloperGame react component. */
+/**
+ * Class for DeveloperGame react component
+ * @author Matthew Poletin
+ */
 class DeveloperGame extends Component {
 
 	constructor(props) {
@@ -28,6 +31,7 @@ class DeveloperGame extends Component {
 	componentWillMount() {
 		this.setState({
 			authUser: undefined,
+			loading: true,
 			name: "",
 			description: "",
 		});
@@ -36,6 +40,7 @@ class DeveloperGame extends Component {
 		GameService.getGameById(gameId)
 			.then(gameResponse => {
 				this.setState({
+					loading: false,
 					game: gameResponse,
 					name: gameResponse.name,
 					description: gameResponse.description,
@@ -43,6 +48,9 @@ class DeveloperGame extends Component {
 			})
 			.catch(error => {
 				console.log(error);
+				this.setState({
+					loading: false,
+				});
 			});
 	}
 
@@ -63,46 +71,60 @@ class DeveloperGame extends Component {
 	}
 
 	game() {
-		if (this.state.game !== undefined) {
+		if (this.state.loading) {
 			return (
-				<form className={"pure-form pure-form-aligned"} onSubmit={this.handleSubmit}>
-			 		<fieldset>
-			 			<div className="pure-control-group">
-			 				<label htmlFor="name">Name</label>
-			 				<input
-			 					id="name"
-			 					type="text"
-			 					placeholder="name"
-			 					onChange={this.handleChangeName}
-			 					defaultValue={this.state.game.name}
-			 				/>
-			 				<span className="pure-form-message-inline">This is required field</span>
-			 			</div>
-			 			<div className="pure-control-group">
-			 				<label htmlFor="description">Description</label>
-			 				<textarea
-			 					id="description"
-			 					placeholder="description"
-			 					onChange={this.handleChangeDescription}
-			 					defaultValue={this.state.game.description}
-			 				/>
-			 				<span className="pure-form-message-inline">This is required field</span>
-			 			</div>
-			 			<div className="pure-controls">
-			 				<button
-			 					id="login"
-			 					type="submit"
-			 					className="pure-button pure-button-primary"
-			 					disabled={!this.validForm()}
-			 				>
-			 					Update Game
-			 				</button>
-			 			</div>
-			 		</fieldset>
-				</form>
-			)
+				<div className="loading">
+					Loading...
+				</div>
+			);
 		} else {
-			return("Loading...")
+			if (this.state.game === undefined) {
+				return (
+					<div className="error-block">
+						Error in request
+					</div>
+				);
+			} else {
+				return (
+					<form className={"pure-form pure-form-aligned"} onSubmit={this.handleSubmit}>
+						<fieldset>
+							<div className="pure-control-group">
+								<label htmlFor="name">Name</label>
+								<input
+									id="name"
+									type="text"
+									placeholder="name"
+									autoComplete="off"
+									onChange={this.handleChangeName}
+									defaultValue={this.state.game.name}
+								/>
+								<span className="pure-form-message-inline">This is required field</span>
+							</div>
+							<div className="pure-control-group">
+								<label htmlFor="description">Description</label>
+								<textarea
+									id="description"
+									placeholder="description"
+									autoComplete="off"
+									onChange={this.handleChangeDescription}
+									defaultValue={this.state.game.description}
+								/>
+								<span className="pure-form-message-inline">This is required field</span>
+							</div>
+							<div className="pure-controls">
+								<button
+									id="login"
+									type="submit"
+									className="pure-button pure-button-primary"
+									disabled={!this.validForm()}
+								>
+									Update Game
+								</button>
+							</div>
+						</fieldset>
+					</form>
+				)
+			}
 		}
 	}
 
@@ -135,11 +157,11 @@ class DeveloperGame extends Component {
 	}
 
 	validName() {
-		return this.state.name > 0;
+		return this.state.name.length > 0;
 	}
 
 	validDescription() {
-		return this.state.description > 0;
+		return this.state.description.length > 0;
 	}
 
 	validForm() {

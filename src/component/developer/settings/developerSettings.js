@@ -1,8 +1,7 @@
 "use strict";
 
-import React, { Component } from 'react';
+import React, { Component } from "react";
 import PropTypes from "prop-types";
-import UserService from "../../../service/userService";
 import DeveloperService from "../../../service/developerService";
 
 const propTypes = {
@@ -15,7 +14,10 @@ const defaultProps = {
 	developer: undefined,
 };
 
-/** Class for DeveloperSettings react component. */
+/**
+ * Class for DeveloperSettings react component
+ * @author Matthew Poletin
+ */
 class DeveloperSettings extends Component {
 
 	constructor(props) {
@@ -59,7 +61,13 @@ class DeveloperSettings extends Component {
 	}
 
 	render() {
-		if (this.state.developer !== undefined) {
+		if (this.state.developer === undefined) {
+			return (
+				<div className="loading">
+					Loading...
+				</div>
+			);
+		} else {
 			return (
 				<div className="developer-register">
 					<form className="pure-form pure-form-aligned" onSubmit={this.handleSubmit}>
@@ -78,7 +86,7 @@ class DeveloperSettings extends Component {
 									id="name"
 									type="text"
 									placeholder="name"
-									autoComplete="name"
+									autoComplete="off"
 									onChange={this.handleChangeName}
 									defaultValue={this.state.developer.name}
 								/>
@@ -89,6 +97,7 @@ class DeveloperSettings extends Component {
 								<textarea
 									id="description"
 									placeholder="description"
+									autoComplete="off"
 									onChange={this.handleChangeDescription}
 									defaultValue={this.state.developer.description}
 								/>
@@ -100,6 +109,7 @@ class DeveloperSettings extends Component {
 									id="website"
 									type="text"
 									placeholder="website"
+									autoComplete="off"
 									onChange={this.handleChangeWebsite}
 									defaultValue={this.state.developer.website}
 								/>
@@ -111,7 +121,7 @@ class DeveloperSettings extends Component {
 									id="email"
 									type="email"
 									placeholder="email"
-									autoComplete="email"
+									autoComplete="off"
 									onChange={this.handleChangeEmail}
 									defaultValue={this.state.developer.email}
 								/>
@@ -141,8 +151,6 @@ class DeveloperSettings extends Component {
 					</form>
 				</div>
 			);
-		} else {
-			return("Loading...")
 		}
 	}
 
@@ -181,29 +189,50 @@ class DeveloperSettings extends Component {
 				email: this.state.email,
 			};
 			DeveloperService.updateDeveloper(this.state.developer.id, developerRequest)
-				.then(() => {
-					window.location.href = "/developers/settings";
+				.then((developerResponse) => {
+					this.setState({
+						developer: developerResponse,
+						name: developerResponse.name,
+						description: developerResponse.description,
+						website: developerResponse.website,
+						email: developerResponse.email,
+					});
 				});
 		}
 	}
 
 	handleDeleteClick(event) {
-
-		console.debug(`Deleting your developer account`);
-
-		DeveloperService.deleteDeveloper(this.state.developer.id)
-			.then((response) => {
-				//	TODO: redirect
-			});
+		console.debug(`Attempting to deleting developer account`);
+		if (window.confirm(`Delete your developer account ${this.state.developer.name}`)) {
+			DeveloperService.deleteDeveloper(this.state.developer.id)
+				.then(() => {
+					window.location.href = "/developers/home";
+				});
+		}
 	}
 
 	validName() {
 		return this.state.name.length > 0;
 	}
 
-	validForm() {
-		return this.validName();
+	validDescription() {
+		return this.state.description.length > 0;
 	}
+
+	validWebsite() {
+		// TODO: Check for regexp
+		return true;
+	}
+
+	validEmail() {
+		// TODO: Check for regexp
+		return this.state.email.length > 0 && true;
+	}
+
+	validForm() {
+		return this.validName() && this.validDescription() && this.validWebsite() && this.validEmail();
+	}
+
 }
 
 DeveloperSettings.propTypes = propTypes;
