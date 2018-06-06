@@ -2,6 +2,7 @@
 	"development": {
 		"appUrl": "http://localhost:8080",
 		"apiUrl": "http://localhost:8549",
+		"cookieDomain": "localhost",
 		"twitch": {
 			"clientId": "m0ickj58eteefym2amg6smdrtu2sxx",
 			"redirectUri": "http://localhost:8080/oauth/twitch"
@@ -10,6 +11,7 @@
 	"production": {
 		"appUrl": "http://mountainpier.ru",
 		"apiUrl": "http://api.mountainpier.ru",
+		"cookieDomain": ".mountainpier.ru",
 		"twitch": {
 			"clientId": "gmorlpxdgnavsssk2gudj355nfx2o6",
 			"redirectUri": "http://mountainpier.ru/oauth/twitch"

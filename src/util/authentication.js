@@ -5,6 +5,11 @@ import {getAppUrl} from "./environment-utils";
 import UserService from "./../service/userService"
 import AuthService from "./../service/authService"
 
+import {getEnvironment} from "./environment-utils";
+
+const config = require("../../config");
+const mode = getEnvironment();
+
 /**
  * login - Authenticate a user with an email and password
  * @param {object} credentials - Login credentials (username, password)
@@ -17,11 +22,12 @@ export const login = (credentials, desiredPath) => {
 		.then(response => {
 			if (response) {
 				// TODO: fix accessExpires to be correct in browsers
-				setCookie('access-token', response.accessToken, { maxAge: response.accessExpires });
+				// setCookie('access-token: ' + response.accessToken, { /*maxAge: response.accessExpires*/ domain: config.development.cookieDomain });
+				setCookie({name: 'access-token', value: response.accessToken, domain: config.development.cookieDomain});
 				if (desiredPath) {
-					window.location.href = `${getAppUrl()}${desiredPath}`;
+					// window.location.href = `${getAppUrl()}${desiredPath}`;
 				} else {
-					window.location.href = `${getAppUrl()}/dashboard`;
+					// window.location.href = `${getAppUrl()}/dashboard`;
 				}
 			}
 		});

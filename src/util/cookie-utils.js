@@ -1,35 +1,36 @@
 "use strict";
 
-import Cookies from 'universal-cookie';
-import {getEnvironment} from "./environment-utils";
+export function setCookie(cookie) {
+	if (!cookie.name || !cookie.value) {
+		return undefined;
+	}
+	const expires = new Date();
+	expires.setTime(expires.getTime() + 7 * 24 * 60 * 60 * 1000);
+	cookie.expires = cookie.expires || expires;
+	cookie.domain = cookie.domain || process.env["COOKIE_DOMAIN"];
+	cookie.path = cookie.path || "/";
+	cookie.secure = cookie.secure || false;
+	const cookieString = `${cookie.name}=${encodeURIComponent(cookie.value)};
+    expires=${cookie.expires.toUTCString()};
+    domain=${cookie.domain};
+    path=${cookie.path};
+    ${cookie.secure ? "secure;" : ""}`;
+	console.log(cookieString.replace(/\n/gi, " ").replace(/\s+/gi, " "));
+	document.cookie = cookieString.replace(/\n/gi, " ").replace(/\s+/gi, " ");
+	return cookie.value;
+}
 
-const cookies = new Cookies();
+export function getCookie(name) {
+	const matches = document.cookie.match(new RegExp(
+		"(?:^|; )" + name.replace(/([.$?*|{}()\[\]\\\/+^])/g, "\\$1") + "=([^;]*)"));
+	return matches ? decodeURIComponent(matches[1]) : undefined;
+}
 
-/**
- * setCookie  - Sets a cookie in the user's browser
- * @param {string} name     Name/key of cookie to save
- * @param {string} value    Value to save in cookie
- * @param {object} options  Options to override defaults
- */
-export const setCookie = (name, value, options = {}) =>
-	cookies.set(name, value, Object.assign({
-		path: '/',
-		maxAge: 604800,
-		secure: getEnvironment() === 'production',
-	}, options));
-
-
-/**
- * getCookie  - Retrieves a cookie. Not super necessary, but it
- *              keeps things uniform
- * @param {string} name - Name of cookie to get
- * @returns {string}
- */
-export const getCookie = name => cookies.get(name);
-
-/**
- * deleteCookie  - Removes a cookie. Not super necessary, but it
- *                 keeps things uniform
- * @param {string} name - Name of cookie to get
- */
-export const deleteCookie = name => cookies.remove(name);
+export function deleteCookie(cookie) {
+	if (!cookie.name || !cookie.value) {
+		return false;
+	}
+	const expires = new Date();
+	expires.setTime(0);
+	setCookie(Object.assign({}, cookie, {expires}));
+}
