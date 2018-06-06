@@ -23,7 +23,7 @@ export const login = (credentials, desiredPath) => {
 			if (response) {
 				// TODO: fix accessExpires to be correct in browsers
 				// setCookie('access-token: ' + response.accessToken, { /*maxAge: response.accessExpires*/ domain: config.development.cookieDomain });
-				setCookie({name: 'access-token', value: response.accessToken, domain: config.development.cookieDomain});
+				setCookie({name: 'access-token', value: response.accessToken, domain: config[mode].cookieDomain});
 				if (desiredPath) {
 					// window.location.href = `${getAppUrl()}${desiredPath}`;
 				} else {
