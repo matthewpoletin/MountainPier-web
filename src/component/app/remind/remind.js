@@ -1,10 +1,13 @@
 "use strict";
 
-import React, { Component } from 'react';
-import "./remind.css"
+import React, { Component } from "react";
+import "./remind.css";
 
-/** Class for remind react component. */
-class About extends Component {
+/**
+ * Class for remind react component
+ * @author Matthew Poletin
+ */
+class Remind extends Component {
 
 	render() {
 		return (
@@ -17,4 +20,4 @@ class About extends Component {
 
 }
 
-export default About;
+export default Remind;

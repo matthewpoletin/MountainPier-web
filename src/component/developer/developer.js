@@ -1,9 +1,9 @@
 "use strict";
 
-import React, { Component } from 'react';
+import React, { Component } from "react";
 import {Link} from "react-router-dom";
 import PropTypes from "prop-types";
-import './developer.css';
+import "./developer.css";
 import DeveloperHome from "./home/developerHome";
 import DeveloperDocs from "./docs/developerDocs";
 import DeveloperRegister from "./register/developerRegister";
@@ -26,7 +26,10 @@ const defaultProps = {
 	page: "home",
 };
 
-/** Class for Developer react component. */
+/**
+ * Class for Developer react component
+ * @author Matthew Poletin
+ */
 class Developer extends Component {
 
 	componentWillMount() {

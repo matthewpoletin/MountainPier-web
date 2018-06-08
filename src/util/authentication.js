@@ -25,9 +25,9 @@ export const login = (credentials, desiredPath) => {
 				// setCookie('access-token: ' + response.accessToken, { /*maxAge: response.accessExpires*/ domain: config.development.cookieDomain });
 				setCookie({name: 'access-token', value: response.accessToken, domain: config[mode].cookieDomain});
 				if (desiredPath) {
-					// window.location.href = `${getAppUrl()}${desiredPath}`;
+					window.location.href = `${getAppUrl()}${desiredPath}`;
 				} else {
-					// window.location.href = `${getAppUrl()}/dashboard`;
+					window.location.href = `${getAppUrl()}/`;
 				}
 			}
 		});

@@ -1,15 +1,14 @@
 "use strict";
 
-import React, { Component } from 'react';
-import UserService from "./../../../../service/userService";
+import React, { Component } from "react";
 import {Link} from "react-router-dom";
+import UserService from "./../../../../service/userService";
 
-/** Class for friends react component. */
+/**
+ * Class for friends react component
+ * @author Matthew Poletin
+ */
 class Friends extends Component {
-
-	constructor(props) {
-		super(props);
-	}
 
 	componentWillMount() {
 		const username = this.props.match.params.username;
@@ -20,51 +19,46 @@ class Friends extends Component {
 			.then(user => {
 				UserService.getFriendsOfUserById(user.id, {page: 0, size: 25})
 					.then(friends => {
-						console.log(friends);
-						this.setState({friends: friends});
+						this.setState({
+							friends: friends
+						});
 					}).catch(error => {
-						console.log(error);
+						console.error(error);
 					});
 			})
 			.catch(error => {
-				console.log(error);
+				console.error(error);
 			});
 	}
 
 	render() {
-		if(this.state.friends !== undefined)
-		{
-			const friends = this.state.friends.content.map((user, index) =>
-				this.friend(user, index)
-			);
+		if (this.state.friends === undefined) {
 			return (
-				<div className="Friends">
-					{friends}
-				</div>
-			);
-		}
-		else
-			return (
-				<div className="Friends">
+				<div className="error-block">
 					Not found
 				</div>
 			);
-	}
-
-	friend(friend, index) {
-		return (
-			<div className="friend" key={index}>
-					<Link to={`/users/${friend.username}`}>
-						<img src={friend.avatar} height={100} width={100} alt={""}/><br/>
-					</Link>
-					<div>
-						{friend.username}
-					</div>
-					<div>
-						{friend.status}
-					</div>
-			</div>
-		);
+		} else {
+			return (
+				<div className="friends">
+					{this.state.friends.content.map((user, index) => {
+						return (
+							<div className="friend" key={index}>
+								<Link to={`/users/${friend.username}`}>
+									<img src={friend.avatar} height={100} width={100} alt={""}/><br/>
+								</Link>
+								<div>
+									{friend.username}
+								</div>
+								<div>
+									{friend.status}
+								</div>
+							</div>
+						)
+					})}
+				</div>
+			);
+		}
 	}
 
 }

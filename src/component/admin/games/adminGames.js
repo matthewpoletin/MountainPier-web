@@ -1,13 +1,11 @@
 "use strict";
 
-import React, {Component} from 'react';
-import UserService from "./../../../service/userService";
+import React, { Component } from "react";
 import {Link} from "react-router-dom";
-import FontAwesomeIcon from '@fortawesome/react-fontawesome'
-import faWrench from '@fortawesome/fontawesome-free-solid/faWrench'
-import faTrash from '@fortawesome/fontawesome-free-solid/faTrash'
-import {getAuthenticatedUser, isAuthenticated} from "../../../util/authentication";
-import PropTypes from "prop-types"
+import PropTypes from "prop-types";
+import FontAwesomeIcon from "@fortawesome/react-fontawesome";
+import faWrench from "@fortawesome/fontawesome-free-solid/faWrench";
+import faTrash from "@fortawesome/fontawesome-free-solid/faTrash";
 import GameService from "../../../service/gameService";
 
 const propTypes = {
@@ -18,7 +16,10 @@ const defaultProps = {
 	isAuth: false,
 };
 
-/** Class for AdminGames react component */
+/**
+ * Class for AdminGames react component
+ * @author Matthew Poletin
+ */
 class AdminGames extends Component {
 
 	componentWillMount() {
@@ -47,42 +48,16 @@ class AdminGames extends Component {
 				</div>
 			)
 		} else {
-			if (typeof this.state.games !== 'undefined') {
+			if (this.state.games === undefined) {
+				return (
+					<div className="error-block">
+						Error in request
+					</div>
+				);
+			} else {
 				if (this.state.games.length === 0) {
 					return <div>Not found</div>
 				} else {
-					const games = this.state.games.map((game, index) =>
-						<tr align="center" key={index}>
-							<td>
-								<Link to={`/admin/games/${game.name}`}>
-									<img src={game.avatar} height={100} width={100} alt={""}/>
-								</Link>
-							</td>
-							<td>
-								<Link to={`/admin/games/${game.name}`}>
-									{game.name}
-								</Link>
-							</td>
-							<td>
-								{game.developers[0] ? (
-									<a href={`/developers/${game.developers[0].id}`}>
-										{game.developers[0].name}
-									</a>
-									) : null
-								}
-							</td>
-							<td>
-								<a onClick={() => this.editGame(index, game.id,)}>
-									<FontAwesomeIcon icon={faWrench} size={"2x"}/>
-								</a>
-							</td>
-							<td>
-								<a onClick={() => this.deleteGame(index, game.id)}>
-									<FontAwesomeIcon icon={faTrash} size={"2x"}/>
-								</a>
-							</td>
-						</tr>
-					);
 					return (
 						<table className="games-list" width="100%">
 							<thead>
@@ -95,15 +70,42 @@ class AdminGames extends Component {
 								</tr>
 							</thead>
 							<tbody>
-								{games}
+								{this.state.games.map((game, index) => { return (
+									<tr align="center" key={index}>
+										<td>
+											<Link to={`/admin/games/${game.name}`}>
+												<img src={game.avatar} height={100} width={100} alt={""}/>
+											</Link>
+										</td>
+										<td>
+											<Link to={`/admin/games/${game.name}`}>
+												{game.name}
+											</Link>
+										</td>
+										<td>
+											{game.developers[0] ? (
+												<a href={`/developers/${game.developers[0].id}`}>
+													{game.developers[0].name}
+												</a>
+											) : null
+											}
+										</td>
+										<td>
+											<a href={`/admin/games/${game.id}`}>
+												<FontAwesomeIcon icon={faWrench} size={"2x"}/>
+											</a>
+										</td>
+										<td>
+											<a onClick={() => this.deleteGame(index, game.id)}>
+												<FontAwesomeIcon icon={faTrash} size={"2x"}/>
+											</a>
+										</td>
+									</tr>
+								)})}
 							</tbody>
 						</table>
 					);
 				}
-			} else {
-				return (
-					<div className="error-block">Error in request</div>
-				);
 			}
 		}
 	}
@@ -119,7 +121,10 @@ class AdminGames extends Component {
 						games: games,
 					});
 				})
-				.catch(error => console.log(error));
+				.catch(error => {
+					console.error(error);
+					windows.alert(error);
+				});
 		}
 	}
 

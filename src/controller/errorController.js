@@ -1,6 +1,9 @@
 "use strict";
 
-/** Class for ?. */
+/**
+ * Class for Error Controller
+ * @author Matthew Poletin
+ */
 class ErrorController {
 
 	/**

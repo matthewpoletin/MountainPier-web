@@ -1,8 +1,7 @@
 "use strict";
 
-import React, { Component } from 'react';
-import PropTypes from "prop-types"
-import {withRouter} from "react-router-dom"
+import React, { Component } from "react";
+import PropTypes from "prop-types";
 import AppService from "../../../service/appService";
 
 const propTypes = {
@@ -13,7 +12,10 @@ const defaultProps = {
 	authUser: undefined,
 };
 
-/** Class for DeveloperNewApp react component. */
+/**
+ * Class for DeveloperNewApp react component
+ * @author Matthew Poletin
+ */
 class DeveloperNewApp extends Component {
 
 	constructor(props) {
@@ -29,6 +31,7 @@ class DeveloperNewApp extends Component {
 			authUser: this.props.authUser,
 			name: "",
 			redirectUri: "",
+			id: "",
 			secret: "",
 		})
 	}
@@ -65,6 +68,16 @@ class DeveloperNewApp extends Component {
 							<span className="pure-form-message-inline">This is required field</span>
 						</div>
 						<div className="pure-control-group">
+							<label htmlFor="id">Id</label>
+							<input
+								id="id"
+								type="text"
+								placeholder="id"
+								defaultValue={this.state.id}
+								disabled={true}
+							/>
+						</div>
+						<div className="pure-control-group">
 							<label htmlFor="secret">Secret</label>
 							<input
 								id="secret"
@@ -73,7 +86,6 @@ class DeveloperNewApp extends Component {
 								placeholder="secret"
 								value={this.state.secret}
 							/>
-							<span className="pure-form-message-inline">This is required field</span>
 						</div>
 						<div className="pure-controls">
 							<button id="login"
@@ -115,11 +127,12 @@ class DeveloperNewApp extends Component {
 				.then((appResponse) => {
 					this.setState({
 						secret: appResponse.secret,
+						id: appResponse.id,
 					});
 					window.location.href = `/developers/apps/${appResponse.id}`;
 				})
 				.catch((error) => {
-
+					window.alert(error);
 				});
 		}
 	}

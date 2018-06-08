@@ -1,12 +1,15 @@
 "use strict";
 
-import React, { Component } from 'react';
-import UserService from "../../../service/userService";
-import * as qs from "query-string"
-import {finishOauthRegister, register} from "../../../util/authentication";
+import React, { Component } from "react";
 import {Link} from "react-router-dom";
+import * as qs from "query-string"
+import {finishOauthRegister} from "../../../util/authentication";
+import UserService from "../../../service/userService";
 
-/** Class for oauth twitch react component */
+/**
+ * Class for oauth twitch react component
+ * @author Matthew Poletin
+ */
 class OAuthTwitch extends Component {
 
 	constructor(props) {
@@ -46,8 +49,20 @@ class OAuthTwitch extends Component {
 	}
 
 	render() {
-		if (!this.state.loading) {
-			if (this.state.bReg === true) {
+		if (this.state.loading) {
+			return (
+				<div className="loading">
+					Loading
+				</div>
+			);
+		} else {
+			if (this.state.bReg !== true) {
+				return (
+					<div className="redirecting">
+						Redirecting...
+					</div>
+				);
+			} else {
 				return (
 					<div className="oauth-twitch">
 						<form className="pure-form pure-form-aligned" onSubmit={this.handleSubmit}>
@@ -81,7 +96,8 @@ class OAuthTwitch extends Component {
 										       onChange={this.handleChangeCheckbox}
 										       required={true}
 										/>
-										I've read <Link to={"/"}>User Agreement</Link> and <Link to={"/"}>Privacy Policy</Link>
+										I've read <Link to={"/"}>User Agreement</Link> and <Link to={"/"}>Privacy
+										Policy</Link>
 									</label>
 									<button type="submit"
 									        className="pure-button pure-button-primary"
@@ -94,19 +110,7 @@ class OAuthTwitch extends Component {
 						</form>
 					</div>
 				);
-			} else {
-				return (
-					<div className="redirecting">
-						Redirecting...
-					</div>
-				);
 			}
-		} else {
-			return (
-				<div className="loading">
-					Loading
-				</div>
-			);
 		}
 	}
 

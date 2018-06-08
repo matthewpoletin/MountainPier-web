@@ -2,7 +2,10 @@
 
 import { get, post, patch, del } from "./../util/http-utils";
 
-/** Class for request on auth. */
+/**
+ * Class for request on auth
+ * @author Matthew Poletin
+ */
 class AuthService {
 
 	/**

@@ -1,11 +1,11 @@
 "use strict";
 
-import React, { Component } from 'react';
+import React, { Component } from "react";
 import PropTypes from "prop-types";
-import {Link} from 'react-router-dom';
-import {getAuthenticatedUser, isAuthenticated, logoutUser} from "../../../util/authentication";
-import "./header.css"
-import FontAwesomeIcon from '@fortawesome/react-fontawesome'
+import {Link} from "react-router-dom";
+import {isAuthenticated, logoutUser} from "../../../util/authentication";
+import "./header.css";
+import FontAwesomeIcon from "@fortawesome/react-fontawesome";
 import faCog from "@fortawesome/fontawesome-free-solid/faCog";
 import faUserPlus from "@fortawesome/fontawesome-free-solid/faUserPlus";
 import faUsers from "@fortawesome/fontawesome-free-solid/faUsers";
@@ -24,26 +24,11 @@ const defaultProps = {
 	authUser: undefined,
 };
 
-/** Class for header react component. */
+/**
+ * Class for header react component
+ * @author Matthew Poletin
+ */
 class Header extends Component {
-
-
-	// constructor(props) {
-	// 	super(props);
-	//
-	// 	this.setState({
-	// 		user: undefined,
-	// 		isAuth: undefined,
-	// 	});
-	// 	console.log(props);
-	// }
-	//
-	// componentDidMount() {
-	// 	this.setState({
-	// 		user: this.props.authUser,
-	// 		isAuth: this.state.isAuth,
-	// 	});
-	// }
 
 	componentWillMount() {
 		this.setState({

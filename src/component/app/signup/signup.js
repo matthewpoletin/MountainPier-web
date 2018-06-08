@@ -1,11 +1,14 @@
 "use strict";
 
-import React, { Component } from 'react';
-import TwitchConnect from "../common/twitchConnect";
+import React, { Component } from "react";
 import {register} from "../../../util/authentication";
 import {Link} from "react-router-dom";
+import TwitchConnect from "../common/twitchConnect";
 
-/** Class for signup react component. */
+/**
+ * Class for signup react component
+ * @author Matthew Poletin
+ */
 class Signup extends Component {
 
 	constructor(props) {

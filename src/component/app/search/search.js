@@ -1,10 +1,13 @@
 "use strict";
 
-import React, { Component } from 'react';
-import UserService from "../../../service/userService";
+import React, { Component } from "react";
 import {Link} from "react-router-dom";
+import UserService from "../../../service/userService";
 
-/** Class for search react component. */
+/**
+ * Class for search react component
+ * @author Matthew Poletin
+ */
 class Search extends Component {
 
 	constructor(props) {
@@ -24,7 +27,6 @@ class Search extends Component {
 	render() {
 			return (
 				<div className="search">
-
 					<form className={"pure-form pure-form-aligned"} onSubmit={this.handleSubmit}>
 						<fieldset>
 							<div className="pure-control-group">
@@ -53,29 +55,34 @@ class Search extends Component {
 	}
 
 	result() {
-		if (this.state.result !== undefined) {
-			const users = this.state.result.content.map((user, index) =>
-				<div className="user" style={{"display": "block"}} key={index}>
-					<Link to={`/users/${user.username}`}>
-						<div>
-							{user.username}
-						</div>
-						<div>
-							<img src={user.avatar} height={100} width={100} alt={""}/>
-						</div>
-						<div>
-							{user.id}
-						</div>
-					</Link>
-				</div>
-			);
+		if (this.state.result === undefined) {
 			return (
-				<div className="result">
-					{users}
+				<div className="nothing">
+					Nothing
 				</div>
 			);
 		} else {
-			return null;
+			return (
+				<div className="result">
+					{this.state.result.content.map((user, index) => {
+						return (
+							<div className="user" style={{"display": "block"}} key={index}>
+								<Link to={`/users/${user.username}`}>
+									<div>
+										{user.username}
+									</div>
+									<div>
+										<img src={user.avatar} height={100} width={100} alt={""}/>
+									</div>
+									<div>
+										{user.id}
+									</div>
+								</Link>
+							</div>
+						)
+					})}
+				</div>
+			);
 		}
 	}
 
@@ -84,15 +91,12 @@ class Search extends Component {
 			search: event.target.value
 		});
 		this.handleSubmit(event);
-		console.log('search: ' + event.target.value);
 	}
 
 	handleSubmit(event) {
 		event.preventDefault();
-		console.log(this.state.search);
 		UserService.getUsersWith({username: this.state.search})
 			.then(users => {
-				console.log(users);
 				this.setState({
 					result: users,
 				});

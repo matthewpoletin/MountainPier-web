@@ -1,7 +1,7 @@
 "use strict";
 
-import React, { Component } from 'react';
-import PropTypes from "prop-types"
+import React, { Component } from "react";
+import PropTypes from "prop-types";
 import AppService from "../../../service/appService";
 
 const propTypes = {
@@ -14,7 +14,10 @@ const defaultProps = {
 	appId:  undefined,
 };
 
-/** Class for AdminApp react component. */
+/**
+ * Class for AdminApp react component
+ * @author Matthew Poletin
+ */
 class AdminApp extends Component {
 
 	constructor(props) {
@@ -33,6 +36,7 @@ class AdminApp extends Component {
 			appId: appId,
 			name: "",
 			redirectUri: "",
+			loading: true,
 		});
 
 		AppService.getApp(appId)
@@ -41,10 +45,14 @@ class AdminApp extends Component {
 					app: appResponse,
 					name: appResponse.name,
 					redirectUri: appResponse.redirectUri,
+					loading: false,
 				});
 			})
 			.catch(error => {
 				console.log(error);
+				this.setState({
+					loading: false,
+				});
 			});
 	}
 
@@ -65,67 +73,79 @@ class AdminApp extends Component {
 	}
 
 	app() {
-		if (this.state.app !== undefined) {
+		if (this.state.loading) {
 			return (
-				<form className={"pure-form pure-form-aligned"} onSubmit={this.handleSubmit}>
-					<fieldset>
-						<div className="pure-control-group">
-							<label htmlFor="name">Name</label>
-							<input
-								id="name"
-								type="text"
-								placeholder="name"
-								onChange={this.handleChangeName}
-								defaultValue={this.state.app.name}
-							/>
-							<span className="pure-form-message-inline">This is required field</span>
-						</div>
-						<div className="pure-control-group">
-							<label htmlFor="redirectUri">Redirect URI</label>
-							<input
-								id="redirectUri"
-								type="text"
-								placeholder="redirect uri"
-								onChange={this.handleChangeRedirectUri}
-								defaultValue={this.state.app.redirectUri}
-							/>
-							<span className="pure-form-message-inline">This is required field</span>
-						</div>
-						<div className="pure-control-group">
-							<label htmlFor="id">Id</label>
-							<input
-								id="id"
-								type="text"
-								placeholder="id"
-								defaultValue={this.state.app.id}
-								disabled={true}
-							/>
-						</div>
-						<div className="pure-control-group">
-							<label htmlFor="secret">Secret</label>
-							<input
-								id="secret"
-								type="text"
-								placeholder="secret"
-								defaultValue={this.state.app.secret}
-								disabled={true}
-							/>
-						</div>
-						<div className="pure-controls">
-							<button
-								id="updateApp"
-								type="submit"
-								className="pure-button pure-button-primary"
-								disabled={!this.validForm()}
-							>
-								Update App
-							</button>
-						</div>
-					</fieldset>
-				</form>
-			)
+				<div className="loading">
+					Loading
+				</div>
+			);
 		} else {
-			return("Loading...")
+			if (this.state.app === undefined) {
+				return (
+					<div className="error-block">
+						Error in request
+					</div>
+				)
+			} else {
+				return (
+					<form className={"pure-form pure-form-aligned"} onSubmit={this.handleSubmit}>
+						<fieldset>
+							<div className="pure-control-group">
+								<label htmlFor="name">Name</label>
+								<input
+									id="name"
+									type="text"
+									placeholder="name"
+									onChange={this.handleChangeName}
+									defaultValue={this.state.app.name}
+								/>
+								<span className="pure-form-message-inline">This is required field</span>
+							</div>
+							<div className="pure-control-group">
+								<label htmlFor="redirectUri">Redirect URI</label>
+								<input
+									id="redirectUri"
+									type="text"
+									placeholder="redirect uri"
+									onChange={this.handleChangeRedirectUri}
+									defaultValue={this.state.app.redirectUri}
+								/>
+								<span className="pure-form-message-inline">This is required field</span>
+							</div>
+							<div className="pure-control-group">
+								<label htmlFor="id">Id</label>
+								<input
+									id="id"
+									type="text"
+									placeholder="id"
+									defaultValue={this.state.app.id}
+									disabled={true}
+								/>
+							</div>
+							<div className="pure-control-group">
+								<label htmlFor="secret">Secret</label>
+								<input
+									id="secret"
+									type="text"
+									placeholder="secret"
+									defaultValue={this.state.app.secret}
+									disabled={true}
+								/>
+							</div>
+							<div className="pure-controls">
+								<button
+									id="updateApp"
+									type="submit"
+									className="pure-button pure-button-primary"
+									disabled={!this.validForm()}
+								>
+									Update App
+								</button>
+							</div>
+						</fieldset>
+					</form>
+				)
+			}
 		}
 	}
 

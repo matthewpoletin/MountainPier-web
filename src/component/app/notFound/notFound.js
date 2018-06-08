@@ -1,8 +1,11 @@
 "use strict";
 
-import React, { Component } from 'react';
+import React, { Component } from "react";
 
-/** Class for not found react component. */
+/**
+ * Class for not found react component
+ * @author Matthew Poletin
+ */
 class NotFound extends Component {
 
 	render() {

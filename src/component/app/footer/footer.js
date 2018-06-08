@@ -1,10 +1,13 @@
 "use strict";
 
-import React, { Component } from 'react';
-import './footer.css'
+import React, { Component } from "react";
 import {Link} from "react-router-dom";
+import "./footer.css";
 
-/** Class for footer react component. */
+/**
+ * Class for footer react component
+ * @author Matthew Poletin
+ */
 class Footer extends Component {
 
 	render() {

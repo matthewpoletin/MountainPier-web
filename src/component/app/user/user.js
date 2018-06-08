@@ -1,19 +1,21 @@
 "use strict";
 
-import React, { Component } from 'react';
-import UserService from "./../../../service/userService";
+import React, { Component } from "react";
 import PropTypes from "prop-types";
+import UserService from "./../../../service/userService";
 
 const propTypes = {
 	authUser: PropTypes.object,
 };
 
 const defaultProps = {
-	user: undefined,
 	authUser: undefined,
 };
 
-/** Class for user react component. */
+/**
+ * Class for user react component
+ * @author Matthew Poletin
+ */
 class User extends Component {
 
 	constructor(props) {
@@ -71,11 +73,17 @@ class User extends Component {
 	}
 
 	render() {
-		if(this.state.user !== undefined)
+		if (this.state.user === undefined) {
+			return (
+				<div className="error-block">
+					Loading user...
+				</div>
+			);
+		} else {
 			return (
 				<div className="user">
 					<div>
-						<img src={this.state.user.avatar} height={100} width={100} alt={""}/>
+						<img src={this.state.user.avatar} height={100} width={100} alt=""/>
 					</div>
 					<div>
 						{this.state.user.username}
@@ -88,12 +96,7 @@ class User extends Component {
 					</div>
 				</div>
 			);
-		else
-			return (
-				<div className="user">
-					Loading user...
-				</div>
-			);
+		}
 	}
 
 	friendship() {
@@ -132,7 +135,7 @@ class User extends Component {
 	onRemoveFriendClick() {
 		console.debug(`Removing user ${this.state.user.username} from ${this.state.authUser.username} friends`);
 		UserService.removeFriend(this.state.authUser.id, this.state.user.id)
-			.then((any) => {
+			.then(() => {
 				this.setState({
 					bFriend: false,
 				});

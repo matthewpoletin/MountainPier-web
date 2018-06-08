@@ -1,7 +1,7 @@
 "use strict";
 
-import React, {Component} from 'react';
-import PropTypes from "prop-types"
+import React, {Component} from "react";
+import PropTypes from "prop-types";
 import UserService from "../../../service/userService";
 
 const propTypes = {
@@ -14,7 +14,10 @@ const defaultProps = {
 	userId: undefined,
 };
 
-/** Class for AdminUser react component */
+/**
+ * Class for AdminUser react component
+ * @author Matthew Poletin
+ */
 class AdminUser extends Component {
 
 	constructor(props) {
@@ -137,7 +140,7 @@ class AdminUser extends Component {
 			console.debug(`Deleting user ${userId}`);
 			UserService.deleteUser(userId)
 				.then(() => {
-					window.location = '/admin/users';
+					window.location = "/admin/users";
 				})
 				.catch(error => console.error(error));
 		}

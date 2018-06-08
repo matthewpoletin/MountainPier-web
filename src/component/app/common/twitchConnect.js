@@ -1,13 +1,12 @@
 "use strict";
 
-import React, { Component } from 'react';
-import FontAwesomeIcon from '@fortawesome/react-fontawesome'
-import faTwitch from '@fortawesome/fontawesome-free-brands/faTwitch'
-import "./twitchConnect.css"
+import React, { Component } from "react";
+import PropTypes from "prop-types";
 import {getEnvironment} from "../../../util/environment-utils";
+import FontAwesomeIcon from "@fortawesome/react-fontawesome";
+import faTwitch from "@fortawesome/fontawesome-free-brands/faTwitch";
+import "./twitchConnect.css";
 const config = require("./../../../../config");
-import PropTypes from "prop-types"
-
 const mode = getEnvironment();
 
 const propTypes = {
@@ -18,7 +17,10 @@ const defaultProps = {
 	action: "Connect",
 };
 
-/** Class for twitchConnect react component. */
+/**
+ * Class for twitchConnect react component
+ * @author Matthew Poletin
+ */
 class TwitchConnect extends Component {
 
 	render() {

@@ -1,8 +1,11 @@
 "use strict";
 
-import React, { Component } from 'react';
+import React, { Component } from "react";
 
-/** Class for DeveloperHome react component. */
+/**
+ * Class for DeveloperHome react component
+ * @author Matthew Poletin
+ */
 class DeveloperHome extends Component {
 
 	render() {

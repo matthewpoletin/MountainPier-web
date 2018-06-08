@@ -1,7 +1,7 @@
 "use strict";
 
-import { POST, PUT, PATCH, GET, DELETE } from './methods';
-import { getApiUrl, getEnvironment } from './environment-utils';
+import { POST, PUT, PATCH, GET, DELETE } from "./methods";
+import { getApiUrl, getEnvironment } from "./environment-utils";
 import { getCookie } from "./cookie-utils";
 
 /**

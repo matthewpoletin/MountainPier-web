@@ -1,8 +1,11 @@
 "use strict";
 
-import React, { Component } from 'react';
+import React, { Component } from "react";
 
-/** Class for DeveloperDocs react component. */
+/**
+ * Class for DeveloperDocs react component
+ * @author Matthew Poletin
+ */
 class DeveloperDocs extends Component {
 
 	render() {

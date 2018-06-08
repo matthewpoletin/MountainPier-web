@@ -1,11 +1,14 @@
 "use strict";
 
-import React, { Component } from 'react';
-import FontAwesomeIcon from '@fortawesome/react-fontawesome'
-import faAndroid from '@fortawesome/fontawesome-free-brands/faAndroid'
-import faAppStoreIos from '@fortawesome/fontawesome-free-brands/faAppStoreIos'
+import React, { Component } from "react";
+import FontAwesomeIcon from "@fortawesome/react-fontawesome";
+import faAndroid from "@fortawesome/fontawesome-free-brands/faAndroid";
+import faAppStoreIos from "@fortawesome/fontawesome-free-brands/faAppStoreIos";
 
-/** Class for download react component. */
+/**
+ * Class for download react component
+ * @author Matthew Poletin
+ */
 class Download extends Component {
 
 	render() {

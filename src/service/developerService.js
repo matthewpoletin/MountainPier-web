@@ -2,7 +2,10 @@
 
 import { get, post, patch, del } from "./../util/http-utils";
 
-/** Class for request on developers. */
+/**
+ * Class for request on developers
+ * @author Matthew Poletin
+ */
 class DeveloperService {
 
 	/**

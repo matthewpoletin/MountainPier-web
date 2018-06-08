@@ -1,9 +1,12 @@
 "use strict";
 
-import React, { Component } from 'react';
-import './home.css';
+import React, { Component } from "react";
+import "./home.css";
 
-/** Class for home react component. */
+/**
+ * Class for home react component
+ * @author Matthew Poletin
+ */
 class Home extends Component {
 
 	// TODO: create iframe component

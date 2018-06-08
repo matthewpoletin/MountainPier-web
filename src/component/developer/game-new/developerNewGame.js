@@ -1,7 +1,7 @@
 "use strict";
 
-import React, { Component } from 'react';
-import PropTypes from 'prop-types'
+import React, { Component } from "react";
+import PropTypes from "prop-types";
 import GameService from "../../../service/gameService";
 
 const propTypes = {
@@ -12,7 +12,10 @@ const defaultProps = {
 	developer: undefined,
 };
 
-/** Class for DeveloperNewGame react component. */
+/**
+ * Class for DeveloperNewGame react component
+ * @author Matthew Poletin
+ */
 class DeveloperNewGame extends Component {
 
 	constructor(props) {

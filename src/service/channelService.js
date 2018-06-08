@@ -2,7 +2,10 @@
 
 import { get, post, patch, del } from "./../util/http-utils";
 
-/** Class for request on game. */
+/**
+ * Class for request on game
+ * @author Matthew Poletin
+ */
 class ChannelService {
 
 	/**

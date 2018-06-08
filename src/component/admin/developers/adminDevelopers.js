@@ -1,11 +1,11 @@
 "use strict";
 
-import React, {Component} from 'react';
+import React, {Component} from "react";
 import {Link} from "react-router-dom";
-import FontAwesomeIcon from '@fortawesome/react-fontawesome'
-import faWrench from '@fortawesome/fontawesome-free-solid/faWrench'
-import faTrash from '@fortawesome/fontawesome-free-solid/faTrash'
-import PropTypes from "prop-types"
+import PropTypes from "prop-types";
+import FontAwesomeIcon from "@fortawesome/react-fontawesome";
+import faWrench from "@fortawesome/fontawesome-free-solid/faWrench";
+import faTrash from "@fortawesome/fontawesome-free-solid/faTrash";
 import DeveloperService from "../../../service/developerService";
 
 
@@ -17,7 +17,10 @@ const defaultProps = {
 	isAuth: false,
 };
 
-/** Class for AdminDevelopers react component */
+/**
+ * Class for AdminDevelopers react component
+ * @author Matthew Poleitn
+ */
 class AdminDevelopers extends Component {
 
 	componentWillMount() {

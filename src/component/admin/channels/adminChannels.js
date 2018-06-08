@@ -1,11 +1,11 @@
 "use strict";
 
-import React, {Component} from 'react';
+import React, {Component} from "react";
 import {Link} from "react-router-dom";
-import FontAwesomeIcon from '@fortawesome/react-fontawesome'
-import faWrench from '@fortawesome/fontawesome-free-solid/faWrench'
-import faTrash from '@fortawesome/fontawesome-free-solid/faTrash'
-import PropTypes from "prop-types"
+import PropTypes from "prop-types";
+import FontAwesomeIcon from "@fortawesome/react-fontawesome";
+import faWrench from "@fortawesome/fontawesome-free-solid/faWrench";
+import faTrash from "@fortawesome/fontawesome-free-solid/faTrash";
 import ChannelsService from "../../../service/channelService";
 
 const propTypes = {
@@ -135,7 +135,7 @@ class AdminChannels extends Component {
 	}
 
 	deleteChannel(index, channelId) {
-		console.debug(`Deleting ${index} channel ${channelId}`);
+		console.debug(`Attempting to delete ${index} channel ${channelId}`);
 		if (window.confirm(`Delete channel ${this.state.channels[index].username}?`)) {
 			ChannelsService.deleteChannel(channelId)
 				.then(() => {
@@ -145,7 +145,10 @@ class AdminChannels extends Component {
 						channels: channels,
 					});
 				})
-				.catch(error => console.error(error));
+				.catch(error => {
+					console.error(error);
+					window.alert(error);
+				});
 		}
 	}
 

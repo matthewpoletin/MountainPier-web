@@ -1,6 +1,9 @@
 "use strict";
 
-/** Class for ?. */
+/**
+ * Class for User Controller
+ * @author Matthew Poletin
+ */
 class UserController {
 
 	/**

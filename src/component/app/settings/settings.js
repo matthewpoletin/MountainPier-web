@@ -1,8 +1,8 @@
 "use strict";
 
-import React, { Component } from 'react';
-import {Link} from 'react-router-dom';
-import PropTypes from 'prop-types';
+import React, { Component } from "react";
+import {Link} from "react-router-dom";
+import PropTypes from "prop-types";
 import PersonalSettings from "./personal/settingsPersonal"
 import PasswordSettings from "./password/settingsPassword";
 import AccountsSettings from "./accounts/settingsAccounts";

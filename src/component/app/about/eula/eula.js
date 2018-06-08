@@ -1,8 +1,11 @@
 "use strict";
 
-import React, { Component } from 'react';
+import React, { Component } from "react";
 
-/** Class for EULA react component. */
+/**
+ * Class for EULA react component
+ * @author Matthew Poletin
+ */
 class EULA extends Component {
 
 	// TODO: Write end user licence agreement in English

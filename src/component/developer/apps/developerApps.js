@@ -1,13 +1,13 @@
 "use strict";
 
-import React, { Component } from 'react';
-import PropTypes from "prop-types"
-import UserService from "../../../service/userService";
+import React, { Component } from "react";
+import PropTypes from "prop-types";
 import {Link} from "react-router-dom";
-import FontAwesomeIcon from '@fortawesome/react-fontawesome'
-import faWrench from '@fortawesome/fontawesome-free-solid/faWrench'
-import faTrash from '@fortawesome/fontawesome-free-solid/faTrash'
+import FontAwesomeIcon from "@fortawesome/react-fontawesome";
+import faWrench from "@fortawesome/fontawesome-free-solid/faWrench";
+import faTrash from "@fortawesome/fontawesome-free-solid/faTrash";
 import AppService from "../../../service/appService";
+import UserService from "../../../service/userService";
 
 const propTypes = {
 	authUser: PropTypes.object,
@@ -17,33 +17,27 @@ const defaultProps = {
 	authUser: undefined,
 };
 
-/** Class for DeveloperApps react component. */
+/**
+ * Class for DeveloperApps react component
+ * @author Matthew Poletin
+ */
 class DeveloperApps extends Component {
 
-	constructor(props) {
-		super(props);
-
+	componentWillMount() {
 		this.state = {
 			apps: undefined,
 			authUser: undefined,
+			loading: true,
 		};
-	}
 
-	componentWillMount() {
-		if (this.props.authUser !== undefined) {
-			this.setState({
-				authUser: this.props.authUser,
-			});
-			UserService.getApps(this.props.authUser.id)
-				.then((appsResponse) => {
-					this.setState({
-						apps: appsResponse,
-					});
-				});
-		}
+		this.loadApps(this.props);
 	}
 
 	componentWillReceiveProps(props) {
+		this.loadApps(props);
+	}
+
+	loadApps(props) {
 		if (props.authUser !== undefined) {
 			this.setState({
 				authUser: props.authUser,
@@ -52,6 +46,11 @@ class DeveloperApps extends Component {
 				.then((appsResponse) => {
 					this.setState({
 						apps: appsResponse,
+						loading: false,
+					});
+				}).catch(() => {
+					this.setState({
+						loading: false,
 					});
 				});
 		}
@@ -71,54 +70,67 @@ class DeveloperApps extends Component {
 	}
 
 	apps() {
-		if (this.state.apps !== undefined && this.state.apps.length > 0) {
-			const apps = this.state.apps.map((app, index) =>
-				<tr className="app" key={index} align="center">
-					<td>
-						<Link to={`/developers/apps/${app.id}`}>
-							{app.name}
-						</Link>
-					</td>
-					<td>
-						{app.id}
-					</td>
-					<td>
-						{app.redirectUri}
-					</td>
-					<td>
-						<Link to={`/developers/apps/${app.id}`}>
-							<FontAwesomeIcon icon={faWrench} size={"2x"}/>
-						</Link>
-					</td>
-					<td>
-						<a href="" onClick={() => this.deleteApp(app.id, index)}>
-							<FontAwesomeIcon icon={faTrash} size={"2x"}/>
-						</a>
-					</td>
-				</tr>
+		if (this.state.loading) {
+			return (
+				<div className="loading">
+					Loading
+				</div>
 			);
+		} else {
+			if (!(this.state.apps !== undefined && this.state.apps.length > 0)) {
+				return (
+					<div className="error-block">
+						Error in request
+					</div>
+				);
+			} else {
 
-			return(
-				<table className="apps-list" width="100%">
-					<thead>
-						<tr>
-							<th>Name</th>
-							<th>Id</th>
-							<th>Redirect URI</th>
-							<th>Edit</th>
-							<th>Delete</th>
-						</tr>
-					</thead>
-					<tbody>
-						{apps}
-					</tbody>
-				</table>
-			)
+				return (
+					<table className="apps-list" width="100%">
+						<thead>
+							<tr>
+								<th>Name</th>
+								<th>Id</th>
+								<th>Redirect URI</th>
+								<th>Edit</th>
+								<th>Delete</th>
+							</tr>
+						</thead>
+						<tbody>
+							{this.state.apps.map((app, index) => { return (
+								<tr className="app" key={index} align="center">
+									<td>
+										<Link to={`/developers/apps/${app.id}`}>
+											{app.name}
+										</Link>
+									</td>
+									<td>
+										{app.id}
+									</td>
+									<td>
+										{app.redirectUri}
+									</td>
+									<td>
+										<Link to={`/developers/apps/${app.id}`}>
+											<FontAwesomeIcon icon={faWrench} size={"2x"}/>
+										</Link>
+									</td>
+									<td>
+										<a href="" onClick={() => this.deleteApp(app.id, index)}>
+											<FontAwesomeIcon icon={faTrash} size={"2x"}/>
+										</a>
+									</td>
+								</tr>
+							)})}
+						</tbody>
+					</table>
+				)
+			}
 		}
 	}
 
 	deleteApp(appId, index) {
-		console.debug(`Deleting app ${appId} on ${index}`);
+		console.debug(`Attempting to delete app ${appId} on ${index}`);
 		if (window.confirm(`Delete app ${this.state.apps[index].name}?`)) {
 			AppService.deleteApp(appId)
 				.then(() => {

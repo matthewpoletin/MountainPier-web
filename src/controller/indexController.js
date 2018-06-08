@@ -1,6 +1,9 @@
 "use strict";
 
-/** ? */
+/**
+ * Class for index controller
+ * @author Matthew Poletin
+ */
 class IndexController {
 
 	/**

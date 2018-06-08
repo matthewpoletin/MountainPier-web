@@ -1,11 +1,14 @@
 "use strict";
 
-import React, { Component } from 'react';
+import React, { Component } from "react";
 import {Link} from "react-router-dom";
 import {login} from "../../../util/authentication";
 import TwitchConnect from "../common/twitchConnect";
 
-/** Class for login react component. */
+/**
+ * Class for login react component
+ * @author Matthew Poletin
+ */
 class Login extends Component {
 
 	constructor(props) {

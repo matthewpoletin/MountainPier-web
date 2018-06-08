@@ -1,7 +1,8 @@
 "use strict";
 
-import React, { Component } from 'react';
-import Link from 'react-router-dom/es/Link';
+import React, { Component } from "react";
+import {Link} from "react-router-dom";
+
 import AdminHome from "./home/adminHome";
 import AdminApps from "./apps/adminApps";
 import AdminApp from "./app/adminApp";

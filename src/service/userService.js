@@ -1,9 +1,11 @@
 "use strict";
 
-import { get, post, del } from "./../util/http-utils";
-import {patch} from "../util/http-utils";
+import { get, post, patch, del } from "./../util/http-utils";
 
-/** Class for request on users. */
+/**
+ * Class for request on users
+ * @author Matthew Poletin
+ */
 class UserService {
 
 	/**

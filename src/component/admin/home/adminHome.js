@@ -1,13 +1,13 @@
 "use strict";
 
-import React, { Component } from 'react';
-import Plot from 'react-plotly.js';
-import * as _ from 'lodash';
+import React, { Component } from "react";
+import Plot from "react-plotly.js";
+import * as _ from "lodash";
 import "./adminHome.css";
 import ChartService from "../../../service/chartService";
 
 /**
- * AdminHome - Class for admin home page
+ * Class for admin home page
  * @author Matthew Poletin
  */
 class AdminHome extends Component {
@@ -40,9 +40,6 @@ class AdminHome extends Component {
 	}
 
 	logins() {
-		if (this.state.logins !== undefined) {
-
-		}
 		if (this.state.loading) {
 			return (
 				<div>
@@ -50,12 +47,22 @@ class AdminHome extends Component {
 				</div>
 			);
 		} else {
-			if (this.state.logins !== undefined) {
+			if (this.state.logins === undefined) {
+				return (
+					<div className="error-block">
+						Error in request
+					</div>
+				);
+			} else {
 				const logins = this.state.logins;
 				console.log(JSON.stringify(logins));
 
-				const minDate = _.minBy(_.keys(logins), (date) => {return logins[date]});
-				const maxDate = _.maxBy(_.keys(logins), (o) => {return logins[o]});
+				const minDate = _.minBy(_.keys(logins), (date) => {
+					return logins[date]
+				});
+				const maxDate = _.maxBy(_.keys(logins), (o) => {
+					return logins[o]
+				});
 				console.log(minDate);
 				console.log(maxDate);
 				return (
@@ -70,12 +77,13 @@ class AdminHome extends Component {
 								marker: {color: 'red'},
 							},
 						]}
-						layout={ {
+						layout={{
 							title: 'Users logins',
 							xaxis: {
 								autorange: true,
 								range: ['2017-01-01', '2018-01-01'],
-								rangeselector: {buttons: [
+								rangeselector: {
+									buttons: [
 										{
 											count: 1,
 											label: '1m',
@@ -89,7 +97,8 @@ class AdminHome extends Component {
 											stepmode: 'backward'
 										},
 										{step: 'all'}
-									]},
+									]
+								},
 								rangeslider: {range: ['2018-02-17', Date.now().toString()]},
 								type: 'date'
 							},
@@ -98,14 +107,8 @@ class AdminHome extends Component {
 								range: [0, 100],
 								type: 'linear'
 							},
-						} }
+						}}
 					/>
-				);
-			} else {
-				return (
-					<div className="error-block">
-						Error in request
-					</div>
 				);
 			}
 		}
