@@ -41,21 +41,21 @@ class Friends extends Component {
 		} else {
 			return (
 				<div className="friends">
-					{this.state.friends.content.map((user, index) => {
-						return (
-							<div className="friend" key={index}>
+					{this.state.friends.content.map((friend, index) => { return (
+						<div className="friend" key={index}>
+							<div className="friend-avatar">
 								<Link to={`/users/${friend.username}`}>
-									<img src={friend.avatar} height={100} width={100} alt={""}/><br/>
+									<img src={friend.avatar} height={100} width={100} alt=""/>
 								</Link>
-								<div>
-									{friend.username}
-								</div>
-								<div>
-									{friend.status}
-								</div>
 							</div>
-						)
-					})}
+							<div className="friend-username">
+								{friend.username}
+							</div>
+							<div className="friend-status">
+								{friend.status}
+							</div>
+						</div>
+					)})}
 				</div>
 			);
 		}

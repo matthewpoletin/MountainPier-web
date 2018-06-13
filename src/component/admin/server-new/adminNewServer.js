@@ -89,7 +89,7 @@ class AdminNewServer extends Component {
 							</div>
 							<div className="pure-controls">
 								<button
-									id="login"
+									id="createServer"
 									type="submit"
 									className="pure-button pure-button-primary"
 									disabled={!this.validForm()}

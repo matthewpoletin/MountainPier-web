@@ -19,26 +19,26 @@ class Home extends Component {
 			<div className="Home">
 				<h1>Welcome to MountainPier</h1>
 				<div className={"pure-g"}>
-					<div className={"pure-u-3-4 video"}>
-						<iframe
-							src={src}
-					        frameBorder="0"
-					        scrolling="no"
-					        height="400"
-					        width="600"
-					        allowFullScreen
-						/>
-					</div>
-					<div className={"pure-u-1-4 chat"}>
-						<iframe
-							src={chatSrc}
-							frameBorder="0"
-							scrolling="no"
-							id="chat_embed"
-							height="400"
-							width="200"
-						/>
-					</div>
+					{/*<div className={"pure-u-3-4 video"}>*/}
+						{/*<iframe*/}
+							{/*src={src}*/}
+					        {/*frameBorder="0"*/}
+					        {/*scrolling="no"*/}
+					        {/*height="400"*/}
+					        {/*width="600"*/}
+					        {/*allowFullScreen*/}
+						{/*/>*/}
+					{/*</div>*/}
+					{/*<div className={"pure-u-1-4 chat"}>*/}
+						{/*<iframe*/}
+							{/*src={chatSrc}*/}
+							{/*frameBorder="0"*/}
+							{/*scrolling="no"*/}
+							{/*id="chat_embed"*/}
+							{/*height="400"*/}
+							{/*width="200"*/}
+						{/*/>*/}
+					{/*</div>*/}
 				</div>
 			</div>
 		);

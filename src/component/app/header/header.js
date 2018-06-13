@@ -157,9 +157,9 @@ class Header extends Component {
 							</Link>
 						</li>
 						<li className="pure-menu-item">
-							<Link to="/signout" className="pure-menu-link" onClick={logoutUser}>
+							<div className="pure-menu-link" onClick={() => logoutUser()}>
 								<FontAwesomeIcon icon={faSignOutAlt}/>&nbsp;Sign out
-							</Link>
+							</div>
 						</li>
 					</ul>
 				</li>

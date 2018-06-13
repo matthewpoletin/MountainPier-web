@@ -52,7 +52,7 @@ class AdminNewChannel extends Component {
 		if (this.state.authUser !== undefined) {
 			return (
 				<div className="developer-app-new">
-					<form className={"pure-form pure-form-aligned"} onSubmit={this.handleSubmit}>
+					<form className="pure-form pure-form-aligned" onSubmit={this.handleSubmit}>
 						<fieldset>
 							<div className="pure-control-group">
 								<label htmlFor="username">Username</label>

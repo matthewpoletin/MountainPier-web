@@ -26,16 +26,6 @@ class Login extends Component {
 		});
 	}
 
-	componentDidMount() {
-		this.setState({
-			username: this.state.username,
-			password: this.state.password,
-		});
-		console.log("username: " + this.state.username);
-		console.log("password: " + this.state.password);
-		console.log(this.validForm());
-	}
-
 	render() {
 		return (
 			<div className="login">
@@ -44,24 +34,26 @@ class Login extends Component {
 					<fieldset>
 						<div className="pure-control-group">
 							<label htmlFor="username">Username</label>
-							<input id="username"
-							       type="text"
-							       placeholder="username"
-							       onChange={this.handleChangeUsername}
-							       defaultValue={this.state.username}
-							       autoComplete="username"
+							<input
+								id="username"
+							    type="text"
+							    placeholder="username"
+							    onChange={this.handleChangeUsername}
+							    defaultValue={this.state.username}
+							    autoComplete="username"
 							/>
 							<span className="pure-form-message-inline">This is required field</span>
 						</div>
 						<div className="pure-control-group">
 							<label htmlFor="password">Password</label>
-							<input id="password"
-							       type="password"
-							       placeholder="password"
-							       onChange={this.handleChangePassword}
-							       ref={input => this.input = input}
-							       defaultValue={this.state.password}
-							       autoComplete="current-password"
+							<input
+								id="password"
+							    type="password"
+							    placeholder="password"
+							    onChange={this.handleChangePassword}
+							    ref={input => this.input = input}
+							    defaultValue={this.state.password}
+							    autoComplete="current-password"
 							/>
 							<span className="pure-form-message-inline">This is required field</span>
 						</div>
@@ -73,12 +65,13 @@ class Login extends Component {
 								/>
 								Remember me
 							</label>
-							<button id="login"
-							        type="submit"
-							        className="pure-button pure-button-primary"
-							        disabled={!this.validForm()}
+							<button
+								id="login"
+							    type="submit"
+							    className="pure-button pure-button-primary"
+							    disabled={!this.validForm()}
 							>
-							Login
+								Login
 							</button>
 							<Link to="/signup">Signup</Link>
 						</div>
@@ -90,13 +83,13 @@ class Login extends Component {
 
 	handleChangeUsername(event) {
 		this.setState({
-			username: event.target.value
+			username: event.target.value,
 		});
 	}
 
 	handleChangePassword(event) {
 		this.setState({
-			password: event.target.value
+			password: event.target.value,
 		});
 	}
 
@@ -105,10 +98,11 @@ class Login extends Component {
 		// TODO: add extra validation
 		// TODO: add desiredPath state var
 		if (this.validForm()) {
-			login({
+			const loginRequest = {
 				username: this.state.username,
 				password: this.state.password,
-			}, "/");
+			};
+			login(loginRequest, "/");
 		}
 	}
 

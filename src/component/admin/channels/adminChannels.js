@@ -36,7 +36,9 @@ class AdminChannels extends Component {
 			})
 			.catch(error => {
 				console.error(error);
-				this.setState({loading: false});
+				this.setState({
+					loading: false,
+				});
 			});
 	}
 
@@ -70,62 +72,62 @@ class AdminChannels extends Component {
 			} else {
 				if (this.state.channels.length === 0) {
 					return (
-						<div>
+						<div className="none">
 							Not found
 						</div>
 					);
 				} else {
 					return (
-						<table className="channels-list" width="100%">
+						<table className="admin-channels" width="100%">
 							<thead>
-							<tr>
-								<th>Avatar</th>
-								<th>Username</th>
-								<th>Password</th>
-								<th>Email</th>
-								<th>Date added</th>
-								<th>Date updated</th>
-								<th>Edit</th>
-								<th>Delete</th>
-							</tr>
+								<tr>
+									<th>Avatar</th>
+									<th>Username</th>
+									<th>Password</th>
+									<th>Email</th>
+									<th>Date added</th>
+									<th>Date updated</th>
+									<th>Edit</th>
+									<th>Delete</th>
+								</tr>
 							</thead>
 							<tbody>
-							{this.state.channels.map((channel, index) =>
-								<tr key={index} align="center">
-									<td>
-										<a href={`https://twitch.tv/${channel.username}`}>
-											<img src={channel.avatar} height={100} width={100} alt={""}/>
-										</a>
-									</td>
-									<td>
-										<Link to={`/channels/${channel.name}`}>
-											{channel.username}
-										</Link>
-									</td>
-									<td>
-										{channel.password}
-									</td>
-									<td>
-										{channel.email}
-									</td>
-									<td>
-										{new Date(channel.dateAdded).toISOString().slice(0, 10).replace(/-/g, "")}
-									</td>
-									<td>
-										{new Date(channel.dateAdded).toISOString().slice(0, 10).replace(/-/g, "")}
-									</td>
-									<td>
-										<Link to={`/admin/channels/${channel.id}`}>
-											<FontAwesomeIcon icon={faWrench} size={"2x"}/>
-										</Link>
-									</td>
-									<td>
-										<a onClick={() => this.deleteChannel(index, channel.id)}>
-											<FontAwesomeIcon icon={faTrash} size={"2x"}/>
-										</a>
-									</td>
-								</tr>
-							)}
+								{this.state.channels.map((channel, index) => { return (
+									<tr key={index} align="center">
+										<td>
+											<a href={`https://twitch.tv/${channel.username}`}>
+												<img src={channel.avatar} height={100} width={100} alt={""}/>
+											</a>
+										</td>
+										<td>
+											<Link to={`/channels/${channel.name}`}>
+												{channel.username}
+											</Link>
+										</td>
+										<td>
+											{channel.password}
+										</td>
+										<td>
+											{channel.email}
+										</td>
+										<td>
+											{new Date(channel.dateAdded).toISOString().slice(0, 10).replace(/-/g, "")}
+										</td>
+										<td>
+											{new Date(channel.dateAdded).toISOString().slice(0, 10).replace(/-/g, "")}
+										</td>
+										<td>
+											<Link to={`/admin/channels/${channel.id}`}>
+												<FontAwesomeIcon icon={faWrench} size={"2x"}/>
+											</Link>
+										</td>
+										<td>
+											<a onClick={() => this.deleteChannel(index, channel.id)}>
+												<FontAwesomeIcon icon={faTrash} size={"2x"}/>
+											</a>
+										</td>
+									</tr>
+								)})}
 							</tbody>
 						</table>
 					);

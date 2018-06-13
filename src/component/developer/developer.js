@@ -72,12 +72,12 @@ class Developer extends Component {
 	render() {
 		// allowed - can be opened by guest
 		this.developerPages = [
-			{link: "/developers", title: "Home", name: "home", allowed: true, shownDev: true, shownGuest: true},
-			{link: "/developers/docs", title: "Docs", name: "docs", allowed: true, shownDev: true, shownGuest: true},
-			{link: "/developers/register", title: "Register", name: "register", allowed: true, shownDev: false, shownGuest: true},
-			{link: "/developers/settings", title: "Settings", name: "settings", allowed: this.state.isDeveloper, shownDev: true, shownGuest: false},
-			{link: "/developers/games", title: "Games", name: "games", allowed: false, shownDev: true, shownGuest: true},
-			{link: "/developers/apps", title: "Apps", name: "apps", allowed: false, shownDev: true, shownGuest: true},
+			{link: "/dev", title: "Home", name: "home", allowed: true, shownDev: true, shownGuest: true},
+			{link: "/dev/docs", title: "Docs", name: "docs", allowed: true, shownDev: true, shownGuest: true},
+			{link: "/dev/register", title: "Register", name: "register", allowed: true, shownDev: false, shownGuest: true},
+			{link: "/dev/settings", title: "Settings", name: "settings", allowed: this.state.isDeveloper, shownDev: true, shownGuest: false},
+			{link: "/dev/games", title: "Games", name: "games", allowed: false, shownDev: true, shownGuest: true},
+			{link: "/dev/apps", title: "Apps", name: "apps", allowed: false, shownDev: true, shownGuest: true},
 		];
 		const page = _.find(this.developerPages, ["name", this.props.page]);
 		return (

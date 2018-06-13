@@ -62,63 +62,69 @@ class AdminServers extends Component {
 					</div>
 				);
 			} else {
-				return (
-					<div className="admin-servers">
-						<table width="100%">
-							<thead>
-							<tr>
-								<th colSpan={2}>Game</th>
-								<th>Name</th>
-								<th>Channel</th>
-								<th>Edit</th>
-								<th>Delete</th>
-							</tr>
-							</thead>
-							<tbody>
-							{this.state.servers.map((server, index) => {
-								return (
-									<tr className="server" key={index} align="center">
-										<td>
-											<Link to={`/games/${server.game.name}`}>
-												<img src={server.game.avatar} height={40} width={40} alt={""}/>
-											</Link>
-										</td>
-										<td>
-											<Link to={`/admin/games/${server.game.id}`}>
-												{server.game.name}
-											</Link>
-										</td>
-										<td>
-											{server.name}
-										</td>
-										<td>
-											<Link to={`/admin/channels/${server.channel.id}`}>
-												{server.channel.username}
-											</Link>
-										</td>
-										<td>
-											<Link to={`/admin/servers/${server.id}`}>
-												<FontAwesomeIcon icon={faWrench} size={"2x"}/>
-											</Link>
-										</td>
-										<td>
-											<a onClick={() => this.deleteServer(index, server.id)}>
-												<FontAwesomeIcon icon={faTrash} size={"2x"}/>
-											</a>
-										</td>
+				if (this.state.servers.length === 0) {
+					return (
+						<div className="none">
+							Not found
+						</div>
+					);
+				} else {
+					return (
+						<div className="admin-servers">
+							<table width="100%">
+								<thead>
+									<tr>
+										<th colSpan={2}>Game</th>
+										<th>Name</th>
+										<th>Channel</th>
+										<th>Edit</th>
+										<th>Delete</th>
 									</tr>
-								)
-							})}
-							</tbody>
-						</table>
-					</div>
-				);
+								</thead>
+								<tbody>
+									{this.state.servers.map((server, index) => { return (
+										<tr className="server" key={index} align="center">
+											<td>
+												<Link to={`/games/${server.game.name}`}>
+													<img src={server.game.avatar} height={40} width={40} alt={""}/>
+												</Link>
+											</td>
+											<td>
+												<Link to={`/admin/games/${server.game.id}`}>
+													{server.game.name}
+												</Link>
+											</td>
+											<td>
+												{server.name}
+											</td>
+											<td>
+												<Link to={`/admin/channels/${server.channel.id}`}>
+													{server.channel.username}
+												</Link>
+											</td>
+											<td>
+												<Link to={`/admin/servers/${server.id}`}>
+													<FontAwesomeIcon icon={faWrench} size={"2x"}/>
+												</Link>
+											</td>
+											<td>
+												<a onClick={() => this.deleteServer(index, server.id)}>
+													<FontAwesomeIcon icon={faTrash} size={"2x"}/>
+												</a>
+											</td>
+										</tr>
+									)})}
+								</tbody>
+							</table>
+						</div>
+					);
+				}
 			}
 		}
 	}
 
 	deleteServer(index, serverId) {
-		console.debug(`Deleting #${index} server ${serverId}`);
+		console.debug(`Attempting to delete #${index} server ${serverId}`);
 		if (window.confirm(`Delete server ${this.state.servers[index].name}?`)) {
 			ServerService.deleteServer(serverId)
 				.then(() => {
@@ -127,8 +133,10 @@ class AdminServers extends Component {
 					this.setState({
 						servers: servers,
 					});
-				})
-				.catch(error => console.error(error));
+				}).catch(error => {
+					console.error(error);
+					window.alert(error);
+				});
 		}
 	}
 

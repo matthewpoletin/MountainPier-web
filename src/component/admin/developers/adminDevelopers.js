@@ -8,7 +8,6 @@ import faWrench from "@fortawesome/fontawesome-free-solid/faWrench";
 import faTrash from "@fortawesome/fontawesome-free-solid/faTrash";
 import DeveloperService from "../../../service/developerService";
 
-
 const propTypes = {
 	isAuth: PropTypes.bool.isRequired,
 };
@@ -19,7 +18,7 @@ const defaultProps = {
 
 /**
  * Class for AdminDevelopers react component
- * @author Matthew Poleitn
+ * @author Matthew Poletin
  */
 class AdminDevelopers extends Component {
 
@@ -37,7 +36,9 @@ class AdminDevelopers extends Component {
 			})
 			.catch(error => {
 				console.error(error);
-				this.setState({loading: false});
+				this.setState({
+					loading: false,
+				});
 			});
 	}
 
@@ -77,9 +78,9 @@ class AdminDevelopers extends Component {
 							</thead>
 							<tbody>
 								{this.state.developers.map((developer, index) => { return (
-									<tr key={index}>
+									<tr align="center" key={index}>
 										<td>
-											<Link to={`/developers/${developer.name}`}>
+											<Link to={`/developers/${developer.id}`}>
 												{developer.name}
 											</Link>
 										</td>
@@ -96,12 +97,12 @@ class AdminDevelopers extends Component {
 												{developer.user.username}
 											</Link>
 										</td>
-										<td align="center">
+										<td>
 											<Link to={`/admin/developers/${developer.id}`}>
 												<FontAwesomeIcon icon={faWrench} size={"2x"}/>
 											</Link>
 										</td>
-										<td align="center">
+										<td>
 											<a onClick={() => this.deleteDeveloper(index, developer.id)}>
 												<FontAwesomeIcon icon={faTrash} size={"2x"}/>
 											</a>

@@ -27,12 +27,12 @@ class DeveloperNewGame extends Component {
 	}
 
 	componentWillMount() {
-		this.loadDeveloper(this.props);
 		this.setState({
 			developer: undefined,
 			name: "",
 			description: "",
 		});
+		this.loadDeveloper(this.props);
 	}
 
 	componentWillReceiveProps(props) {
@@ -74,7 +74,7 @@ class DeveloperNewGame extends Component {
 							</div>
 							<div className="pure-controls">
 								<button
-									id="login"
+									id="createGame"
 								    type="submit"
 								    className="pure-button pure-button-primary"
 								    disabled={!this.validForm()}
@@ -113,11 +113,9 @@ class DeveloperNewGame extends Component {
 			};
 			GameService.createGame(gameRequest)
 				.then((gameResponse) => {
-					console.log(gameResponse);
-					console.log(this.props.developer);
 					GameService.setDeveloper(gameResponse.id, this.props.developer.id)
 						.then((_gameResponse) => {
-							window.location.href = `/developers/games/${_gameResponse.id}`;
+							window.location.href = `/dev/games/${_gameResponse.id}`;
 						});
 				})
 				.catch((error) => {

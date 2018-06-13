@@ -17,7 +17,7 @@ class About extends Component {
 	// TODO: Write about info with basic service functionality
 	render() {
 		return (
-			<div className="About">
+			<div className="about">
 				<div className="features pure-g">
 					<div className="feature pure-u-1-4">
 						<div className="feature-content">

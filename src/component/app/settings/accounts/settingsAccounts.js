@@ -2,6 +2,7 @@
 
 import React, { Component } from "react";
 import PropTypes from "prop-types";
+import AppService from "./../../../../service/appService";
 
 const propTypes = {
 	authUser: PropTypes.object,
@@ -18,51 +19,70 @@ const defaultProps = {
 class AccountsSettings extends Component {
 
 	componentWillMount() {
-		this.setState({authUser: this.props.authUser});
+		this.setState({
+			authUser: this.props.authUser,
+			connections: undefined,
+		});
 
 		// AuthService.getConnectionsOfUser(authUser.id);
 	}
 
 	render() {
-		if (this.state.authUser !== undefined)
+		if (this.state.connections === undefined) {
 			return (
-				<div className="accounts-settings">
-					Accounts settings<br/>
-					Work in progress
+				<div className="error-block">
+					Error in request
 				</div>
 			);
-		else return(
-			<div>
-				User is not defined
-			</div>
-		);
-	}
-
-	connection(data) {
-		return (
-			<div className="connection">
-				<div>
-					*Name*
+		} else {
+			return (
+				<div className="accounts-settings">
+					<table width="100%">
+						<thead>
+							<tr>
+								<th>App name</th>
+								<th>Date established</th>
+								<th>Delete</th>
+							</tr>
+						</thead>
+						<tbody>
+							{this.state.servers.map((connection, index) => { return (
+								<tr className="connection" key={index} align="center">
+									<td>
+										*name*
+									</td>
+									<td>
+										*date*
+									</td>
+									<td onClick={() => this.revokeConnection(connection.id)}>
+										Revoke
+									</td>
+								</tr>
+							)})}
+						</tbody>
+					</table>
 				</div>
-				<div>
-					*Date established*
-				</div>
-				<div>
-					<button onClick={() => this.revokeConnection(data.id)}>
-						*Revoke
-					</button>
-				</div>
-			</div>
-		)
+			);
+		}
 	}
 
 	/**
-	 * revokeConnection -
-	 * @param id -
+	 * revokeConnection - Remove connection of auth user with specified app
+	 * @param connectionId - Id of connection
+	 * @param index - Index in list
 	 */
-	revokeConnection(id) {
+	revokeConnection(connectionId, index) {
+		console.debug(`Attempting to revoke connection #{index} with ${connectionId}`);
+		if (window.confirm("Revoke connection ")) {
+			AppService.revokeConnection(connectionId)
+				.then(() => {
 
+				}).catch(error => {
+					console.error(error);
+				});
+		}
 	}
+
 }
 
 AccountsSettings.propTypes = propTypes;

@@ -21,9 +21,7 @@ export const login = (credentials, desiredPath) => {
 	AuthService.login(credentials)
 		.then(response => {
 			if (response) {
-				// TODO: fix accessExpires to be correct in browsers
-				// setCookie('access-token: ' + response.accessToken, { /*maxAge: response.accessExpires*/ domain: config.development.cookieDomain });
-				setCookie({name: 'access-token', value: response.accessToken, domain: config[mode].cookieDomain});
+				setCookie({name: "access-token", value: response.accessToken});
 				if (desiredPath) {
 					window.location.href = `${getAppUrl()}${desiredPath}`;
 				} else {
@@ -35,22 +33,26 @@ export const login = (credentials, desiredPath) => {
 
 /**
  * register - Creates a new account for a user
- * @param {object} data - User's form data
- * @param {string} data.regEmail - Email of user
- * @param {string} data.username - Username of user
- * @param {string} data.password - Password of user
+ * @param {object} userRequest - User's form data
+ * @param {string} userRequest.regEmail - Email of user
+ * @param {string} userRequest.username - Username of user
+ * @param {string} userRequest.password - Password of user
+ * @param {string} userRequest.password - Password of user
  * @param {string} [desiredPath] - Path to redirect after
  */
-export const register = (data, desiredPath) => {
+export const register = (userRequest, desiredPath) => {
 	// TODO: check for data validity
-	UserService.createUser(data)
-		.then(response => {
-			login({
-				username: response.username,
-				password: data.password,
-			});
+	UserService.createUser(userRequest)
+		.then(userResponse => {
+			const userLoginRequest = {
+				username: userResponse.username,
+				password: userRequest.password,
+			};
+			login(userLoginRequest);
 		})
-		.catch(error => console.log(error));
+		.catch(error => {
+			console.error(error);
+		});
 };
 
 /**
@@ -68,10 +70,11 @@ export const finishOauthRegister = (userId, password, desiredPath) => {
 
 /**
  * logoutUser - Log user out by clearing token cookie
+ * @param {string} [desiredPath] - Path to redirect after
  */
-export const logoutUser = () => {
-	deleteCookie('access-token');
-	window.location.href = `${getAppUrl()}/`;
+export const logoutUser = (desiredPath = "") => {
+	deleteCookie({name: "access-token"});
+	window.location.href = `${getAppUrl()}${desiredPath}`;
 };
 
 /**
@@ -95,6 +98,8 @@ export const getAuthenticatedUser = () => {
 					resolve(userResponse);
 				})
 				.catch(error => {
+					// logout if token is wrong
+					logoutUser();
 					reject(error);
 				});
 		else {

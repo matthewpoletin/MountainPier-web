@@ -3,7 +3,7 @@
 import React, { Component } from "react";
 import {Link} from "react-router-dom";
 import * as qs from "query-string"
-import {finishOauthRegister} from "../../../util/authentication";
+import {finishOauthRegister, login} from "../../../util/authentication";
 import UserService from "../../../service/userService";
 
 /**
@@ -22,9 +22,8 @@ class OAuthTwitch extends Component {
 	}
 
 	componentWillMount() {
-		this.setState({loading: true});
-
 		this.setState({
+			loading: true,
 			password: "",
 			retypePassword: "",
 			checkbox: false,
@@ -42,6 +41,8 @@ class OAuthTwitch extends Component {
 							id: response.id,
 						});
 					} else {
+						// Login user
+						// login({username: response, password: });
 						// Redirect elsewhere
 					}
 				})
@@ -69,39 +70,43 @@ class OAuthTwitch extends Component {
 							<fieldset>
 								<div className="pure-control-group">
 									<label htmlFor="password">Password</label>
-									<input id="password"
-									       type="password"
-									       placeholder="password"
-									       onChange={this.handleChangePassword}
-									       autoComplete="new-password"
-									       ref={input => this.input = input}
+									<input
+										id="password"
+									    type="password"
+									    placeholder="password"
+									    onChange={this.handleChangePassword}
+									    autoComplete="new-password"
+									    ref={input => this.input = input}
 									/>
 									<span className="pure-form-message-inline">This is required field</span>
 								</div>
 								<div className="pure-control-group">
 									<label htmlFor="retype-password">Retype password</label>
-									<input id="retype-password"
-									       type="password"
-									       placeholder="retype password"
-									       onChange={this.handleChangeRetypePassword}
-									       autoComplete="new-password"
-									       ref={input => this.input = input}
+									<input
+										id="retype-password"
+									    type="password"
+									    placeholder="retype password"
+									    onChange={this.handleChangeRetypePassword}
+									    autoComplete="new-password"
+									    ref={input => this.input = input}
 									/>
 									<span className="pure-form-message-inline">This is required field</span>
 								</div>
 								<div className="pure-controls">
 									<label htmlFor="cb" className="pure-checkbox">
-										<input id="check"
-										       type="checkbox"
-										       onChange={this.handleChangeCheckbox}
-										       required={true}
+										<input
+											id="check"
+										    type="checkbox"
+										    onChange={this.handleChangeCheckbox}
+										    required={true}
 										/>
 										I've read <Link to={"/"}>User Agreement</Link> and <Link to={"/"}>Privacy
 										Policy</Link>
 									</label>
-									<button type="submit"
-									        className="pure-button pure-button-primary"
-									        disabled={!this.validForm()}
+									<button
+										type="submit"
+									    className="pure-button pure-button-primary"
+									    disabled={!this.validForm()}
 									>
 										Register
 									</button>
@@ -135,8 +140,6 @@ class OAuthTwitch extends Component {
 	handleSubmit(event) {
 		event.preventDefault();
 
-		console.log(this.state.id);
-		console.log(this.state.password);
 		if (this.validForm()) {
 			finishOauthRegister(this.state.id, this.state.password);
 		}

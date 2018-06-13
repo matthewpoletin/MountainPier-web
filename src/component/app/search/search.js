@@ -2,6 +2,7 @@
 
 import React, { Component } from "react";
 import {Link} from "react-router-dom";
+import "./search.css";
 import UserService from "../../../service/userService";
 
 /**
@@ -41,9 +42,11 @@ class Search extends Component {
 								/>
 							</div>
 							<div className="pure-controls">
-								<button id="login"
-								        type="submit"
-								        className="pure-button pure-button-primary">
+								<button
+									id="search"
+									type="submit"
+									className="pure-button pure-button-primary"
+								>
 									Search
 								</button>
 							</div>
@@ -56,31 +59,25 @@ class Search extends Component {
 
 	result() {
 		if (this.state.result === undefined) {
-			return (
-				<div className="nothing">
-					Nothing
-				</div>
-			);
+			return null;
 		} else {
 			return (
 				<div className="result">
-					{this.state.result.content.map((user, index) => {
-						return (
-							<div className="user" style={{"display": "block"}} key={index}>
+					{this.state.result.content.map((user, index) => { return (
+						<div className="user" style={{"display": "block"}} key={index}>
+							<div className="user-avatar">
 								<Link to={`/users/${user.username}`}>
-									<div>
-										{user.username}
-									</div>
-									<div>
-										<img src={user.avatar} height={100} width={100} alt={""}/>
-									</div>
-									<div>
-										{user.id}
-									</div>
+									<img src={user.avatar} height={100} width={100} alt={""}/>
 								</Link>
 							</div>
-						)
-					})}
+							<div className="user-username">
+								<Link to={`/users/${user.username}`}>
+									{user.username}
+								</Link>
+							</div>
+							<hr/>
+						</div>
+					)})}
 				</div>
 			);
 		}

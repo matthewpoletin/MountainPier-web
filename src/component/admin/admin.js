@@ -105,7 +105,7 @@ class Admin extends Component {
 			case 'developers':
 				return <AdminDevelopers isAuth={this.props.isAuth}/>;
 			case 'developer':
-				return <AdminDeveloper isAuth={this.props.isAuth} developerId={this.props.match.developerId}/>;
+				return <AdminDeveloper isAuth={this.props.isAuth} developerId={parseInt(this.props.match.params.developerId, 10)}/>;
 			case 'apps':
 				return <AdminApps isAuth={this.props.isAuth}/>;
 			case 'app':

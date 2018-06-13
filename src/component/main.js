@@ -17,6 +17,7 @@ import Game from "./app/game/game";
 import Server from "./app/server/server";
 import Search from "./app/search/search";
 import EULA from "./app/about/eula/eula";
+import AppDeveloper from "./app/developer/appDeveloper";
 
 import Developer from "./developer/developer"
 
@@ -67,17 +68,18 @@ class Main extends Component {
 						<Route exact path='/games' component={Games}/>
 						<Route exact path='/games/:name' component={Game}/>
 						<Route exact path='/servers/:serverId' component={Server}/>
+						<Route exact path='/developers/:developerId' render={(props) => <AppDeveloper {...props}/>}/>
 
-						<Route exact path='/developers' render={() => <Developer page='home' authUser={this.props.authUser}/>}/>
-						<Route exact path='/developers/docs' render={() => <Developer page='docs' authUser={this.props.authUser}/>}/>
-						<Route exact path='/developers/register' render={() => <Developer page='register' authUser={this.props.authUser}/>}/>
-						<Route exact path='/developers/settings' render={() => <Developer page='settings' authUser={this.props.authUser}/>}/>
-						<Route exact path='/developers/games' render={() => <Developer page='games' authUser={this.props.authUser}/>}/>
-						<Route exact path='/developers/games/new' render={() => <Developer page='game-new' authUser={this.props.authUser}/>}/>
-						<Route exact path='/developers/games/:gameId' render={(props) => <Developer page='game' authUser={this.props.authUser} {...props}/>}/>
-						<Route exact path='/developers/apps' render={() => <Developer page='apps' authUser={this.props.authUser}/>}/>
-						<Route exact path='/developers/apps/new' render={() => <Developer page='app-new' authUser={this.props.authUser}/>}/>
-						<Route exact path='/developers/apps/:appId' render={(props) => <Developer page='app' authUser={this.props.authUser} {...props}/>}/>
+						<Route exact path='/dev' render={() => <Developer page='home' authUser={this.props.authUser}/>}/>
+						<Route exact path='/dev/docs' render={() => <Developer page='docs' authUser={this.props.authUser}/>}/>
+						<Route exact path='/dev/register' render={() => <Developer page='register' authUser={this.props.authUser}/>}/>
+						<Route exact path='/dev/settings' render={() => <Developer page='settings' authUser={this.props.authUser}/>}/>
+						<Route exact path='/dev/games' render={() => <Developer page='games' authUser={this.props.authUser}/>}/>
+						<Route exact path='/dev/games/new' render={() => <Developer page='game-new' authUser={this.props.authUser}/>}/>
+						<Route exact path='/dev/games/:gameId' render={(props) => <Developer page='game' authUser={this.props.authUser} {...props}/>}/>
+						<Route exact path='/dev/apps' render={() => <Developer page='apps' authUser={this.props.authUser}/>}/>
+						<Route exact path='/dev/apps/new' render={() => <Developer page='app-new' authUser={this.props.authUser}/>}/>
+						<Route exact path='/dev/apps/:appId' render={(props) => <Developer page='app' authUser={this.props.authUser} {...props}/>}/>
 
 						<Route exact path='/admin' render={() => <Admin page='home' authUser={this.props.authUser}/>}/>
 						<Route exact path='/admin/games' render={() => <Admin page='games' authUser={this.props.authUser}/>}/>

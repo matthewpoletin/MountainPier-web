@@ -113,7 +113,7 @@ class DeveloperGame extends Component {
 							</div>
 							<div className="pure-controls">
 								<button
-									id="login"
+									id="updateGame"
 									type="submit"
 									className="pure-button pure-button-primary"
 									disabled={!this.validForm()}

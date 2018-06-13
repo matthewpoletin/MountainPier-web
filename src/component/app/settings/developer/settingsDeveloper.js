@@ -40,35 +40,43 @@ class SettingsDeveloper extends Component {
 	}
 
 	render() {
-		if (this.state.authUser !== undefined)
-			if (this.state.isDeveloper !== undefined) {
-				if (!this.state.isDeveloper) {
+		if (this.state.authUser === undefined) {
+			return (
+				<div className="loading">
+					Loading auth user...
+				</div>
+			);
+		} else {
+			if (this.state.isDeveloper === undefined) {
+				return (
+					<div className="loading">
+						Loading developer status
+					</div>
+				)
+			} else {
+				if (this.state.isDeveloper) {
 					return (
 						<div className="developer-settings">
-							<Link to="/developers/register">
-								<button className="pure-button pure-button-active">
-									Register developer
-								</button>
-							</Link>
-						</div>
-					);
-				} else {
-					return (
-						<div className="developer-settings">
-							<Link to="/developers">
+							<Link to="/dev">
 								<button className="pure-button pure-button-active">
 									Developers page
 								</button>
 							</Link>
 						</div>
 					)
+				} else {
+					return (
+						<div className="developer-settings">
+							<Link to="/dev/register">
+								<button className="pure-button pure-button-active">
+									Register developer
+								</button>
+							</Link>
+						</div>
+					);
 				}
 			}
-		else return(
-			<div>
-				Loading auth user...
-			</div>
-		);
+		}
 	}
 
 }

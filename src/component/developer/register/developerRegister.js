@@ -36,9 +36,14 @@ class DeveloperRegister extends Component {
 			website: "",
 			email: "",
 		});
+		this.loadAuthUser(this.props);
 	}
 
 	componentWillReceiveProps(props) {
+		this.loadAuthUser(props);
+	}
+
+	loadAuthUser(props) {
 		if (props.authUser !== undefined) {
 			this.setState({
 				authUser: props.authUser,
@@ -152,8 +157,7 @@ class DeveloperRegister extends Component {
 			};
 			UserService.createDeveloper(this.state.authUser.id, developerRequest)
 				.then((developerResponse) => {
-					console.log(developerResponse);
-					window.location.href = "/developers";
+					window.location.href = "/dev";
 				});
 		}
 	}

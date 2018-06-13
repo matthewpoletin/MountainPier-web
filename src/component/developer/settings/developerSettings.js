@@ -49,7 +49,7 @@ class DeveloperSettings extends Component {
 				email: props.authUser.regEmail,
 			})
 		}
-		if (props.developer!== undefined) {
+		if (props.developer !== undefined) {
 			this.setState({
 				developer: props.developer,
 				name: props.developer.name,
@@ -69,7 +69,7 @@ class DeveloperSettings extends Component {
 			);
 		} else {
 			return (
-				<div className="developer-register">
+				<div className="developer-settings">
 					<form className="pure-form pure-form-aligned" onSubmit={this.handleSubmit}>
 						<fieldset>
 							<div className="pure-control-group">

@@ -95,7 +95,7 @@ class AdminServer extends Component {
 				);
 			} else {
 				return (
-					<form className={"pure-form pure-form-aligned"} onSubmit={this.handleSubmit}>
+					<form className="pure-form pure-form-aligned" onSubmit={this.handleSubmit}>
 						<fieldset>
 							<div className="pure-control-group">
 								<label htmlFor="name">Name</label>

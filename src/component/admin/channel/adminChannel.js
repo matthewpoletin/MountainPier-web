@@ -24,6 +24,7 @@ class AdminChannel extends Component {
 		super(props);
 
 		this.handleChangeUsername = this.handleChangeUsername.bind(this);
+		this.handleChangeEmail = this.handleChangeEmail.bind(this);
 		this.handleChangePassword = this.handleChangePassword.bind(this);
 		this.handleSubmit = this.handleSubmit.bind(this);
 	}
@@ -37,6 +38,7 @@ class AdminChannel extends Component {
 			username: "",
 			email: "",
 			password: "",
+			loading: true,
 		});
 
 		ChannelService.getChannel(channelId)
@@ -46,10 +48,14 @@ class AdminChannel extends Component {
 					username: channelResponse.username,
 					email: channelResponse.email,
 					password: channelResponse.password,
+					loading: false,
 				});
 			})
 			.catch(error => {
-				console.log(error);
+				console.error(error);
+				this.setState({
+					loading: false,
+				});
 			});
 	}
 
@@ -70,61 +76,73 @@ class AdminChannel extends Component {
 	}
 
 	channel() {
-		if (this.state.channel !== undefined) {
+		if (this.state.loading) {
 			return (
-				<form className={"pure-form pure-form-aligned"} onSubmit={this.handleSubmit}>
-					<fieldset>
-						<div className="pure-control-group">
-							<label htmlFor="username">Username</label>
-							<input
-								id="username"
-								type="text"
-								placeholder="username"
-								autoComplete="username"
-								onChange={this.handleChangeUsername}
-								defaultValue={this.state.channel.username}
-							/>
-							<span className="pure-form-message-inline">This is required field</span>
-						</div>
-						<div className="pure-control-group">
-							<label htmlFor="email">Email</label>
-							<input
-								id="email"
-								type="email"
-								placeholder="email"
-								autoComplete="email"
-								onChange={this.handleChangeEmail}
-								defaultValue={this.state.channel.email}
-							/>
-							<span className="pure-form-message-inline">This is required field</span>
-						</div>
-						<div className="pure-control-group">
-							<label htmlFor="password">Password</label>
-							<input
-								id="password"
-								type="password"
-								placeholder="password"
-								autoComplete="password"
-								onChange={this.handleChangePassword}
-								defaultValue={this.state.channel.password}
-							/>
-							<span className="pure-form-message-inline">This is required field</span>
-						</div>
-						<div className="pure-controls">
-							<button
-								id="updateApp"
-								type="submit"
-								className="pure-button pure-button-primary"
-								disabled={!this.validForm()}
-							>
-								Update Channel
-							</button>
-						</div>
-					</fieldset>
-				</form>
-			)
+				<div className="loading">
+					Loading...
+				</div>
+			);
 		} else {
-			return("Loading...")
+			if (this.state.channel === undefined) {
+				return (
+					<div className="error-block">
+						Error in request
+					</div>
+				);
+			} else {
+				return (
+					<form className="pure-form pure-form-aligned" onSubmit={this.handleSubmit}>
+						<fieldset>
+							<div className="pure-control-group">
+								<label htmlFor="username">Username</label>
+								<input
+									id="username"
+									type="text"
+									placeholder="username"
+									autoComplete="username"
+									onChange={this.handleChangeUsername}
+									defaultValue={this.state.channel.username}
+								/>
+								<span className="pure-form-message-inline">This is required field</span>
+							</div>
+							<div className="pure-control-group">
+								<label htmlFor="email">Email</label>
+								<input
+									id="email"
+									type="email"
+									placeholder="email"
+									autoComplete="email"
+									onChange={this.handleChangeEmail}
+									defaultValue={this.state.channel.email}
+								/>
+								<span className="pure-form-message-inline">This is required field</span>
+							</div>
+							<div className="pure-control-group">
+								<label htmlFor="password">Password</label>
+								<input
+									id="password"
+									type="password"
+									placeholder="password"
+									autoComplete="password"
+									onChange={this.handleChangePassword}
+									defaultValue={this.state.channel.password}
+								/>
+								<span className="pure-form-message-inline">This is required field</span>
+							</div>
+							<div className="pure-controls">
+								<button
+									id="updateApp"
+									type="submit"
+									className="pure-button pure-button-primary"
+									disabled={!this.validForm()}
+								>
+									Update Channel
+								</button>
+							</div>
+						</fieldset>
+					</form>
+				)
+			}
 		}
 	}
 
@@ -158,7 +176,12 @@ class AdminChannel extends Component {
 			};
 			ChannelService.updateChannel(this.state.channel.id, channelRequest)
 				.then((channelResponse) => {
-					console.debug(channelResponse);
+					this.setState({
+						channel: channelResponse,
+						username: channelResponse.username,
+						email: channelResponse.email,
+						password: channelResponse.password,
+					});
 				});
 		}
 	}

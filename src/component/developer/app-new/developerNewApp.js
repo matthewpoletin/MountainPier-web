@@ -88,10 +88,11 @@ class DeveloperNewApp extends Component {
 							/>
 						</div>
 						<div className="pure-controls">
-							<button id="login"
-							        type="submit"
-							        className="pure-button pure-button-primary"
-							        disabled={!this.validForm()}
+							<button
+								id="createApp"
+							    type="submit"
+							    className="pure-button pure-button-primary"
+							    disabled={!this.validForm()}
 							>
 								Create App
 							</button>
@@ -129,9 +130,10 @@ class DeveloperNewApp extends Component {
 						secret: appResponse.secret,
 						id: appResponse.id,
 					});
-					window.location.href = `/developers/apps/${appResponse.id}`;
+					window.location.href = `/dev/apps/${appResponse.id}`;
 				})
 				.catch((error) => {
+					console.error(error);
 					window.alert(error);
 				});
 		}

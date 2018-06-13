@@ -24,11 +24,11 @@ const defaultProps = {
 class DeveloperApps extends Component {
 
 	componentWillMount() {
-		this.state = {
+		this.setState({
 			apps: undefined,
 			authUser: undefined,
 			loading: true,
-		};
+		});
 
 		this.loadApps(this.props);
 	}
@@ -59,7 +59,7 @@ class DeveloperApps extends Component {
 	render() {
 		return (
 			<div className="developer-apps">
-				<Link to="/developers/apps/new">
+				<Link to="/dev/apps/new">
 					<button className="pure-button">
 						New app
 					</button>
@@ -77,54 +77,61 @@ class DeveloperApps extends Component {
 				</div>
 			);
 		} else {
-			if (!(this.state.apps !== undefined && this.state.apps.length > 0)) {
+			if (this.state.apps === undefined) {
 				return (
 					<div className="error-block">
 						Error in request
 					</div>
 				);
 			} else {
-
-				return (
-					<table className="apps-list" width="100%">
-						<thead>
-							<tr>
-								<th>Name</th>
-								<th>Id</th>
-								<th>Redirect URI</th>
-								<th>Edit</th>
-								<th>Delete</th>
-							</tr>
-						</thead>
-						<tbody>
-							{this.state.apps.map((app, index) => { return (
-								<tr className="app" key={index} align="center">
-									<td>
-										<Link to={`/developers/apps/${app.id}`}>
-											{app.name}
-										</Link>
-									</td>
-									<td>
-										{app.id}
-									</td>
-									<td>
-										{app.redirectUri}
-									</td>
-									<td>
-										<Link to={`/developers/apps/${app.id}`}>
-											<FontAwesomeIcon icon={faWrench} size={"2x"}/>
-										</Link>
-									</td>
-									<td>
-										<a href="" onClick={() => this.deleteApp(app.id, index)}>
-											<FontAwesomeIcon icon={faTrash} size={"2x"}/>
-										</a>
-									</td>
+				if (this.state.apps.length === 0) {
+					return (
+						<div className="none">
+							Not found
+						</div>
+					);
+				} else {
+					return (
+						<table className="apps-list" width="100%">
+							<thead>
+								<tr>
+									<th>Name</th>
+									<th>Id</th>
+									<th>Redirect URI</th>
+									<th>Edit</th>
+									<th>Delete</th>
 								</tr>
-							)})}
-						</tbody>
-					</table>
-				)
+							</thead>
+							<tbody>
+								{this.state.apps.map((app, index) => { return (
+									<tr className="app" key={index} align="center">
+										<td>
+											<Link to={`/dev/apps/${app.id}`}>
+												{app.name}
+											</Link>
+										</td>
+										<td>
+											{app.id}
+										</td>
+										<td>
+											{app.redirectUri}
+										</td>
+										<td>
+											<Link to={`/dev/apps/${app.id}`}>
+												<FontAwesomeIcon icon={faWrench} size={"2x"}/>
+											</Link>
+										</td>
+										<td>
+											<a href="" onClick={() => this.deleteApp(app.id, index)}>
+												<FontAwesomeIcon icon={faTrash} size={"2x"}/>
+											</a>
+										</td>
+									</tr>
+								)})}
+							</tbody>
+						</table>
+					)
+				}
 			}
 		}
 	}

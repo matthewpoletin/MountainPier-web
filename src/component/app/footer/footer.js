@@ -17,7 +17,7 @@ class Footer extends Component {
 					<div className="footer-links">
 						<Link to="/about">About</Link>
 						<Link to="/blog">Blog</Link>
-						<Link to="/developers">Developers</Link>
+						<Link to="/dev">Developers</Link>
 						<Link to="/mobile">Mobile</Link>
 						<Link to="/jobs">Jobs</Link>
 						<Link to="/terms">Terms</Link>
